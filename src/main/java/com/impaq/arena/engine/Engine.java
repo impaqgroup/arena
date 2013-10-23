@@ -49,12 +49,12 @@ public class Engine {
 	if (activePlayer.equals(firstPlayer)) {
 	    activePlayer = secondPlayer;
 	    unactivePlayer = firstPlayer;
-	    isFistPlayerActive = true;
-	    roundNumber++;
+	    isFistPlayerActive = false;
 	} else {
 	    activePlayer = firstPlayer;
 	    unactivePlayer = secondPlayer;
-	    isFistPlayerActive = false;
+	    isFistPlayerActive = true;
+	    roundNumber++;
 	}
     }
 
