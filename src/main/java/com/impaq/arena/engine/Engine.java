@@ -2,8 +2,6 @@ package com.impaq.arena.engine;
 
 import com.impaq.arena.player.Player;
 import com.impaq.arena.rounds.IRoundManager;
-import com.impaq.arena.visualisation.IVisualisation;
-import com.impaq.arena.visualisation.impl.EmptyVisualisation;
 import com.impaq.arena.visualisation.impl.Visualisation;
 
 public class Engine {
