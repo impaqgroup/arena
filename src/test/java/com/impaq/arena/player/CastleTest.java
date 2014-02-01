@@ -51,7 +51,7 @@ public class CastleTest {
 
 	@Test
 	public void if_castle_is_100_castle_is_maximum() {
-		castle.expand(100L);
+		castle.expand(100);
 		Assert.assertTrue(castle.isMax());
 	}
 

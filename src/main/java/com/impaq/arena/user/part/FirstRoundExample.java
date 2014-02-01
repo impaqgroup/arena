@@ -1,16 +1,15 @@
 package com.impaq.arena.user.part;
 
-import com.impaq.arena.engine.Actions;
-import com.impaq.arena.rounds.IRound;
+import com.impaq.arena.RoundStrategy;
 
-public class FirstRoundExample implements IRound {
+public class FirstRoundExample extends RoundStrategy {
 
 	public void body() {
-	    Actions.BudujZamek();
-	    if (Actions.WysokoscZamkuWroga() > 60)
-		Actions.ZniszczZamekWroga();
+	    budujZamek();
+	    if (wysokoscZamkuWroga() > 60)
+		zniszczZamekWroga();
 	    else 
-		Actions.BudujZamek();
+		budujZamek();
 	}
 
 }

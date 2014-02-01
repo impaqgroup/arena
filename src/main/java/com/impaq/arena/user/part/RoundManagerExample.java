@@ -1,8 +1,8 @@
 package com.impaq.arena.user.part;
 
-import com.impaq.arena.rounds.impl.AbstractRoundManager;
+import com.impaq.arena.rounds.impl.DefaultRoundManager;
 
-public class RoundManagerExample extends AbstractRoundManager {
+public class RoundManagerExample extends DefaultRoundManager {
 
 	public RoundManagerExample(){
 		add(new FirstRoundExample());
