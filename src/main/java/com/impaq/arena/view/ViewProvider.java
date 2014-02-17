@@ -2,17 +2,17 @@ package com.impaq.arena.view;
 
 import com.impaq.arena.PropertySource;
 import com.impaq.arena.GameBoardView;
-import static com.impaq.arena.view.VisualisationType.from;
+import static com.impaq.arena.view.ViewType.from;
 
-public class VisualisationProvider {
+public class ViewProvider {
 
-    public static final String VISUALISATION_TYPE = "visualisationType";
+    public static final String VIEW_TYPE = "visualisationType";
 
     public GameBoardView get() {
         PropertySource property = new PropertySource();
         property.load();
 
-        return from(property.getString(VISUALISATION_TYPE)).create();
+        return from(property.getString(VIEW_TYPE)).create();
 
     }
 

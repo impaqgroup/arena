@@ -26,19 +26,18 @@ public class Stage {
     private Timer timer;
     private final Layer<Node> background = new Layer<>(new CopyOnWriteArrayList<Node>());
     private final Layer<Layer<Node>> layers = new Layer<>(ImmutableList.of(background));
-    private final Collection<TimeListener> timeListeners = new CopyOnWriteArrayList<TimeListener>();
+    private final Collection<TimeListener> timeListeners = new CopyOnWriteArrayList<>();
 
     public void initialize() {
         try {
             manager.setFullScreen(manager.findFirstCompatibleMode(new DisplayMode[]{new DisplayMode(1280, 720, DisplayMode.BIT_DEPTH_MULTI, DisplayMode.REFRESH_RATE_UNKNOWN)}));
 
             EventQueue.invokeAndWait(new Runnable() {
+                @Override
                 public void run() {
                     timer = new Timer(20, new ActionListener() {
-
                         @Override
                         public void actionPerformed(ActionEvent ae) {
-
                             animationate();
                         }
                     });
@@ -47,9 +46,7 @@ public class Stage {
                 }
             });
 
-        } catch (InterruptedException ex) {
-            throw propagate(ex);
-        } catch (InvocationTargetException ex) {
+        } catch (InterruptedException | InvocationTargetException ex) {
             throw propagate(ex);
         }
     }

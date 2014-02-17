@@ -7,13 +7,13 @@ import com.impaq.arena.view.swing.SwingViewPresenter;
  *
  * @author jaro
  */
-public enum VisualisationType {
+public enum ViewType {
 
     EMPTY {
 
                 @Override
                 public GameBoardView create() {
-                    return new EmptyVisualisation();
+                    return new NullView();
                 }
 
             }, CONSOLE {
@@ -32,7 +32,7 @@ public enum VisualisationType {
 
             };
 
-    public static VisualisationType from(String value) {
+    public static ViewType from(String value) {
         return (value == null || value.isEmpty()) ? CONSOLE : valueOf(value.toUpperCase());
     }
 

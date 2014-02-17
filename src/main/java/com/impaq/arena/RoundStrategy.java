@@ -1,98 +1,118 @@
 package com.impaq.arena;
 
+import com.impaq.arena.engine.event.BuildCastle;
+import com.impaq.arena.engine.event.DestroyCastle;
+import com.impaq.arena.engine.event.PopulateBuilders;
+import com.impaq.arena.engine.event.KillBuilders;
+import com.impaq.arena.engine.event.KillWarriors;
+import com.impaq.arena.engine.event.PopulateWizards;
+import com.impaq.arena.engine.event.KillWizards;
+import com.impaq.arena.engine.event.PopulateWarriors;
+import com.impaq.arena.engine.event.SpyWarriors;
+import com.impaq.arena.engine.event.SpyBuilders;
+import com.impaq.arena.engine.event.SpyWizards;
+import com.impaq.arena.engine.event.SpyCastle;
+import com.google.common.eventbus.EventBus;
 import com.impaq.arena.player.Player;
 
 public abstract class RoundStrategy {
 
-    private static int COUNT = 5;
+    private static int POPULATE_NUMBER = 5;
     private Player current;
     private Player oponent;
     private int actionCount = 0;
     private int spyActionCount = 0;
+    private EventBus eventBus;
 
     protected abstract void body();
 
-    void execute(Player current, Player oponent) {
+    void execute(EventBus eventBus, Player current, Player oponent) {
         this.current = current;
         this.oponent = oponent;
+        this.eventBus = eventBus;
         actionCount = 0;
         spyActionCount = 0;
         body();
     }
 
+    private void dispatchEvent(Object object) {
+        eventBus.post(object);
+    }
+
     protected void zabijMagow() {
-        if (!isActionExecutable()) {
+        if (!isActionAvailable()) {
             return;
         }
 
+        dispatchEvent(new KillWizards(oponent, getWizardsStrength()));
         oponent.getWizards().kill(getWizardsStrength());
         actionCount++;
     }
 
     protected void zabijWojownikow() {
-        if (!isActionExecutable()) {
+        if (!isActionAvailable()) {
             return;
         }
-
+        dispatchEvent(new KillWarriors(oponent, getWizardsStrength()));
         oponent.getWarriors().kill(getWizardsStrength());
         actionCount++;
     }
 
     protected void zabijBudowniczych() {
-        if (!isActionExecutable()) {
+        if (!isActionAvailable()) {
             return;
         }
-
+        dispatchEvent(new KillBuilders(oponent, getWizardsStrength()));
         oponent.getBuilders().kill(getWizardsStrength());
         actionCount++;
     }
 
     protected void zniszczZamekWroga() {
-        if (!isActionExecutable()) {
+        if (!isActionAvailable()) {
             return;
         }
-
+        dispatchEvent(new DestroyCastle(oponent, getWarriorsStrength()));
         oponent.getCastle().destroy(getWarriorsStrength());
         actionCount++;
     }
 
     protected void budujZamek() {
-        if (!isActionExecutable()) {
+        if (!isActionAvailable()) {
             return;
         }
-
+        dispatchEvent(new BuildCastle(oponent, getBuildersProductivity()));
         current.getCastle().expand(getBuildersProductivity());
         actionCount++;
     }
 
     protected void dodajBudowniczych() {
-        if (!isActionExecutable()) {
+        if (!isActionAvailable()) {
             return;
         }
-
-        current.getBuilders().add(COUNT);
+        dispatchEvent(new PopulateBuilders(oponent, POPULATE_NUMBER));
+        current.getBuilders().add(POPULATE_NUMBER);
         actionCount++;
     }
 
     protected void dodajMagow() {
-        if (!isActionExecutable()) {
+        if (!isActionAvailable()) {
             return;
         }
-
-        current.getWizards().add(COUNT);
+        dispatchEvent(new PopulateWizards(oponent, POPULATE_NUMBER));
+        current.getWizards().add(POPULATE_NUMBER);
         actionCount++;
     }
 
     protected void dodajWojownikow() {
-        if (!isActionExecutable()) {
+        if (!isActionAvailable()) {
             return;
         }
-
-        current.getWarriors().add(COUNT);
+        dispatchEvent(new PopulateWarriors(oponent, POPULATE_NUMBER));
+        current.getWarriors().add(POPULATE_NUMBER);
         actionCount++;
     }
 
-    private boolean isActionExecutable() {
+    private boolean isActionAvailable() {
         return actionCount < 3;
     }
 
@@ -112,17 +132,16 @@ public abstract class RoundStrategy {
         if (!isSpyActionAvailable()) {
             return -1;
         }
-
+        dispatchEvent(new SpyCastle(oponent));
         spyActionCount++;
         return oponent.getCastle().spy();
     }
 
     protected long iloscWojownikowWroga() {
-        // TODO może exception
         if (!isSpyActionAvailable()) {
             return -1;
         }
-
+        dispatchEvent(new SpyWarriors(oponent));
         spyActionCount++;
         return oponent.getWarriors().spy();
     }
@@ -131,6 +150,7 @@ public abstract class RoundStrategy {
         if (!isSpyActionAvailable()) {
             return -1;
         }
+        dispatchEvent(new SpyWizards(oponent));
 
         spyActionCount++;
         return oponent.getWizards().spy();
@@ -141,7 +161,7 @@ public abstract class RoundStrategy {
         if (!isSpyActionAvailable()) {
             return -1;
         }
-
+        dispatchEvent(new SpyBuilders(oponent));
         spyActionCount++;
         return oponent.getBuilders().spy();
     }

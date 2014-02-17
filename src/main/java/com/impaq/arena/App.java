@@ -1,7 +1,8 @@
 package com.impaq.arena;
 
-import com.impaq.arena.rounds.impl.DefaultRoundManager;
-import com.impaq.arena.view.VisualisationProvider;
+import com.impaq.arena.rounds.impl.DefaultStrategy;
+import com.impaq.arena.view.ConsoleView;
+import com.impaq.arena.view.ViewProvider;
 
 /**
  * Hello world!
@@ -10,17 +11,19 @@ import com.impaq.arena.view.VisualisationProvider;
 public class App {
     
     public static void main(String[] args) {
-        final GameBoard gameBoard = new GameBoard(new DefaultRoundManager() {
+        final GameBoard gameBoard = new GameBoard(new DefaultStrategy() {
             {
                 add(new RoundStrategy() {
                     
                     @Override
                     public void body() {
                         budujZamek();
+                        if(wysokoscZamkuWroga()>10)
+                        zabijMagow();
                     }
                 });
             }
-        }, new DefaultRoundManager() {
+        }, new DefaultStrategy() {
             {
                 add(new RoundStrategy() {
                     
@@ -31,7 +34,8 @@ public class App {
                 });
             }
         });
-        gameBoard.registerListener(new VisualisationProvider().get());
+        //gameBoard.registerListener(new ViewProvider().get());
+        gameBoard.registerListener(new ConsoleView());
         gameBoard.startGame();
     }
 }

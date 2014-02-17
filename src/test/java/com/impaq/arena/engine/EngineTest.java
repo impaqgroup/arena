@@ -7,18 +7,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.impaq.arena.rounds.impl.EmptyRoundStrategy;
-import com.impaq.arena.rounds.impl.DefaultRoundManager;
+import com.impaq.arena.rounds.impl.DefaultStrategy;
 
 public class EngineTest {
 
     private GameBoard board;
-    private DefaultRoundManager firstPlayerRoundManager;
-    private DefaultRoundManager secondPlayerRoundManager;
+    private DefaultStrategy firstPlayerRoundManager;
+    private DefaultStrategy secondPlayerRoundManager;
 
     @Before
     public void engine_class_exists() {
-        firstPlayerRoundManager = new DefaultRoundManager();
-        secondPlayerRoundManager = new DefaultRoundManager();
+        firstPlayerRoundManager = new DefaultStrategy();
+        secondPlayerRoundManager = new DefaultStrategy();
         board = new GameBoard(firstPlayerRoundManager, secondPlayerRoundManager);
     }
 

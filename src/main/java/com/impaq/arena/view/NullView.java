@@ -1,4 +1,4 @@
-package com.impaq.arena.view.swing;
+package com.impaq.arena.view;
 
 import com.impaq.arena.engine.event.GameStarted;
 import com.impaq.arena.GameBoardView;
@@ -10,20 +10,19 @@ import com.impaq.arena.engine.event.Winner;
 
 /**
  *
- * @author jaro
+ * @author Jaroslaw Herod <jaroslaw.herod@impaqgroup.com>
  */
-public class SwingViewPresenter implements GameBoardView {
+class NullView implements GameBoardView {
 
-    private SwingView view = new SwingView();
+    public NullView() {
+    }
 
     @Override
     public void onGameStart(GameStarted event) {
-        view.displayIntro();
     }
 
     @Override
     public void onWinner(Winner winner) {
-        view.dispose();
     }
 
     @Override
@@ -36,7 +35,6 @@ public class SwingViewPresenter implements GameBoardView {
 
     @Override
     public void onSpyCastel(SpyCastle event) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

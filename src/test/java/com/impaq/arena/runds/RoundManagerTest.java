@@ -6,15 +6,15 @@ import org.junit.Test;
 
 import com.impaq.arena.RoundStrategy;
 import com.impaq.arena.rounds.impl.EmptyRoundStrategy;
-import com.impaq.arena.rounds.impl.DefaultRoundManager;
+import com.impaq.arena.rounds.impl.DefaultStrategy;
 
 public class RoundManagerTest {
 
-    DefaultRoundManager roundManager;
+    DefaultStrategy roundManager;
 
     @Before
     public void initialize() {
-        roundManager = new DefaultRoundManager();
+        roundManager = new DefaultStrategy();
     }
 
     @Test

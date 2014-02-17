@@ -22,10 +22,12 @@ public class GameBoard {
     public GameBoard(Strategy firstPlayerStrategy,
             Strategy secondPlayerStrategy) {
         properties.load();
-        
-        firstPlayer = new Player(firstPlayerStrategy, createCastle(), createBuilders(), createWizards(), createWarriors());
+        firstPlayer = createPlayer(firstPlayerStrategy);
+        secondPlayer = createPlayer(secondPlayerStrategy);
+    }
 
-        secondPlayer = new Player(secondPlayerStrategy, createCastle(), createBuilders(), createWizards(), createWarriors());
+    private Player createPlayer(Strategy strategy) {
+        return new Player(strategy, createCastle(), createBuilders(), createWizards(), createWarriors());
     }
 
     private Warriors createWarriors() {
@@ -69,8 +71,8 @@ public class GameBoard {
     }
 
     public void executeRound() {
-        firstPlayer.getRoundManager().next().execute(firstPlayer, secondPlayer);
-        secondPlayer.getRoundManager().next().execute(secondPlayer, firstPlayer);
+        firstPlayer.getRoundManager().next().execute(eventBus, firstPlayer, secondPlayer);
+        secondPlayer.getRoundManager().next().execute(eventBus, secondPlayer, firstPlayer);
     }
 
     private void showWinner() {
