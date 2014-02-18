@@ -11,7 +11,6 @@ public class ViewProvider {
     public GameBoardView get() {
         PropertySource property = new PropertySource();
         property.load();
-
         return from(property.getString(VIEW_TYPE)).create();
 
     }

@@ -2,6 +2,7 @@ package com.impaq.arena.view.swing;
 
 import com.impaq.arena.engine.event.GameStarted;
 import com.impaq.arena.GameBoardView;
+import com.impaq.arena.engine.event.BuildCastle;
 import com.impaq.arena.engine.event.SpyBuilders;
 import com.impaq.arena.engine.event.SpyCastle;
 import com.impaq.arena.engine.event.SpyWarriors;
@@ -19,6 +20,8 @@ public class SwingViewPresenter implements GameBoardView {
     @Override
     public void onGameStart(GameStarted event) {
         view.displayIntro();
+        view.setLeftPlayer(event.getLeft());
+        view.setRightPlayer(event.getRight());
     }
 
     @Override
@@ -40,6 +43,11 @@ public class SwingViewPresenter implements GameBoardView {
 
     @Override
     public void onSpyBuilders(SpyBuilders event) {
+    }
+
+    @Override
+    public void onBuildCastel(BuildCastle event) {
+        view.updateCastels();
     }
 
 }

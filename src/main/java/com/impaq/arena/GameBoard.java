@@ -1,6 +1,8 @@
 package com.impaq.arena;
 
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.SubscriberExceptionContext;
+import com.google.common.eventbus.SubscriberExceptionHandler;
 import com.impaq.arena.engine.event.GameStarted;
 import com.impaq.arena.engine.event.Winner;
 import com.impaq.arena.player.Builders;
@@ -14,7 +16,13 @@ public class GameBoard {
 
     private final Player firstPlayer;
     private final Player secondPlayer;
-    private final EventBus eventBus = new EventBus();
+    private final EventBus eventBus = new EventBus(new SubscriberExceptionHandler() {
+
+        @Override
+        public void handleException(Throwable exception, SubscriberExceptionContext context) {
+            exception.printStackTrace();
+        }
+    });
     private final PropertySource properties = new PropertySource();
 
     public GameBoard(Strategy firstPlayerStrategy,
@@ -69,8 +77,8 @@ public class GameBoard {
     }
 
     public void executeRound() {
-        firstPlayer.getRoundManager().next().execute(eventBus, firstPlayer, secondPlayer);
-        secondPlayer.getRoundManager().next().execute(eventBus, secondPlayer, firstPlayer);
+        firstPlayer.getStrategy().next().execute(eventBus, firstPlayer, secondPlayer);
+        secondPlayer.getStrategy().next().execute(eventBus, secondPlayer, firstPlayer);
     }
 
     private void showWinner() {

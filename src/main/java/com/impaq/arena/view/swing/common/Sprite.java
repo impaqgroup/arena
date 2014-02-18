@@ -47,11 +47,15 @@ public class Sprite implements Node {
     }
 
     private int computeSubimageHeight() {
-        return (index * dimension.width / image.getWidth()) * dimension.height;
+        return ((index * dimension.width) / image.getWidth()) * dimension.height;
     }
 
     public Point getPosition() {
         return position;
+    }
+
+    public Dimension getDimension() {
+        return dimension;
     }
 
 }

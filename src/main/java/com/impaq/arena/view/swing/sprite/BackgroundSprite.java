@@ -12,7 +12,7 @@ import java.awt.Point;
 public class BackgroundSprite extends Sprite {
 
     public BackgroundSprite() {
-        super(Images.valueOf("sprites/background-sprite.jpg"), 11, new Dimension(1024, 638), new Point());
+        super(Images.valueOf("sprites/background-sprite.jpg"), 10, new Dimension(1024, 582), new Point());
     }
 
 }

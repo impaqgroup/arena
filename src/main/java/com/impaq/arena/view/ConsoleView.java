@@ -2,6 +2,7 @@ package com.impaq.arena.view;
 
 import com.impaq.arena.engine.event.GameStarted;
 import com.impaq.arena.GameBoardView;
+import com.impaq.arena.engine.event.BuildCastle;
 import com.impaq.arena.engine.event.Event;
 import com.impaq.arena.engine.event.SpyBuilders;
 import com.impaq.arena.engine.event.SpyCastle;
@@ -139,5 +140,9 @@ public class ConsoleView implements GameBoardView {
     @Override
     public void onSpyBuilders(SpyBuilders event) {
         out.println(playerName(event) + " check enemy builders height.");
+    }
+
+    @Override
+    public void onBuildCastel(BuildCastle event) {
     }
 }

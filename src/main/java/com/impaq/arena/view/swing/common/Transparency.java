@@ -20,14 +20,10 @@ public class Transparency extends Layer<Node> {
 
     @Override
     public void draw(Graphics2D graphics) {
-        if (opacity != 0.0f) {
-            Composite orginal = graphics.getComposite();
-            graphics.setComposite(makeComposite(1.0 - opacity));
-            super.draw(graphics);
-            graphics.setComposite(orginal);
-        } else {
-            super.draw(graphics);
-        }
+        Composite orginal = graphics.getComposite();
+        graphics.setComposite(makeComposite(opacity));
+        super.draw(graphics);
+        graphics.setComposite(orginal);
     }
 
     private AlphaComposite makeComposite(double alpha) {
@@ -40,7 +36,7 @@ public class Transparency extends Layer<Node> {
     }
 
     public void setOpacity(double opacity) {
-        Preconditions.checkArgument(opacity < 1 && opacity > 0);
+        Preconditions.checkArgument(opacity <= 1 && opacity >= 0);
         this.opacity = opacity;
     }
 

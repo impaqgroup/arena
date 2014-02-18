@@ -1,10 +1,7 @@
 package com.impaq.arena.view.swing.common;
 
-import com.google.common.base.Throwables;
-import static com.google.common.base.Throwables.propagate;
-import java.awt.BufferCapabilities;
+import java.awt.Dimension;
 import java.awt.DisplayMode;
-import java.awt.EventQueue;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
@@ -13,7 +10,6 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.lang.reflect.InvocationTargetException;
 import javax.swing.JFrame;
 
 /**
@@ -80,35 +76,12 @@ public class ScreenManager {
 
     public void setFullScreen(DisplayMode displayMode) {
         frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setUndecorated(true);
-        frame.setIgnoreRepaint(true);
-        frame.setResizable(false);
-
-        if (displayMode != null && device.isDisplayChangeSupported()) {
-            try {
-                device.setDisplayMode(displayMode);
-            } catch (IllegalArgumentException ex) {
-            }
-            frame.setSize(displayMode.getWidth(), displayMode.getHeight());
-        }
-        try {
-            EventQueue.invokeAndWait(new Runnable() {
-                @Override
-                public void run() {
-                    frame.setVisible(true);
-                    frame.createBufferStrategy(3);
-
-                    if (device.isFullScreenSupported()) {
-                        device.setFullScreenWindow(frame);
-                    }
-                    frame.toFront();
-
-                }
-            });
-        } catch (InterruptedException | InvocationTargetException ex) {
-            throw propagate(ex);
-        }
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setBounds(0, 0, screenSize.width, screenSize.height);
+        frame.getContentPane().setLayout(null);
+        frame.setVisible(true);
+        frame.validate();
     }
 
     public Graphics2D getGraphics() {

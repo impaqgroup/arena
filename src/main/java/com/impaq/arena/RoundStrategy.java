@@ -80,8 +80,8 @@ public abstract class RoundStrategy {
         if (!isActionAvailable()) {
             return;
         }
-        dispatchEvent(new BuildCastle(oponent, getBuildersProductivity()));
         current.getCastle().expand(getBuildersProductivity());
+        dispatchEvent(new BuildCastle(oponent, getBuildersProductivity()));
         actionCount++;
     }
 
@@ -89,8 +89,8 @@ public abstract class RoundStrategy {
         if (!isActionAvailable()) {
             return;
         }
-        dispatchEvent(new PopulateBuilders(oponent, POPULATE_NUMBER));
         current.getBuilders().add(POPULATE_NUMBER);
+        dispatchEvent(new PopulateBuilders(oponent, POPULATE_NUMBER));
         actionCount++;
     }
 
@@ -98,8 +98,8 @@ public abstract class RoundStrategy {
         if (!isActionAvailable()) {
             return;
         }
-        dispatchEvent(new PopulateWizards(oponent, POPULATE_NUMBER));
         current.getWizards().add(POPULATE_NUMBER);
+        dispatchEvent(new PopulateWizards(oponent, POPULATE_NUMBER));
         actionCount++;
     }
 
@@ -107,8 +107,8 @@ public abstract class RoundStrategy {
         if (!isActionAvailable()) {
             return;
         }
-        dispatchEvent(new PopulateWarriors(oponent, POPULATE_NUMBER));
         current.getWarriors().add(POPULATE_NUMBER);
+        dispatchEvent(new PopulateWarriors(oponent, POPULATE_NUMBER));
         actionCount++;
     }
 

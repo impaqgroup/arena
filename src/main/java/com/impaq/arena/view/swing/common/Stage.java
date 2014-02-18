@@ -30,7 +30,7 @@ public class Stage {
 
     public void initialize() {
         try {
-            manager.setFullScreen(manager.findFirstCompatibleMode(new DisplayMode[]{new DisplayMode(1280, 720, DisplayMode.BIT_DEPTH_MULTI, DisplayMode.REFRESH_RATE_UNKNOWN)}));
+            manager.setFullScreen(manager.findFirstCompatibleMode(new DisplayMode[]{new DisplayMode(1026, 567, DisplayMode.BIT_DEPTH_MULTI, DisplayMode.REFRESH_RATE_UNKNOWN)}));
 
             EventQueue.invokeAndWait(new Runnable() {
                 @Override
@@ -59,7 +59,11 @@ public class Stage {
         update(elapsedTime);
 
         Graphics2D g = manager.getGraphics();
+        try{
         draw(g);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
         g.dispose();
         manager.update();
 
