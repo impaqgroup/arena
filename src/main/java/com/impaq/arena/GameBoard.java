@@ -1,8 +1,8 @@
 package com.impaq.arena;
 
-import com.impaq.arena.engine.event.Winner;
 import com.google.common.eventbus.EventBus;
 import com.impaq.arena.engine.event.GameStarted;
+import com.impaq.arena.engine.event.Winner;
 import com.impaq.arena.player.Builders;
 import com.impaq.arena.player.Castle;
 import com.impaq.arena.player.Player;
@@ -16,8 +16,6 @@ public class GameBoard {
     private final Player secondPlayer;
     private final EventBus eventBus = new EventBus();
     private final PropertySource properties = new PropertySource();
-
-    private int roundNumber = 1;
 
     public GameBoard(Strategy firstPlayerStrategy,
             Strategy secondPlayerStrategy) {
@@ -76,6 +74,8 @@ public class GameBoard {
     }
 
     private void showWinner() {
+
+        //FIXME add notification about draw
         if (firstPlayer.isWinner() || secondPlayer.isLoser()) {
             eventBus.post(new Winner(firstPlayer));
         }
@@ -97,12 +97,12 @@ public class GameBoard {
                 || secondPlayer.isLoser() || secondPlayer.isWinner();
     }
 
-    public void registerListener(Object listener) {
+    public void registerListener(GameBoardView listener) {
         eventBus.register(listener);
     }
 
-    public void unregisterListener(Object listener) {
-        eventBus.register(listener);
+    public void unregisterListener(GameBoardView listener) {
+        eventBus.unregister(listener);
     }
 
 }

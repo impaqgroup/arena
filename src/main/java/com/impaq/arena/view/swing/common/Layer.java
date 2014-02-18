@@ -1,6 +1,7 @@
 package com.impaq.arena.view.swing.common;
 
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -8,11 +9,12 @@ import java.util.Iterator;
  *
  * @author jaro
  */
-public class Layer<T extends Node> implements Node, Collection<T> {
+public class Layer<T extends Node> extends BaseNode implements Node, Collection<T> {
 
     private final Collection<T> nodes;
 
     public Layer(Collection<T> nodes) {
+        super(new Point());
         this.nodes = nodes;
     }
 

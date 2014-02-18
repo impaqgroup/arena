@@ -1,10 +1,16 @@
-package com.impaq.arena.view.swing.common;
+package com.impaq.arena.view.swing.common.animation;
+
+import com.impaq.arena.view.swing.common.BaseAnimation;
+import com.impaq.arena.view.swing.common.Interpolator;
+import com.impaq.arena.view.swing.common.LinearInterpolator;
+import com.impaq.arena.view.swing.common.Sprite;
+import com.impaq.arena.view.swing.common.Stage;
 
 /**
  *
  * @author jaro
  */
-public class SpriteAnimation extends Animation {
+public class SpriteAnimation extends BaseAnimation {
 
     private final Sprite sprite;
 

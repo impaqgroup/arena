@@ -1,116 +1,32 @@
-package com.impaq.arena.view.swing.common;
+/*
+ * Copyright (C) 2014 Jaroslaw Herod <jaroslaw.herod@impaqgroup.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
+package com.impaq.arena.view.swing.common;
 
 /**
  *
- * @author jaro
+ * @author Jaroslaw Herod <jaroslaw.herod@impaqgroup.com>
  */
-public abstract class Animation implements TimeListener {
+public interface Animation {
 
-    private long time;
-    private final Stage stage;
-    private final long duration;
-    private State state = new StoppedState();
-    private CountDownLatch finishLatch;
+    void awaitFinish() throws InterruptedException;
 
-    public Animation(Stage stage, long duration) {
-        this.stage = stage;
-        this.duration = duration;
-    }
+    void play();
 
-    @Override
-    public void update(long elapsedTime) {
-        state.update(elapsedTime);
-
-    }
-
-    public void play() {
-        state.play();
-    }
-
-    public void stop() {
-        state.stop();
-    }
-
-    protected abstract void updateValue(double l);
-
-    private void onStart() {
-        stage.addTimeListener(this);
-    }
-
-    private void onFinish() {
-        stage.removeTimeListener(this);
-        finishLatch.countDown();
-    }
-
-    public void awaitFinish() throws InterruptedException {
-        state.awaitFinish();
-    }
-
-    private class PlayingState implements State {
-
-        @Override
-        public void play() {
-        }
-
-        @Override
-        public void stop() {
-            onFinish();
-            state = new StoppedState();
-        }
-
-        @Override
-        public void update(long elapsedTime) {
-            if ((time + elapsedTime) <= duration) {
-                time += elapsedTime;
-                updateValue((double) time / duration);
-            } else {
-                updateValue(1.0);
-                onFinish();
-            }
-        }
-
-        @Override
-        public void awaitFinish() throws InterruptedException {
-            finishLatch.await(duration + 10, TimeUnit.MILLISECONDS);
-        }
-
-    }
-
-
-    private interface State extends TimeListener {
-
-        void play();
-
-        void stop();
-
-        void awaitFinish() throws InterruptedException;
-    }
-
-    private class StoppedState implements State {
-
-        @Override
-        public void play() {
-            time = 0;
-            finishLatch = new CountDownLatch(1);
-            state = new PlayingState();
-            onStart();
-        }
-
-        @Override
-        public void stop() {
-        }
-
-        @Override
-        public void update(long elapsedTime) {
-        }
-
-        @Override
-        public void awaitFinish() {
-        }
-
-    }
-
+    void stop();
+    
 }
