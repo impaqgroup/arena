@@ -1,13 +1,12 @@
 package com.impaq.arena.user.part;
 
-import com.impaq.arena.engine.Actions;
-import com.impaq.arena.rounds.IRound;
+import com.impaq.arena.RoundStrategy;
 
-public class SecondRoundExample implements IRound {
+public class SecondRoundExample extends RoundStrategy {
 
 	public void body() {
-	    Actions.DodajWojownikow();
-	    Actions.ZniszczZamekWroga();
+	    dodajWojownikow();
+	    zniszczZamekWroga();
 	}
 
 }

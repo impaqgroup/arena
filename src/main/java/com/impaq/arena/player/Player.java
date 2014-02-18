@@ -1,68 +1,49 @@
 package com.impaq.arena.player;
 
-import com.impaq.arena.engine.Property;
-import com.impaq.arena.rounds.IRoundManager;
+import com.impaq.arena.PropertySource;
+import com.impaq.arena.Strategy;
 
 public class Player {
 
-    private Castle castle;
-    private Builders builders;
-    private Wizards wizards;
-    private Warriors warriors;
-    private IRoundManager roundManager;
+    private final Castle castle;
+    private final Builders builders;
+    private final Wizards wizards;
+    private final Warriors warriors;
+    private final Strategy strategy;
 
-    public Player(IRoundManager roundManager) {
-	this.roundManager = roundManager;
-	this.setDefaults(new Property());
+    public Player(Strategy roundManager, Castle castle, Builders builders, Wizards wizards, Warriors warriors) {
+        this.strategy = roundManager;
+        this.castle = castle;
+        this.builders = builders;
+        this.wizards = wizards;
+        this.warriors = warriors;
     }
 
     public Castle getCastle() {
-	return castle;
+        return castle;
     }
 
     public boolean isWinner() {
-	return castle.isMax();
+        return castle.isMax();
     }
 
     public boolean isLoser() {
-	return castle.isMin();
+        return castle.isMin();
     }
 
     public Builders getBuilders() {
-	return builders;
+        return builders;
     }
 
     public Wizards getWizards() {
-	return wizards;
+        return wizards;
     }
 
     public Warriors getWarriors() {
-	return warriors;
+        return warriors;
     }
 
-    public IRoundManager getRoundManager() {
-	return roundManager;
-    }
-
-    public void setDefaults(Property property) {
-	builders = new Builders(Integer.valueOf(property
-		.getProperty(PropertyNames.BUILDERS_START_COUNT)),
-		Double.valueOf(property
-			.getProperty(PropertyNames.BUILDERS_PRODUCTIVITY)));
-	
-	warriors = new Warriors(Integer.valueOf(property
-		.getProperty(PropertyNames.WARRIORS_START_COUNT)),
-		Double.valueOf(property
-			.getProperty(PropertyNames.WARRIORS_STRENGTH)));
-	
-	wizards = new Wizards(Integer.valueOf(property
-		.getProperty(PropertyNames.WIZARDS_START_COUNT)),
-		Double.valueOf(property
-			.getProperty(PropertyNames.WIZARDS_STRENGTH)));
-	
-	castle = new Castle(Integer.valueOf(property
-		.getProperty(PropertyNames.CASTLE_MAX_HEIGHT)),
-		Integer.valueOf(property
-			.getProperty(PropertyNames.CASTLE_START_HEIGHT)));
+    public Strategy getRoundManager() {
+        return strategy;
     }
 }
