@@ -4,8 +4,8 @@ import static com.google.common.base.Throwables.propagate;
 import com.impaq.arena.view.swing.common.BaseAnimation;
 import com.impaq.arena.view.swing.common.Layer;
 import com.impaq.arena.view.swing.common.Node;
-import com.impaq.arena.view.swing.common.animation.SpriteAnimation;
 import com.impaq.arena.view.swing.common.Stage;
+import com.impaq.arena.view.swing.common.animation.SpriteAnimation;
 import com.impaq.arena.view.swing.sprite.IntroSprite;
 
 /**
@@ -25,7 +25,7 @@ public class SwingView {
         final IntroSprite introSprite = new IntroSprite();
         final Layer<Node> background = stage.getBackground();
         background.add(introSprite);
-        final SpriteAnimation spriteAnimation = new SpriteAnimation(stage, introSprite, 12000);
+        final SpriteAnimation spriteAnimation = new SpriteAnimation(stage, introSprite, 40000);
         spriteAnimation.play();
         await(spriteAnimation);
         background.remove(introSprite);

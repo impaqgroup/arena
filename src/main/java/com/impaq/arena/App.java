@@ -34,7 +34,7 @@ public class App {
                 });
             }
         });
-        //gameBoard.registerListener(new ViewProvider().get());
+        gameBoard.registerListener(new ViewProvider().get());
         gameBoard.registerListener(new ConsoleView());
         gameBoard.startGame();
     }

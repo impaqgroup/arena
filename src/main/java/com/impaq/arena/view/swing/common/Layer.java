@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  *
@@ -12,6 +13,10 @@ import java.util.Iterator;
 public class Layer<T extends Node> extends BaseNode implements Node, Collection<T> {
 
     private final Collection<T> nodes;
+
+    public Layer() {
+        this(new LinkedList<T>());
+    }
 
     public Layer(Collection<T> nodes) {
         super(new Point());
