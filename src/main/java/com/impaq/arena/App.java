@@ -10,7 +10,7 @@ import com.impaq.arena.view.ViewProvider;
 public class App {
 
     public static void main(String[] args) {
-        final GameBoard gameBoard = new GameBoard(new BlueTeamStrategy(), new TeamRedStrategy());
+        final GameBoard gameBoard = new GameBoard(new TeamBlueStrategy(), new TeamRedStrategy());
         gameBoard.registerListener(new ViewProvider().get());
         gameBoard.registerListener(new ConsoleView());
         gameBoard.startGame();

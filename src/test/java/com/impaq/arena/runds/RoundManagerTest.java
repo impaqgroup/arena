@@ -8,11 +8,13 @@ import com.impaq.arena.RoundStrategy;
 import com.impaq.arena.rounds.impl.EmptyRoundStrategy;
 import com.impaq.arena.RoundRobinStrategy;
 
-public class RoundManagerTest {RoundRobinStrategyrategy roundManager;
+public class RoundManagerTest {
+	
+	RoundRobinStrategy roundManager;
 
     @Before
     public void initialize() {
-        roundMaRoundRobinStrategyListStrategy();
+    	roundManager = new RoundRobinStrategy();
     }
 
     @Test
