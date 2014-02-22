@@ -7,18 +7,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.impaq.arena.rounds.impl.EmptyRoundStrategy;
-import com.impaq.arena.rounds.impl.ListStrategy;
+import com.impaq.arena.RoundRobinStrategy;
 
 public class EngineTest {
 
     private GameBoard board;
-    private ListStrategy firstPlayerRoundManager;
-    private ListStrategy secondPlayerRoundManager;
+    private RoundRobinStrategy firstPlayerRoundManager;
+    private RoundRobinStrategy secondPlayerRoundManager;
 
     @Before
     public void engine_class_exists() {
-        firstPlayerRoundManager = new ListStrategy();
-        secondPlayerRoundManager = new ListStrategy();
+        firstPlayerRoundManager = new RoundRobinStrategy();
+        secondPlayerRoundManager = new RoundRobinStrategy();
         board = new GameBoard(firstPlayerRoundManager, secondPlayerRoundManager);
     }
 
@@ -28,7 +28,7 @@ public class EngineTest {
         firstPlayerRoundManager.add(new RoundStrategy() {
 
             public void body() {
-                budujZamek();
+                buildCastle();
             }
         });
         secondPlayerRoundManager.add(new EmptyRoundStrategy());
@@ -45,7 +45,7 @@ public class EngineTest {
         firstPlayerRoundManager.add(new RoundStrategy() {
 
             public void body() {
-                zniszczZamekWroga();
+                destroyCastle();
             }
         });
         secondPlayerRoundManager.add(new EmptyRoundStrategy());
@@ -62,7 +62,7 @@ public class EngineTest {
         secondPlayerRoundManager.add(new RoundStrategy() {
 
             public void body() {
-                zniszczZamekWroga();
+                destroyCastle();
             }
         });
         firstPlayerRoundManager.add(new EmptyRoundStrategy());
@@ -79,7 +79,7 @@ public class EngineTest {
         secondPlayerRoundManager.add(new RoundStrategy() {
 
             public void body() {
-                budujZamek();
+                buildCastle();
             }
         });
         firstPlayerRoundManager.add(new EmptyRoundStrategy());

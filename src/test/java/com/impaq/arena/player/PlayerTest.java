@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.impaq.arena.rounds.impl.ListStrategy;
+import com.impaq.arena.RoundRobinStrategy;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -29,7 +29,7 @@ public class PlayerTest {
 
     @Before
     public void player_class_exists() {
-        player = new Player(new ListStrategy(), castle, builders, wizards, warriors);
+        player = new Player(new RoundRobinStrategy(), castle, builders, wizards, warriors);
     }
 
     @Test

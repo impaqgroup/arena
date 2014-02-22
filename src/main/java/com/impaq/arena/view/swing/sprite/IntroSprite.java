@@ -11,8 +11,8 @@ import java.awt.Point;
  */
 public class IntroSprite extends Sprite {
 
-    public IntroSprite() {
-        super(Images.valueOf("sprites/open-sprite.jpg"), 57, new Dimension(1024, 582), new Point());
+    public IntroSprite(Point position) {
+        super(Images.valueOf("sprites/open-sprite.jpg"), 57, new Dimension(1024, 582), position);
     }
 
 }

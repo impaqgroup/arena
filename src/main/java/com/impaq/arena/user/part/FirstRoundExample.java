@@ -5,11 +5,11 @@ import com.impaq.arena.RoundStrategy;
 public class FirstRoundExample extends RoundStrategy {
 
 	public void body() {
-	    budujZamek();
-	    if (wysokoscZamkuWroga() > 60)
-		zniszczZamekWroga();
+	    buildCastle();
+	    if (spyCastle() > 60)
+		destroyCastle();
 	    else 
-		budujZamek();
+		buildCastle();
 	}
 
 }

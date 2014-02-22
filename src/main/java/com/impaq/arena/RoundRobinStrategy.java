@@ -1,10 +1,10 @@
-package com.impaq.arena.rounds.impl;
+package com.impaq.arena;
 
 import com.impaq.arena.RoundStrategy;
 import com.impaq.arena.Strategy;
 import java.util.ArrayList;
 
-public class ListStrategy extends ArrayList<RoundStrategy> implements Strategy {
+public class RoundRobinStrategy extends ArrayList<RoundStrategy> implements Strategy {
 
     private int actualIndex = -1;
 

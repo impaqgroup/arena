@@ -2,6 +2,7 @@ package com.impaq.arena;
 
 import com.google.common.eventbus.Subscribe;
 import com.impaq.arena.engine.event.BuildCastle;
+import com.impaq.arena.engine.event.DestroyCastle;
 import com.impaq.arena.engine.event.GameStarted;
 import com.impaq.arena.engine.event.SpyBuilders;
 import com.impaq.arena.engine.event.SpyCastle;
@@ -31,5 +32,8 @@ public interface GameBoardView {
 
     @Subscribe
     void onBuildCastel(BuildCastle event);
+    
+    @Subscribe
+    void onDestroyCastel(DestroyCastle event);
 
 }

@@ -1,9 +1,9 @@
 package com.impaq.arena.view.swing.sprite.shapes;
 
 import com.impaq.arena.view.swing.common.BaseNode;
+import com.impaq.arena.view.swing.common.Component;
 import com.impaq.arena.view.swing.common.ImageNode;
 import com.impaq.arena.view.swing.common.Images;
-import com.impaq.arena.view.swing.common.Layer;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
@@ -11,12 +11,12 @@ import java.awt.Point;
  *
  * @author Jaroslaw Herod <jaroslaw.herod@impaqgroup.com>
  */
-public class Number extends BaseNode {
+public class NumberNode extends BaseNode {
 
     private int value;
-    private final Layer<ImageNode> numbers = new Layer<>();
+    private final Component numbers = new Component();
 
-    public Number(Point point, int value) {
+    public NumberNode(Point point, int value) {
         super(point);
         setValue(value);
     }
@@ -47,8 +47,8 @@ public class Number extends BaseNode {
         for (int i = 0; i < number.length(); ++i) {
             final char c = number.charAt(i);
             final ImageNode numberImage = number(Integer.valueOf(String.valueOf(c)));
-            location.translate(-numberImage.getDimension().width, 0);
             numberImage.getPosition().setLocation(location);
+            location.translate(numberImage.getDimension().width, 0);
             numbers.add(numberImage);
 
         }

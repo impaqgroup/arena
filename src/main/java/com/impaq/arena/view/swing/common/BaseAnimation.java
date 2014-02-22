@@ -1,5 +1,7 @@
 package com.impaq.arena.view.swing.common;
 
+import static com.google.common.base.Throwables.propagate;
+import com.google.common.eventbus.EventBus;
 import com.impaq.arena.view.swing.common.Stage;
 import com.impaq.arena.view.swing.common.TimeListener;
 import java.util.concurrent.CountDownLatch;
@@ -12,13 +14,13 @@ import java.util.concurrent.TimeUnit;
 public abstract class BaseAnimation implements TimeListener, Animation {
 
     private long time;
-    private final Stage stage;
+    private final Stage stage = Stage.get();
     private final long duration;
+    private final EventBus bus = new EventBus();
     private State state = new StoppedState();
     private CountDownLatch finishLatch;
 
-    public BaseAnimation(Stage stage, long duration) {
-        this.stage = stage;
+    public BaseAnimation(long duration) {
         this.duration = duration;
     }
 
@@ -38,6 +40,16 @@ public abstract class BaseAnimation implements TimeListener, Animation {
         state.stop();
     }
 
+    @Override
+    public void registerListener(AnimationListener listener) {
+        bus.register(listener);
+    }
+
+    @Override
+    public void unregisterListener(AnimationListener listener) {
+        bus.unregister(listener);
+    }
+
     protected abstract void updateValue(double l);
 
     private void onStart() {
@@ -45,13 +57,20 @@ public abstract class BaseAnimation implements TimeListener, Animation {
     }
 
     private void onFinish() {
+        bus.post(new AnimationFinish(this));
         stage.removeTimeListener(this);
         finishLatch.countDown();
     }
 
     @Override
-    public void awaitFinish() throws InterruptedException {
-        state.awaitFinish();
+    public void awaitFinish() {
+        try {
+            state.awaitFinish();
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+            throw propagate(ex);
+        }
+
     }
 
     private class PlayingState implements State {
@@ -83,7 +102,6 @@ public abstract class BaseAnimation implements TimeListener, Animation {
         }
 
     }
-
 
     private interface State extends TimeListener {
 

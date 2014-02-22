@@ -1,8 +1,8 @@
 package com.impaq.arena.user.part;
 
-import com.impaq.arena.rounds.impl.ListStrategy;
+import com.impaq.arena.RoundRobinStrategy;
 
-public class RoundManagerExample extends ListStrategy {
+public class RoundManagerExample extends RoundRobinStrategy {
 
 	public RoundManagerExample(){
 		add(new FirstRoundExample());

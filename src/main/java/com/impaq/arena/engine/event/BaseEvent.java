@@ -8,14 +8,14 @@ import com.impaq.arena.player.Player;
  */
 abstract class BaseEvent implements Event{
 
-    private final Player oponent;
+    private final Player player;
 
     public BaseEvent(Player oponent) {
-        this.oponent = oponent;
+        this.player = oponent;
     }
 
-    public Player getOponent() {
-        return oponent;
+    public Player getPlayer() {
+        return player;
     }
 
 }

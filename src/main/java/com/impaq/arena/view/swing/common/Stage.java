@@ -1,18 +1,22 @@
 package com.impaq.arena.view.swing.common;
 
-import static com.google.common.base.Throwables.propagate;
+import com.google.common.base.Optional;
 import com.google.common.base.Ticker;
-import com.google.common.collect.ImmutableList;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.DisplayMode;
 import java.awt.EventQueue;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
+import java.awt.image.BufferedImage;
 import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 import javax.swing.Timer;
+import org.imgscalr.Scalr;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -20,35 +24,52 @@ import javax.swing.Timer;
  */
 public class Stage {
 
+    private Logger log = LoggerFactory.getLogger(Stage.class);
+
+    static class Lazy {
+
+        static Stage instance = new Stage();
+
+    }
+
+    public static Stage get() {
+        return Lazy.instance;
+    }
+
     private final ScreenManager manager = new ScreenManager();
     private long currTime;
     private Ticker ticker;
     private Timer timer;
-    private final Layer<Node> background = new Layer<>(new CopyOnWriteArrayList<Node>());
-    private final Layer<Layer<Node>> layers = new Layer<>(ImmutableList.of(background));
+    private final Component background = new Component(new CopyOnWriteArrayList());
     private final Collection<TimeListener> timeListeners = new CopyOnWriteArrayList<>();
+    private final int width = 1000;
+    private final int height = 800;
 
-    public void initialize() {
-        try {
-            manager.setFullScreen(manager.findFirstCompatibleMode(new DisplayMode[]{new DisplayMode(1026, 567, DisplayMode.BIT_DEPTH_MULTI, DisplayMode.REFRESH_RATE_UNKNOWN)}));
+    private Stage() {
+        initialize();
+    }
 
-            EventQueue.invokeAndWait(new Runnable() {
-                @Override
-                public void run() {
-                    timer = new Timer(20, new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent ae) {
+    private void initialize() {
+        manager.setFullScreen(manager.findFirstCompatibleMode(new DisplayMode[]{new DisplayMode(width, height, DisplayMode.BIT_DEPTH_MULTI, DisplayMode.REFRESH_RATE_UNKNOWN)}));
+
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                timer = new Timer(20, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent ae) {
+                        try {
                             animationate();
+                        } catch (Exception ex) {
+                            log.warn("animate loop failed", ex);
                         }
-                    });
-                    timer.start();
-                    ticker = Ticker.systemTicker();
-                }
-            });
+                    }
+                });
+                timer.start();
+                ticker = Ticker.systemTicker();
+            }
+        });
 
-        } catch (InterruptedException | InvocationTargetException ex) {
-            throw propagate(ex);
-        }
     }
 
     private void animationate() {
@@ -58,19 +79,28 @@ public class Stage {
 
         update(elapsedTime);
 
-        Graphics2D g = manager.getGraphics();
-        try{
-        draw(g);
-        }catch(Exception ex){
-            ex.printStackTrace();
+        Optional<Graphics2D> optinalGraphic = manager.getGraphics();
+        if (optinalGraphic.isPresent()) {
+            final Graphics2D graphic = optinalGraphic.get();
+            BufferedImage screen = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+            final Graphics2D screenGraphics = screen.createGraphics();
+
+            draw(screenGraphics);
+
+            screenGraphics.dispose();
+            final BufferedImage scaled = Scalr.resize(screen, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_HEIGHT, manager.getScreenDimension().width, manager.getScreenDimension().height);
+            graphic.setColor(Color.WHITE);
+            graphic.fillRect(0, 0, manager.getScreenDimension().width, manager.getScreenDimension().height);
+            graphic.drawImage(scaled, 0, 0, null);
+            graphic.dispose();
+            manager.update();
         }
-        g.dispose();
-        manager.update();
 
     }
 
     private void draw(Graphics2D graphics) {
-        layers.draw(graphics);
+        background.draw(graphics);
     }
 
     private void update(long elapsedTime) {
@@ -82,18 +112,19 @@ public class Stage {
     public void dispose() {
         timer.stop();
         manager.restoreScreen();
+
     }
 
-    public Layer<Node> getBackground() {
+    public Component getBackground() {
         return background;
     }
-    
-    void addTimeListener(TimeListener listener){
+
+    void addTimeListener(TimeListener listener) {
         timeListeners.add(listener);
     }
-    void removeTimeListener(TimeListener listener){
+
+    void removeTimeListener(TimeListener listener) {
         timeListeners.remove(listener);
     }
-    
-    
+
 }

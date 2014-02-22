@@ -3,6 +3,7 @@ package com.impaq.arena.view;
 import com.impaq.arena.engine.event.GameStarted;
 import com.impaq.arena.GameBoardView;
 import com.impaq.arena.engine.event.BuildCastle;
+import com.impaq.arena.engine.event.DestroyCastle;
 import com.impaq.arena.engine.event.SpyBuilders;
 import com.impaq.arena.engine.event.SpyCastle;
 import com.impaq.arena.engine.event.SpyWarriors;
@@ -44,6 +45,10 @@ class NullView implements GameBoardView {
 
     @Override
     public void onBuildCastel(BuildCastle event) {
+    }
+
+    @Override
+    public void onDestroyCastel(DestroyCastle event) {
     }
 
 }

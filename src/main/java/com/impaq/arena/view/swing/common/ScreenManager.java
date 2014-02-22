@@ -1,5 +1,7 @@
 package com.impaq.arena.view.swing.common;
 
+import com.google.common.base.Optional;
+import static com.google.common.base.Optional.fromNullable;
 import java.awt.Dimension;
 import java.awt.DisplayMode;
 import java.awt.Graphics2D;
@@ -76,6 +78,7 @@ public class ScreenManager {
 
     public void setFullScreen(DisplayMode displayMode) {
         frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setUndecorated(true);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setBounds(0, 0, screenSize.width, screenSize.height);
@@ -84,14 +87,20 @@ public class ScreenManager {
         frame.validate();
     }
 
-    public Graphics2D getGraphics() {
+    public Dimension getScreenDimension() {
+        return frame.getSize();
+    }
+
+    public Optional<Graphics2D> getGraphics() {
         Window window = getFullScreenWindow();
         if (window != null) {
             BufferStrategy strategy = window.getBufferStrategy();
-            return (Graphics2D) strategy.getDrawGraphics();
-        } else {
-            return null;
+            if (strategy != null) {
+                return fromNullable((Graphics2D) strategy.getDrawGraphics());
+            }
         }
+        return Optional.absent();
+
     }
 
     public void update() {
@@ -133,6 +142,7 @@ public class ScreenManager {
             window.dispose();
         }
         device.setFullScreenWindow(null);
+        frame.dispose();
     }
 
     public BufferedImage createCompatibleImage(int w, int h, int transparancy) {

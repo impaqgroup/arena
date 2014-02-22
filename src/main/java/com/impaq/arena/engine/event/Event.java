@@ -24,6 +24,6 @@ import com.impaq.arena.player.Player;
  */
 public interface Event {
 
-    Player getOponent();
+    Player getPlayer();
     
 }

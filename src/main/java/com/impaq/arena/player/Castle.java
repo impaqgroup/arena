@@ -2,8 +2,8 @@ package com.impaq.arena.player;
 
 public class Castle {
 
-    protected int maxHeight;
-    private int height = 25;
+    private int maxHeight;
+    private int height = 30;
 
     public Castle(int maxHeight, int height) {
         this.maxHeight = maxHeight;
@@ -16,24 +16,18 @@ public class Castle {
 
     public void expand(int height) {
         this.height += height;
-        if (this.height > maxHeight) {
-            this.height = maxHeight;
-        }
     }
 
     public void destroy(int height) {
         this.height -= height;
-        if (this.height < 0) {
-            this.height = 0;
-        }
     }
 
     public boolean isMax() {
-        return height == maxHeight;
+        return height >= maxHeight;
     }
 
     public boolean isMin() {
-        return height == 0;
+        return height <= 0;
     }
 
     public int spy() {

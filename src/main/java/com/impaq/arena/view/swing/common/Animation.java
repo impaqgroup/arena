@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.impaq.arena.view.swing.common;
 
 /**
@@ -28,5 +27,9 @@ public interface Animation {
     void play();
 
     void stop();
+
+    void registerListener(AnimationListener listener) ;
     
+    void unregisterListener(AnimationListener listener) ;
+
 }
