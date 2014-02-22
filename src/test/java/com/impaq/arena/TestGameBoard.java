@@ -30,6 +30,14 @@ public class TestGameBoard extends GameBoard {
 		spyPlayer.getStrategy().next().execute(eventBus, spyPlayer, spyOponent);
     }
 	
+	public void executeRound(int number){
+		while (number != 1 ) {
+			spyPlayer.getStrategy().next();
+			number--;
+		}
+		executeRound();
+	}
+	
 	public TestGameBoard setOponentBuildersCount( int count ) {
 		spyBuildersCount(spyOponent, count);
 		return this;
