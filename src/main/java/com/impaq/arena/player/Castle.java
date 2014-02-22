@@ -17,7 +17,7 @@ public class Castle {
     public void expand(int height) {
         this.height += height;
         if ( isMax() )
-        	this.height = 100;
+        	this.height = maxHeight;
     }
 
     public void destroy(int height) {
