@@ -2,9 +2,15 @@ package com.impaq.arena.view;
 
 import com.impaq.arena.engine.event.GameStarted;
 import com.impaq.arena.GameBoardView;
+import com.impaq.arena.engine.event.AddBuilders;
+import com.impaq.arena.engine.event.AddWarriors;
+import com.impaq.arena.engine.event.AddWizards;
 import com.impaq.arena.engine.event.BuildCastle;
 import com.impaq.arena.engine.event.DestroyCastle;
 import com.impaq.arena.engine.event.Event;
+import com.impaq.arena.engine.event.KillBuilders;
+import com.impaq.arena.engine.event.KillWarriors;
+import com.impaq.arena.engine.event.KillWizards;
 import com.impaq.arena.engine.event.SpyBuilders;
 import com.impaq.arena.engine.event.SpyCastle;
 import com.impaq.arena.engine.event.SpyWarriors;
@@ -145,11 +151,35 @@ public class ConsoleView implements GameBoardView {
 
     @Override
     public void onBuildCastle(BuildCastle event) {
-        out.println(playerName(event) + " built" + event.getValue() + " levels of castel.");
+        out.println(playerName(event) + " built " + event.getValue() + " levels of castel.");
     }
 
     @Override
     public void onDestroyCastel(DestroyCastle event) {
         out.println(playerName(event) + " destroyed " + event.getValue() + " levels of enemy castel.");
+    }
+
+    @Override
+    public void onKillBuilders(KillBuilders event) {
+    }
+
+    @Override
+    public void onKillWizards(KillWizards event) {
+    }
+
+    @Override
+    public void onKillWarriors(KillWarriors event) {
+    }
+
+    @Override
+    public void onAddBuilders(AddBuilders event) {
+    }
+
+    @Override
+    public void onAddWizards(AddWizards event) {
+    }
+
+    @Override
+    public void onAddWarriors(AddWarriors event) {
     }
 }

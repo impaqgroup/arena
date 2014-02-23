@@ -5,10 +5,10 @@ import com.impaq.arena.engine.event.BuildCastle;
 import com.impaq.arena.engine.event.DestroyCastle;
 import com.impaq.arena.engine.event.KillBuilders;
 import com.impaq.arena.engine.event.KillWarriors;
-import com.impaq.arena.engine.event.KillWizards;
 import com.impaq.arena.engine.event.AddBuilders;
 import com.impaq.arena.engine.event.AddWarriors;
 import com.impaq.arena.engine.event.AddWizards;
+import com.impaq.arena.engine.event.KillWizards;
 import com.impaq.arena.engine.event.SpyBuilders;
 import com.impaq.arena.engine.event.SpyCastle;
 import com.impaq.arena.engine.event.SpyWarriors;
@@ -45,7 +45,7 @@ public abstract class RoundStrategy {
             return;
         }
 
-        dispatchEvent(new KillWizzards(current, getWizardsStrength()));
+        dispatchEvent(new KillWizards(current, getWizardsStrength()));
         oponent.getWizards().kill(getWizardsStrength());
         actionCount++;
     }
@@ -92,7 +92,7 @@ public abstract class RoundStrategy {
             return;
         }
         current.getBuilders().add(1);
-        dispatchEvent(new AddBuilders(oponent, 1));
+        dispatchEvent(new AddBuilders(current, 1));
         addActionCount++;
     }
 
@@ -134,7 +134,7 @@ public abstract class RoundStrategy {
         if (!isSpyActionAvailable()) {
             return -1;
         }
-        dispatchEvent(new SpyCastle(oponent));
+        dispatchEvent(new SpyCastle(current));
         spyActionCount++;
         return oponent.getCastle().spy();
     }
@@ -143,7 +143,7 @@ public abstract class RoundStrategy {
         if (!isSpyActionAvailable()) {
             return -1;
         }
-        dispatchEvent(new SpyWarriors(oponent));
+        dispatchEvent(new SpyWarriors(current));
         spyActionCount++;
         return oponent.getWarriors().spy();
     }
@@ -152,7 +152,7 @@ public abstract class RoundStrategy {
         if (!isSpyActionAvailable()) {
             return -1;
         }
-        dispatchEvent(new SpyWizards(oponent));
+        dispatchEvent(new SpyWizards(current));
 
         spyActionCount++;
         return oponent.getWizards().spy();
@@ -163,7 +163,7 @@ public abstract class RoundStrategy {
         if (!isSpyActionAvailable()) {
             return -1;
         }
-        dispatchEvent(new SpyBuilders(oponent));
+        dispatchEvent(new SpyBuilders(current));
         spyActionCount++;
         return oponent.getBuilders().spy();
     }

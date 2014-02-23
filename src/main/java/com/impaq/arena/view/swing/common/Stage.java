@@ -50,7 +50,7 @@ public class Stage {
     }
 
     private void initialize() {
-        manager.setFullScreen(manager.findFirstCompatibleMode(new DisplayMode[]{new DisplayMode(width, height, DisplayMode.BIT_DEPTH_MULTI, DisplayMode.REFRESH_RATE_UNKNOWN)}));
+        manager.initalizeFullScreen();
 
         EventQueue.invokeLater(new Runnable() {
             @Override

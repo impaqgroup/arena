@@ -76,17 +76,6 @@ public class ScreenManager {
         return true;
     }
 
-    public void setFullScreen(DisplayMode displayMode) {
-        frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setUndecorated(true);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setBounds(0, 0, screenSize.width, screenSize.height);
-        frame.getContentPane().setLayout(null);
-        frame.setVisible(true);
-        frame.validate();
-    }
-
     public Dimension getScreenDimension() {
         return frame.getSize();
     }
@@ -152,5 +141,16 @@ public class ScreenManager {
             return gc.createCompatibleImage(w, h, transparancy);
         }
         return null;
+    }
+
+    void initalizeFullScreen() {
+        frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setUndecorated(true);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setBounds(0, 0, screenSize.width, screenSize.height);
+        frame.getContentPane().setLayout(null);
+        frame.setVisible(true);
+        frame.validate();
     }
 }

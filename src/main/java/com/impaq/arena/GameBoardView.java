@@ -1,11 +1,15 @@
 package com.impaq.arena;
 
 import com.google.common.eventbus.Subscribe;
+import com.impaq.arena.engine.event.AddBuilders;
+import com.impaq.arena.engine.event.AddWarriors;
+import com.impaq.arena.engine.event.AddWizards;
 import com.impaq.arena.engine.event.BuildCastle;
 import com.impaq.arena.engine.event.DestroyCastle;
 import com.impaq.arena.engine.event.GameStarted;
 import com.impaq.arena.engine.event.KillBuilders;
-import com.impaq.arena.engine.event.KillWizzards;
+import com.impaq.arena.engine.event.KillWarriors;
+import com.impaq.arena.engine.event.KillWizards;
 import com.impaq.arena.engine.event.SpyBuilders;
 import com.impaq.arena.engine.event.SpyCastle;
 import com.impaq.arena.engine.event.SpyWarriors;
@@ -42,10 +46,19 @@ public interface GameBoardView {
     void onKillBuilders(KillBuilders event);
 
     @Subscribe
-    void onKillWizzards(KillWizzards event);
+    void onKillWizards(KillWizards event);
 
     @Subscribe
-    void onKillWarriors(KillBuilders event);
+    void onKillWarriors(KillWarriors event);
+    
+    @Subscribe
+    void onAddBuilders(AddBuilders event);
+    
+    @Subscribe
+    void onAddWizards(AddWizards event);
+    
+    @Subscribe
+    void onAddWarriors(AddWarriors event);
     
     
 }

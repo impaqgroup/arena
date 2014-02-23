@@ -2,8 +2,14 @@ package com.impaq.arena.view;
 
 import com.impaq.arena.engine.event.GameStarted;
 import com.impaq.arena.GameBoardView;
+import com.impaq.arena.engine.event.AddBuilders;
+import com.impaq.arena.engine.event.AddWarriors;
+import com.impaq.arena.engine.event.AddWizards;
 import com.impaq.arena.engine.event.BuildCastle;
 import com.impaq.arena.engine.event.DestroyCastle;
+import com.impaq.arena.engine.event.KillBuilders;
+import com.impaq.arena.engine.event.KillWarriors;
+import com.impaq.arena.engine.event.KillWizards;
 import com.impaq.arena.engine.event.SpyBuilders;
 import com.impaq.arena.engine.event.SpyCastle;
 import com.impaq.arena.engine.event.SpyWarriors;
@@ -49,6 +55,30 @@ class NullView implements GameBoardView {
 
     @Override
     public void onDestroyCastel(DestroyCastle event) {
+    }
+
+    @Override
+    public void onKillBuilders(KillBuilders event) {
+    }
+
+    @Override
+    public void onKillWizards(KillWizards event) {
+    }
+
+    @Override
+    public void onKillWarriors(KillWarriors event) {
+    }
+
+    @Override
+    public void onAddBuilders(AddBuilders event) {
+    }
+
+    @Override
+    public void onAddWizards(AddWizards event) {
+    }
+
+    @Override
+    public void onAddWarriors(AddWarriors event) {
     }
 
 }

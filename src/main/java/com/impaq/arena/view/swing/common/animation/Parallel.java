@@ -10,147 +10,116 @@ import com.impaq.arena.view.swing.common.AnimationFinish;
 import com.impaq.arena.view.swing.common.AnimationListener;
 import java.util.Iterator;
 import java.util.concurrent.CountDownLatch;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Jaroslaw Herod <jaroslaw.herod@impaqgroup.com>
  */
-public class Chain implements Animation {
-    
+public class Parallel implements Animation {
+
     public static Animation of(Animation animation) {
         return animation;
     }
-    
+
     public static Animation of(Animation... animations) {
-        return new Chain(animations);
+        return new Parallel(animations);
     }
-    
+
     private final Iterable<Animation> animations;
     private final EventBus bus = new EventBus();
     private State state = new Stopped();
-    
-    public Chain(Animation... animations) {
+
+    public Parallel(Animation... animations) {
         this(copyOf(animations));
     }
-    
-    public Chain(Iterable<Animation> animations) {
+
+    public Parallel(Iterable<Animation> animations) {
         this.animations = animations;
     }
-    
+
     @Override
     public void awaitFinish() {
         state.awaitFinish();
     }
-    
+
     @Override
     public void play() {
         state.play();
     }
-    
+
     @Override
     public void stop() {
         state.stop();
     }
-    
+
     @Override
     public void registerListener(AnimationListener listener) {
         bus.register(listener);
     }
-    
+
     @Override
     public void unregisterListener(AnimationListener listener) {
         bus.unregister(listener);
     }
-    
+
     private abstract class State implements Animation {
-        
+
         @Override
         public void registerListener(AnimationListener listener) {
         }
-        
+
         @Override
         public void unregisterListener(AnimationListener listener) {
         }
     }
-    
+
     private class Playing extends State {
-        
-        final Iterator<Animation> it = animations.iterator();
-        Animation current;
-        
-        CountDownLatch latch = new CountDownLatch(Iterables.size(animations));
-        
-        final AnimationListener listener = new AnimationListener() {
-            
-            @Override
-            public void onAnimationFinish(AnimationFinish event) {
-                latch.countDown();
-                if (it.hasNext()) {
-                    current = it.next();
-                    current.play();
-                } else {
-                    stop();
-                }
-            }
-            
-        };
-        
+
         public Playing() {
-            for (Animation animation : animations) {
-                animation.registerListener(listener);
-            }
-            if (it.hasNext()) {
-                current = it.next();
-                current.play();
-            }
         }
-        
+
         @Override
         public void awaitFinish() {
-            try {
-                latch.await();
-            } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
-                Throwables.propagate(ex);
+            for (Animation animation : animations) {
+                animation.awaitFinish();
             }
         }
-        
+
         @Override
         public void play() {
-            
+
         }
-        
+
         @Override
         public void stop() {
             state = new Stopped();
-            int size = size(animations);
-            for (int i = 0; i < size; ++i) {
-                latch.countDown();
-            }
             for (Animation animation : animations) {
-                animation.unregisterListener(listener);
+                animation.stop();
             }
-            bus.post(new AnimationFinish(Chain.this));
+            bus.post(new AnimationFinish(Parallel.this));
         }
-        
+
     }
-    
+
     private class Stopped extends State {
-        
+
         @Override
         public void awaitFinish() {
         }
-        
+
         @Override
         public void play() {
+            for (Animation animation : animations) {
+                animation.play();
+            }
             state = new Playing();
+
         }
-        
+
         @Override
         public void stop() {
         }
-        
+
     }
+
 }

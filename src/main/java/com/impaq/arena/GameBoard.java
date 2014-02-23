@@ -16,13 +16,7 @@ public class GameBoard {
 
     private final Player firstPlayer;
     private final Player secondPlayer;
-    private final EventBus eventBus = new EventBus(new SubscriberExceptionHandler() {
-
-        @Override
-        public void handleException(Throwable exception, SubscriberExceptionContext context) {
-            exception.printStackTrace();
-        }
-    });
+    private final EventBus eventBus = new EventBus();
     private final PropertySource properties = new PropertySource();
 
     public GameBoard(Strategy firstPlayerStrategy,

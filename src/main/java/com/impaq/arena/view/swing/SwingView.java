@@ -5,7 +5,10 @@ import com.impaq.arena.view.swing.common.Animation;
 import com.impaq.arena.view.swing.common.Component;
 import com.impaq.arena.view.swing.common.Sprite;
 import com.impaq.arena.view.swing.common.Stage;
+import com.impaq.arena.view.swing.common.animation.Parallel;
 import com.impaq.arena.view.swing.common.animation.SpriteAnimation;
+import com.impaq.arena.view.swing.sprite.BackgroundSprite;
+import com.impaq.arena.view.swing.sprite.IntroSprite;
 import java.awt.Point;
 
 /**
@@ -26,8 +29,8 @@ public class SwingView {
     }
 
     public void displayIntro() {
-        // animate(new IntroSprite(new Point(0, 100)), 8000);
-        // animate(new BackgroundSprite(new Point(0, 100)), 2000);
+        animate(new IntroSprite(new Point(0, 100)), 8000);
+        animate(new BackgroundSprite(new Point(0, 100)), 2000);
 
         stage.getBackground().add(castels);
         stage.getBackground().add(leftPlayerInfo);
@@ -44,7 +47,11 @@ public class SwingView {
     }
 
     void updateCastels() {
+        updatePlayers();
         castels.updateCastels(left.getCastle().getHeight(), right.getCastle().getHeight()).awaitFinish();
+    }
+
+    private void updatePlayers() {
         leftPlayerInfo.update(left);
         rightPlayerInfo.update(right);
     }
@@ -58,19 +65,19 @@ public class SwingView {
     }
 
     void spyWarriors(Player player) {
-        execute(getOponentInfo(player).spyWarriors());
+        execute(getOponentInfo(player).spyWarriors(), getInfo(player).showArrow());
     }
 
     void spyCastel(Player player) {
-        execute(getOponentInfo(player).spyCastle());
+        execute(getOponentInfo(player).spyCastle(), getInfo(player).showArrow());
     }
 
     void spyBuilders(Player player) {
-        execute(getOponentInfo(player).spyBuilders());
+        execute(getOponentInfo(player).spyBuilders(), getInfo(player).showArrow());
     }
 
     void spyWizzard(Player player) {
-        execute(getOponentInfo(player).spyWizzards());
+        execute(getOponentInfo(player).spyWizards(), getInfo(player).showArrow());
     }
 
     private PlayerInfo getInfo(Player player) {
@@ -89,9 +96,50 @@ public class SwingView {
         }
     }
 
-    private void execute(Animation animation) {
+    private void execute(Animation... animations) {
+        final Animation animation = Parallel.of(animations);
         animation.play();
         animation.awaitFinish();
+    }
+
+    void killWizzards(Player player) {
+        execute(getOponentInfo(player).killWizards(), getInfo(player).showArrow());
+        updatePlayers();
+    }
+
+    void killBuilders(Player player) {
+        execute(getOponentInfo(player).killBuilders(), getInfo(player).showArrow());
+        updatePlayers();
+    }
+
+    void killWarriors(Player player) {
+        execute(getOponentInfo(player).killWarriors(), getInfo(player).showArrow());
+        updatePlayers();
+    }
+
+    void buildCastle(Player player) {
+        execute(getInfo(player).buildCastle(), getInfo(player).showArrow());
+        updateCastels();
+    }
+
+    void destroyCastle(Player player) {
+        execute(getOponentInfo(player).destroyCastle(), getInfo(player).showArrow());
+        updateCastels();
+    }
+
+    void addBuilders(Player player) {
+        execute(getInfo(player).addBuilders(), getInfo(player).showArrow());
+        updatePlayers();
+    }
+
+    void addWizards(Player player) {
+        execute(getInfo(player).addWizards(), getInfo(player).showArrow());
+        updatePlayers();
+    }
+
+    void addWarriors(Player player) {
+        execute(getInfo(player).addWarriors(), getInfo(player).showArrow());
+        updatePlayers();
     }
 
 }

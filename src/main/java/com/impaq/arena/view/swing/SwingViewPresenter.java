@@ -1,9 +1,15 @@
 package com.impaq.arena.view.swing;
 
 import com.impaq.arena.GameBoardView;
+import com.impaq.arena.engine.event.AddBuilders;
+import com.impaq.arena.engine.event.AddWarriors;
+import com.impaq.arena.engine.event.AddWizards;
 import com.impaq.arena.engine.event.BuildCastle;
 import com.impaq.arena.engine.event.DestroyCastle;
 import com.impaq.arena.engine.event.GameStarted;
+import com.impaq.arena.engine.event.KillBuilders;
+import com.impaq.arena.engine.event.KillWarriors;
+import com.impaq.arena.engine.event.KillWizards;
 import com.impaq.arena.engine.event.SpyBuilders;
 import com.impaq.arena.engine.event.SpyCastle;
 import com.impaq.arena.engine.event.SpyWarriors;
@@ -55,12 +61,44 @@ public class SwingViewPresenter implements GameBoardView {
 
     @Override
     public void onBuildCastle(BuildCastle event) {
+        view.buildCastle(event.getPlayer());
         view.updateCastels();
     }
 
     @Override
     public void onDestroyCastel(DestroyCastle event) {
+        view.destroyCastle(event.getPlayer());
         view.updateCastels();
+    }
+
+    @Override
+    public void onKillBuilders(KillBuilders event) {
+        view.killBuilders(event.getPlayer());
+    }
+
+    @Override
+    public void onKillWizards(KillWizards event) {
+        view.killWizzards(event.getPlayer());
+    }
+
+    @Override
+    public void onKillWarriors(KillWarriors event) {
+        view.killWarriors(event.getPlayer());
+    }
+
+    @Override
+    public void onAddBuilders(AddBuilders event) {
+        view.addBuilders(event.getPlayer());
+    }
+
+    @Override
+    public void onAddWizards(AddWizards event) {
+        view.addWizards(event.getPlayer());
+    }
+
+    @Override
+    public void onAddWarriors(AddWarriors event) {
+        view.addWarriors(event.getPlayer());
     }
 
 }
