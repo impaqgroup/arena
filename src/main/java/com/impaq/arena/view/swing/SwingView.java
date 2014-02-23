@@ -20,7 +20,7 @@ public class SwingView {
     private final Stage stage = Stage.get();
     private Player right;
     private Player left;
-    private final Castels castels = new Castels(new Point(0, 100));
+    private final Castles castels = new Castles(new Point(0, 100));
     private final PlayerInfo leftPlayerInfo = new PlayerInfo(PlayerInfo.Side.LEFT, new Point());
     private final PlayerInfo rightPlayerInfo = new PlayerInfo(PlayerInfo.Side.RIGHT, new Point(500, 0));
 
@@ -30,8 +30,10 @@ public class SwingView {
 
     public void displayIntro() {
         animate(new IntroSprite(new Point(0, 100)), 8000);
-        animate(new BackgroundSprite(new Point(0, 100)), 2000);
-
+        final BackgroundSprite background = new BackgroundSprite(new Point(0, 100));
+        animate(background, 2000);
+        background.last();
+        stage.getBackground().add(background);
         stage.getBackground().add(castels);
         stage.getBackground().add(leftPlayerInfo);
         stage.getBackground().add(rightPlayerInfo);
@@ -48,7 +50,7 @@ public class SwingView {
 
     void updateCastels() {
         updatePlayers();
-        castels.updateCastels(left.getCastle().getHeight(), right.getCastle().getHeight()).awaitFinish();
+        castels.updateCastles(left.getCastle().getHeight(), right.getCastle().getHeight()).awaitFinish();
     }
 
     private void updatePlayers() {

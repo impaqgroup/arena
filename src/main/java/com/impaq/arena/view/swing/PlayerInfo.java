@@ -121,7 +121,7 @@ public class PlayerInfo extends Component {
         }
         
         public void setValue(int value) {
-            if (value > 100) {
+            if (value >= 100) {
                 this.value.getPosition().move(0, 70);
             } else {
                 this.value.getPosition().move(20, 70);

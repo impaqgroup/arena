@@ -10,15 +10,15 @@ import java.awt.Point;
  *
  * @author Jaroslaw Herod <jaroslaw.herod@impaqgroup.com>
  */
-public class CastelSprite extends Sprite {
+public class CastleSprite extends Sprite {
 
     public enum Side {
 
         LEFT, RIGHT
     }
 
-    public CastelSprite(Side side) {
-        super(Images.valueOf("sprites/castel-" + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_HYPHEN, side.name()) + "-sprite.jpg"), 19, new Dimension(477, 576), side == Side.RIGHT ? new Point(477, 0) : new Point());
+    public CastleSprite(Side side) {
+        super(Images.valueOf("sprites/castel-" + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_HYPHEN, side.name()) + "-sprite.jpg"), 19, new Dimension(465, 576), side == Side.RIGHT ? new Point(465, 0) : new Point());
     }
 
 }

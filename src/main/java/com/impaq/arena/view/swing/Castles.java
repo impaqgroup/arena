@@ -6,23 +6,21 @@ import com.impaq.arena.PropertySource;
 import com.impaq.arena.player.PropertyNames;
 import com.impaq.arena.view.swing.common.AnimationFinish;
 import com.impaq.arena.view.swing.common.AnimationListener;
-import com.impaq.arena.view.swing.common.BaseNode;
 import com.impaq.arena.view.swing.common.Component;
 import com.impaq.arena.view.swing.common.Interpolator;
 import com.impaq.arena.view.swing.common.LinearInterpolator;
 import com.impaq.arena.view.swing.common.Node;
 import com.impaq.arena.view.swing.common.Sprite;
 import com.impaq.arena.view.swing.common.animation.FadeIn;
-import com.impaq.arena.view.swing.sprite.CastelSprite;
-import com.impaq.arena.view.swing.sprite.CastelSprite.Side;
-import java.awt.Graphics2D;
+import com.impaq.arena.view.swing.sprite.CastleSprite;
+import com.impaq.arena.view.swing.sprite.CastleSprite.Side;
 import java.awt.Point;
 
 /**
  *
  * @author Jaroslaw Herod <jaroslaw.herod@impaqgroup.com>
  */
-class Castels extends Component {
+class Castles extends Component {
 
     private final Sprite leftCastel;
     private final Sprite leftCastelFade;
@@ -35,14 +33,14 @@ class Castels extends Component {
             load();
         }
     };
-    private final int maxCastel = properties.getInt(PropertyNames.CASTLE_MAX_HEIGHT);
+    private final int maxCastle = properties.getInt(PropertyNames.CASTLE_MAX_HEIGHT);
 
-    public Castels(Point position) {
+    public Castles(Point position) {
         super(position);
-        leftCastel = new CastelSprite(Side.LEFT);
-        leftCastelFade = new CastelSprite(Side.LEFT);
-        rightCastel = new CastelSprite(Side.RIGHT);
-        rightCastelFade = new CastelSprite(Side.RIGHT);
+        leftCastel = new CastleSprite(Side.LEFT);
+        leftCastelFade = new CastleSprite(Side.LEFT);
+        rightCastel = new CastleSprite(Side.RIGHT);
+        rightCastelFade = new CastleSprite(Side.RIGHT);
         castelFade = new Component(ImmutableList.<Node>of(leftCastelFade, rightCastelFade));
         addAll(
                 of(
@@ -54,32 +52,45 @@ class Castels extends Component {
     }
 
     void initialize(int left, int right) {
-        updateCastelSprite(leftCastelFade, left);
-        updateCastelSprite(rightCastelFade, right);
-        updateCastelSprite(leftCastel, left);
-        updateCastelSprite(rightCastel, right);
+        updateCastleSprite(leftCastelFade, left);
+        updateCastleSprite(rightCastelFade, right);
+        updateCastleSprite(leftCastel, left);
+        updateCastleSprite(rightCastel, right);
     }
 
-    FadeIn updateCastels(final int left, final int right) {
+    FadeIn updateCastles(final int left, final int right) {
         castelFade.setOpacity(0.0);
         final FadeIn fadeIn = new FadeIn(castelFade, 500);
         fadeIn.play();
-        updateCastelSprite(leftCastelFade, left);
-        updateCastelSprite(rightCastelFade, right);
+        updateCastleSprite(leftCastelFade, left);
+        updateCastleSprite(rightCastelFade, right);
         fadeIn.registerListener(new AnimationListener() {
 
             @Override
             public void onAnimationFinish(AnimationFinish event) {
-                updateCastelSprite(leftCastel, left);
-                updateCastelSprite(rightCastel, right);
+                updateCastleSprite(leftCastel, left);
+                updateCastleSprite(rightCastel, right);
             }
         });
 
         return fadeIn;
     }
 
-    private void updateCastelSprite(Sprite sprite, int castel) {
-        sprite.updateIndex((int) interpolator.interpolate(0, sprite.size(), (double) castel / maxCastel));
+    private void updateCastleSprite(Sprite sprite, int castle) {
+        final int index = (int) interpolator.interpolate(0, sprite.size(), (double) castle / maxCastle);
+        sprite.updateIndex(handleBounds(index, castle, sprite.size()));
+    }
+
+    private int handleBounds(final int index, int castle, int size) {
+        return handleUpperBound(handleLowerBound(index, castle, size), castle, size);
+    }
+
+    private int handleLowerBound(final int index, int castle, int size) {
+        return index == 0 ? (castle > 0 ? 1 : 0) : index;
+    }
+
+    private int handleUpperBound(int index, int castle, int size) {
+        return index == size ? (castle < maxCastle ? size - 1 : size) : index;
     }
 
 }

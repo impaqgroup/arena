@@ -44,8 +44,17 @@ public class LinearInterpolatorTest {
     }
 
     @Test
-    public void shouldInterpolateValueLowerThenRande() {
+    public void shouldInterpolateValueLowerThenRange() {
         Assertions.assertThat(interpolator.interpolate(MIN, MAX, -0.1)).isEqualTo(5.0);
+    }
+    
+    @Test
+    public void shouldInterpolateValueLowerBoundOfRange() {
+        Assertions.assertThat(interpolator.interpolate(0.0, MAX, 0.0)).isEqualTo(0.0);
+    }
+    @Test
+    public void shouldInterpolateValueUpperBoundOfRange() {
+        Assertions.assertThat(interpolator.interpolate(0.0, MAX, 1.0)).isEqualTo(15.0);
     }
 
 }
