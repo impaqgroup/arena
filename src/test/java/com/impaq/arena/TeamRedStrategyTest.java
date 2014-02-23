@@ -4,8 +4,8 @@ import org.junit.Test;
 
 import com.impaq.arena.engine.event.DestroyCastle;
 import com.impaq.arena.engine.event.KillBuilders;
-import com.impaq.arena.engine.event.PopulateWarriors;
-import com.impaq.arena.engine.event.PopulateWizards;
+import com.impaq.arena.engine.event.AddWarriors;
+import com.impaq.arena.engine.event.AddWizards;
 import com.impaq.arena.engine.event.SpyBuilders;
 
 public class TeamRedStrategyTest extends AbstractStrategyTest {
@@ -24,7 +24,7 @@ public class TeamRedStrategyTest extends AbstractStrategyTest {
 			gameBoard.executeRound();
 		
 		//than
-			AssertionTest(SpyBuilders.class, PopulateWizards.class, PopulateWizards.class, KillBuilders.class );
+			AssertionTest(SpyBuilders.class, AddWizards.class, AddWizards.class, KillBuilders.class );
 	}
 
 	@Test
@@ -36,7 +36,7 @@ public class TeamRedStrategyTest extends AbstractStrategyTest {
 			gameBoard.executeRound();
 		
 		//than
-			AssertionTest(SpyBuilders.class, PopulateWarriors.class, PopulateWarriors.class, DestroyCastle.class );
+			AssertionTest(SpyBuilders.class, AddWarriors.class, AddWarriors.class, DestroyCastle.class );
 	}
 	
 }
