@@ -16,20 +16,36 @@
  */
 package com.impaq.arena.view.swing.common;
 
+import org.fest.assertions.Assertions;
+import org.junit.Test;
+
 /**
  *
  * @author Jaroslaw Herod <jaroslaw.herod@impaqgroup.com>
  */
-public interface Animation {
+public class LinearInterpolatorTest {
 
-    void awaitFinish();
+    public static final double MAX = 15.0;
+    public static final double MIN = 5.0;
 
-    void play();
+    private Interpolator interpolator = new LinearInterpolator();
 
-    void stop();
+    public LinearInterpolatorTest() {
+    }
 
-    void registerListener(AnimationListener listener);
+    @Test
+    public void shouldInterpolateValueContainedByRange() {
+        Assertions.assertThat(interpolator.interpolate(MIN, MAX, 0.5)).isEqualTo(10.0);
+    }
 
-    void unregisterListener(AnimationListener listener);
+    @Test
+    public void shouldInterpolateValueHigherThenRange() {
+        Assertions.assertThat(interpolator.interpolate(MIN, MAX, 1.5)).isEqualTo(15.0);
+    }
+
+    @Test
+    public void shouldInterpolateValueLowerThenRande() {
+        Assertions.assertThat(interpolator.interpolate(MIN, MAX, -0.1)).isEqualTo(5.0);
+    }
 
 }

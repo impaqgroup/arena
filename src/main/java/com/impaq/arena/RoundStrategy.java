@@ -5,7 +5,7 @@ import com.impaq.arena.engine.event.BuildCastle;
 import com.impaq.arena.engine.event.DestroyCastle;
 import com.impaq.arena.engine.event.KillBuilders;
 import com.impaq.arena.engine.event.KillWarriors;
-import com.impaq.arena.engine.event.KillWizards;
+import com.impaq.arena.engine.event.KillWizzards;
 import com.impaq.arena.engine.event.PopulateBuilders;
 import com.impaq.arena.engine.event.PopulateWarriors;
 import com.impaq.arena.engine.event.PopulateWizards;
@@ -17,13 +17,13 @@ import com.impaq.arena.player.Player;
 
 public abstract class RoundStrategy {
 
-    private static int POPULATE_NUMBER = 5;
     private Player current;
     private Player oponent;
     private int actionCount = 0;
     private int spyActionCount = 0;
     private EventBus eventBus;
     private int addActionCount = 0;
+    
 
     protected abstract void body();
 
@@ -46,7 +46,7 @@ public abstract class RoundStrategy {
             return;
         }
 
-        dispatchEvent(new KillWizards(current, getWizardsStrength()));
+        dispatchEvent(new KillWizzards(current, getWizardsStrength()));
         oponent.getWizards().kill(getWizardsStrength());
         actionCount++;
     }

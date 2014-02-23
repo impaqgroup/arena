@@ -1,6 +1,6 @@
 package com.impaq.arena.view.swing.common;
 
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.checkArgument;
 import java.awt.AlphaComposite;
 import java.awt.Composite;
 import java.awt.Graphics2D;
@@ -8,14 +8,16 @@ import java.awt.Point;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  *
  * @author jaro
  */
-public class Component extends BaseNode implements Node, Collection<Node> {
+public class Component extends BaseNode implements Node, List<Node> {
 
-    private final Collection<Node> nodes;
+    private final List<Node> nodes;
     private double opacity = 1.0f;
 
     public Component() {
@@ -26,11 +28,11 @@ public class Component extends BaseNode implements Node, Collection<Node> {
         this(new LinkedList<Node>(), position);
     }
 
-    public Component(Collection<Node> nodes) {
+    public Component(List<Node> nodes) {
         this(nodes, new Point());
     }
 
-    public Component(Collection<Node> nodes, Point position) {
+    public Component(List<Node> nodes, Point position) {
         super(position);
         this.nodes = nodes;
     }
@@ -45,7 +47,7 @@ public class Component extends BaseNode implements Node, Collection<Node> {
     }
 
     public void setOpacity(double opacity) {
-        Preconditions.checkArgument(opacity <= 1 && opacity >= 0);
+        checkArgument(opacity <= 1 && opacity >= 0);
         this.opacity = opacity;
     }
 
@@ -125,5 +127,67 @@ public class Component extends BaseNode implements Node, Collection<Node> {
     public void clear() {
         nodes.clear();
     }
+
+    @Override
+    public boolean addAll(int index, Collection<? extends Node> c) {
+        return nodes.addAll(index, c);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return nodes.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return nodes.hashCode();
+    }
+
+    @Override
+    public Node get(int index) {
+        return nodes.get(index);
+    }
+
+    @Override
+    public Node set(int index, Node element) {
+        return nodes.set(index, element);
+    }
+
+    @Override
+    public void add(int index, Node element) {
+        nodes.add(index, element);
+    }
+
+    @Override
+    public Node remove(int index) {
+        return nodes.remove(index);
+    }
+
+    @Override
+    public int indexOf(Object o) {
+        return nodes.indexOf(o);
+    }
+
+    @Override
+    public int lastIndexOf(Object o) {
+        return nodes.lastIndexOf(o);
+    }
+
+    @Override
+    public ListIterator<Node> listIterator() {
+        return nodes.listIterator();
+    }
+
+    @Override
+    public ListIterator<Node> listIterator(int index) {
+        return nodes.listIterator(index);
+    }
+
+    @Override
+    public List<Node> subList(int fromIndex, int toIndex) {
+        return nodes.subList(fromIndex, toIndex);
+    }
+
+
 
 }

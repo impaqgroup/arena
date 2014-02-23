@@ -36,7 +36,7 @@ public class ConsoleView implements GameBoardView {
     }
 
     private boolean isExecutedByFirst(Event event) {
-        return first != event.getPlayer();
+        return first == event.getPlayer();
     }
 
     /*
@@ -140,14 +140,16 @@ public class ConsoleView implements GameBoardView {
 
     @Override
     public void onSpyBuilders(SpyBuilders event) {
-        out.println(playerName(event) + " check enemy builders height.");
+        out.println(playerName(event) + " check enemy builders count.");
     }
 
     @Override
-    public void onBuildCastel(BuildCastle event) {
+    public void onBuildCastle(BuildCastle event) {
+        out.println(playerName(event) + " built" + event.getValue() + " levels of castel.");
     }
 
     @Override
     public void onDestroyCastel(DestroyCastle event) {
+        out.println(playerName(event) + " destroyed " + event.getValue() + " levels of enemy castel.");
     }
 }

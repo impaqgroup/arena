@@ -83,11 +83,8 @@ public class Stage {
         if (optinalGraphic.isPresent()) {
             final Graphics2D graphic = optinalGraphic.get();
             BufferedImage screen = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-
             final Graphics2D screenGraphics = screen.createGraphics();
-
             draw(screenGraphics);
-
             screenGraphics.dispose();
             final BufferedImage scaled = Scalr.resize(screen, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_HEIGHT, manager.getScreenDimension().width, manager.getScreenDimension().height);
             graphic.setColor(Color.WHITE);

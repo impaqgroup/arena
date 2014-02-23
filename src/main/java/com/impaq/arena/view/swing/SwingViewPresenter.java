@@ -9,8 +9,6 @@ import com.impaq.arena.engine.event.SpyCastle;
 import com.impaq.arena.engine.event.SpyWarriors;
 import com.impaq.arena.engine.event.SpyWizards;
 import com.impaq.arena.engine.event.Winner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -37,22 +35,26 @@ public class SwingViewPresenter implements GameBoardView {
 
     @Override
     public void onSpyWizards(SpyWizards event) {
+        view.spyWizzard(event.getPlayer());
     }
 
     @Override
     public void onSpyWarriors(SpyWarriors event) {
+        view.spyWarriors(event.getPlayer());
     }
 
     @Override
     public void onSpyCastel(SpyCastle event) {
+        view.spyCastel(event.getPlayer());
     }
 
     @Override
     public void onSpyBuilders(SpyBuilders event) {
+        view.spyBuilders(event.getPlayer());
     }
 
     @Override
-    public void onBuildCastel(BuildCastle event) {
+    public void onBuildCastle(BuildCastle event) {
         view.updateCastels();
     }
 

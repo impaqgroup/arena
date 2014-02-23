@@ -11,7 +11,10 @@ public final class LinearInterpolator implements Interpolator {
 
     @Override
     public double interpolate(double start, double end, double fraction) {
-        return (end - start) * fraction;
+        double result = start + ((end - start) * fraction);
+        result = Math.max(start, result);
+        result = Math.min(end, result);
+        return result;
     }
 
     @Override

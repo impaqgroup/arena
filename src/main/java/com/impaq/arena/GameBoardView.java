@@ -4,6 +4,8 @@ import com.google.common.eventbus.Subscribe;
 import com.impaq.arena.engine.event.BuildCastle;
 import com.impaq.arena.engine.event.DestroyCastle;
 import com.impaq.arena.engine.event.GameStarted;
+import com.impaq.arena.engine.event.KillBuilders;
+import com.impaq.arena.engine.event.KillWizzards;
 import com.impaq.arena.engine.event.SpyBuilders;
 import com.impaq.arena.engine.event.SpyCastle;
 import com.impaq.arena.engine.event.SpyWarriors;
@@ -31,9 +33,19 @@ public interface GameBoardView {
     void onSpyBuilders(SpyBuilders event);
 
     @Subscribe
-    void onBuildCastel(BuildCastle event);
-    
+    void onBuildCastle(BuildCastle event);
+
     @Subscribe
     void onDestroyCastel(DestroyCastle event);
 
+    @Subscribe
+    void onKillBuilders(KillBuilders event);
+
+    @Subscribe
+    void onKillWizzards(KillWizzards event);
+
+    @Subscribe
+    void onKillWarriors(KillBuilders event);
+    
+    
 }

@@ -44,7 +44,7 @@ class NullView implements GameBoardView {
     }
 
     @Override
-    public void onBuildCastel(BuildCastle event) {
+    public void onBuildCastle(BuildCastle event) {
     }
 
     @Override

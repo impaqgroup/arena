@@ -1,13 +1,11 @@
 package com.impaq.arena.view.swing;
 
 import com.impaq.arena.player.Player;
+import com.impaq.arena.view.swing.common.Animation;
 import com.impaq.arena.view.swing.common.Component;
-import com.impaq.arena.view.swing.common.Node;
 import com.impaq.arena.view.swing.common.Sprite;
 import com.impaq.arena.view.swing.common.Stage;
 import com.impaq.arena.view.swing.common.animation.SpriteAnimation;
-import com.impaq.arena.view.swing.sprite.BackgroundSprite;
-import com.impaq.arena.view.swing.sprite.IntroSprite;
 import java.awt.Point;
 
 /**
@@ -19,18 +17,21 @@ public class SwingView {
     private final Stage stage = Stage.get();
     private Player right;
     private Player left;
-    private Castels castels = new Castels(new Point(0, 100));
-    private PlayerInfo playerInfo = new PlayerInfo(new Point());
+    private final Castels castels = new Castels(new Point(0, 100));
+    private final PlayerInfo leftPlayerInfo = new PlayerInfo(PlayerInfo.Side.LEFT, new Point());
+    private final PlayerInfo rightPlayerInfo = new PlayerInfo(PlayerInfo.Side.RIGHT, new Point(500, 0));
 
     public void dispose() {
         stage.dispose();
     }
 
     public void displayIntro() {
-        animate(new IntroSprite(new Point(0, 100)), 8000);
-        animate(new BackgroundSprite(new Point(0, 100)), 2000);
+        // animate(new IntroSprite(new Point(0, 100)), 8000);
+        // animate(new BackgroundSprite(new Point(0, 100)), 2000);
+
         stage.getBackground().add(castels);
-        stage.getBackground().add(playerInfo);
+        stage.getBackground().add(leftPlayerInfo);
+        stage.getBackground().add(rightPlayerInfo);
     }
 
     private void animate(final Sprite sprite, final int time) {
@@ -43,18 +44,54 @@ public class SwingView {
     }
 
     void updateCastels() {
-        castels.updateCastels(left.getCastle().getHeight(), right.getCastle().getHeight());
-        playerInfo.setBuildersNumber(left.getBuilders().getCount());
-        playerInfo.setWizzardsNumber(left.getWizards().getCount());
+        castels.updateCastels(left.getCastle().getHeight(), right.getCastle().getHeight()).awaitFinish();
+        leftPlayerInfo.update(left);
+        rightPlayerInfo.update(right);
     }
 
     void initialize(Player left, Player right) {
         this.left = left;
         this.right = right;
         castels.initialize(left.getCastle().getHeight(), right.getCastle().getHeight());
-        playerInfo.setBuildersNumber(5);
-        playerInfo.setWizzardsNumber(20);
-        
+        leftPlayerInfo.update(left);
+        rightPlayerInfo.update(right);
+    }
+
+    void spyWarriors(Player player) {
+        execute(getOponentInfo(player).spyWarriors());
+    }
+
+    void spyCastel(Player player) {
+        execute(getOponentInfo(player).spyCastle());
+    }
+
+    void spyBuilders(Player player) {
+        execute(getOponentInfo(player).spyBuilders());
+    }
+
+    void spyWizzard(Player player) {
+        execute(getOponentInfo(player).spyWizzards());
+    }
+
+    private PlayerInfo getInfo(Player player) {
+        if (player == left) {
+            return leftPlayerInfo;
+        } else {
+            return rightPlayerInfo;
+        }
+    }
+
+    private PlayerInfo getOponentInfo(Player player) {
+        if (player != left) {
+            return leftPlayerInfo;
+        } else {
+            return rightPlayerInfo;
+        }
+    }
+
+    private void execute(Animation animation) {
+        animation.play();
+        animation.awaitFinish();
     }
 
 }
