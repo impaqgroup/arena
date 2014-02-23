@@ -1,15 +1,8 @@
 package com.impaq.arena;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
-import com.impaq.arena.engine.event.AddBuilders;
-import com.impaq.arena.engine.event.AddWizards;
-import com.impaq.arena.engine.event.KillBuilders;
-import com.impaq.arena.engine.event.SpyBuilders;
-
-public class TeamBlueStrategyTest extends AbstractStrategyTest {
+public class TeamBlueStrategyTest extends BaseStrategyTest {
 
 	@Override
 	public Strategy getStrategy() {
@@ -19,13 +12,13 @@ public class TeamBlueStrategyTest extends AbstractStrategyTest {
 	@Test
 	public void second_round_if_oponent_builders_more_than_wizzards_kill_builders(){
 		//given
-			gameBoard.setOponentBuildersCount(8).setWizzardsCount(2);
+			gameBoard.setOponentBuilders(8).setWizzards(2);
 		
 		//when
 			gameBoard.executeRound(2);
 		
 		//than
-			AssertionTest(AddBuilders.class, AddBuilders.class, SpyBuilders.class, KillBuilders.class );
+			assertExpectedActions(AddBuilders(), AddBuilders(), SpyBuilders(), KillBuilders() );
 	}
 
 }

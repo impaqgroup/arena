@@ -2,13 +2,7 @@ package com.impaq.arena;
 
 import org.junit.Test;
 
-import com.impaq.arena.engine.event.DestroyCastle;
-import com.impaq.arena.engine.event.KillBuilders;
-import com.impaq.arena.engine.event.AddWarriors;
-import com.impaq.arena.engine.event.AddWizards;
-import com.impaq.arena.engine.event.SpyBuilders;
-
-public class TeamRedStrategyTest extends AbstractStrategyTest {
+public class TeamRedStrategyTest extends BaseStrategyTest {
 
 	@Override
 	public Strategy getStrategy() {
@@ -18,25 +12,25 @@ public class TeamRedStrategyTest extends AbstractStrategyTest {
 	@Test
 	public void kill_builders_if_more_then_15(){
 		//given
-			gameBoard.setOponentBuildersCount(16);
+			gameBoard.setOponentBuilders(16);
 		
 		//when
 			gameBoard.executeRound();
 		
 		//than
-			AssertionTest(SpyBuilders.class, AddWizards.class, AddWizards.class, KillBuilders.class );
+			assertExpectedActions(SpyBuilders(), AddWizards(), AddWizards(), KillBuilders() );
 	}
 
 	@Test
 	public void destroy_castle_if_less_then_15_builders(){
 		//given
-			gameBoard.setOponentBuildersCount(10);
+			gameBoard.setOponentBuilders(10);
 		
 		//when
 			gameBoard.executeRound();
 		
 		//than
-			AssertionTest(SpyBuilders.class, AddWarriors.class, AddWarriors.class, DestroyCastle.class );
+			assertExpectedActions(SpyBuilders(), AddWarriors(), AddWarriors(), DestroyCastle() );
 	}
 	
 }

@@ -38,65 +38,65 @@ public class TestGameBoard extends GameBoard {
 		executeRound();
 	}
 	
-	public TestGameBoard setOponentBuildersCount( int count ) {
-		spyBuildersCount(spyOponent, count);
+	public TestGameBoard setOponentBuilders( int count ) {
+		setBuilders(spyOponent, count);
 		return this;
 	}
 	
-	public TestGameBoard setBuildersCount( int count ) {
-		spyBuildersCount(spyPlayer, count);
+	public TestGameBoard setBuilders( int count ) {
+		setBuilders(spyPlayer, count);
 		return this;
 	}
 	
-	private void spyBuildersCount(Player player, int count){
+	private void setBuilders(Player player, int count){
 		Builders spyBuilders = Mockito.spy(player.getBuilders());
 		when (player.getBuilders()).thenReturn(spyBuilders) ;
 		when (spyBuilders.spy()).thenReturn(count);
 	}
 
-	public TestGameBoard setOponentWarriorsCount( int count ) {
-		spyWarriorsCount(spyOponent, count);
+	public TestGameBoard setOponentWarriors( int count ) {
+		setWarriors(spyOponent, count);
 		return this;
 	}
 	
-	public TestGameBoard setWarriorsCount( int count ) {
-		spyWarriorsCount(spyPlayer, count);
+	public TestGameBoard setWarriors( int count ) {
+		setWarriors(spyPlayer, count);
 		return this;
 	}
 	
-	private void spyWarriorsCount( Player player, int count ) {
+	private void setWarriors( Player player, int count ) {
 		Warriors spyWarriors = Mockito.spy(player.getWarriors());
 		when (player.getWarriors()).thenReturn(spyWarriors) ;
 		when (spyWarriors.spy()).thenReturn(count);
 	}
 	
-	public TestGameBoard setOponentWizzardsCount( int count ) {
-		spyWizzardsCount(spyOponent, count);
+	public TestGameBoard setOponentWizzards( int count ) {
+		setWizzards(spyOponent, count);
 		return this;
 	}
 	
-	public TestGameBoard setWizzardsCount( int count ) {
-		spyWizzardsCount(spyPlayer, count);
+	public TestGameBoard setWizzards( int count ) {
+		setWizzards(spyPlayer, count);
 		return this;
 	}
 	
-	private void spyWizzardsCount( Player player, int count ) {
+	private void setWizzards( Player player, int count ) {
 		Wizards spyWizards = Mockito.spy(player.getWizards());
 		when (player.getWizards()).thenReturn(spyWizards) ;
 		when (spyWizards.spy()).thenReturn(count);
 	}
 	
-	public TestGameBoard setOponentCastleHeight( int height ) {
-		spyCastleHeight(spyOponent, height);
+	public TestGameBoard setOponentCastle( int height ) {
+		setCastle(spyOponent, height);
 		return this;
 	}
 	
-	public TestGameBoard setCastleHeight( int height ) {
-		spyCastleHeight(spyPlayer, height);
+	public TestGameBoard setCastle( int height ) {
+		setCastle(spyPlayer, height);
 		return this;
 	}
 	
-	private void spyCastleHeight( Player player, int height ) {
+	private void setCastle( Player player, int height ) {
 		Castle spyCastle = Mockito.spy(player.getCastle());
 		when (player.getCastle()).thenReturn(spyCastle) ;
 		when (spyCastle.spy()).thenReturn(height);
