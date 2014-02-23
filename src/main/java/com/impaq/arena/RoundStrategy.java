@@ -5,10 +5,10 @@ import com.impaq.arena.engine.event.BuildCastle;
 import com.impaq.arena.engine.event.DestroyCastle;
 import com.impaq.arena.engine.event.KillBuilders;
 import com.impaq.arena.engine.event.KillWarriors;
-import com.impaq.arena.engine.event.KillWizzards;
-import com.impaq.arena.engine.event.PopulateBuilders;
-import com.impaq.arena.engine.event.PopulateWarriors;
-import com.impaq.arena.engine.event.PopulateWizards;
+import com.impaq.arena.engine.event.KillWizards;
+import com.impaq.arena.engine.event.AddBuilders;
+import com.impaq.arena.engine.event.AddWarriors;
+import com.impaq.arena.engine.event.AddWizards;
 import com.impaq.arena.engine.event.SpyBuilders;
 import com.impaq.arena.engine.event.SpyCastle;
 import com.impaq.arena.engine.event.SpyWarriors;
@@ -23,7 +23,6 @@ public abstract class RoundStrategy {
     private int spyActionCount = 0;
     private EventBus eventBus;
     private int addActionCount = 0;
-    
 
     protected abstract void body();
 
@@ -93,7 +92,7 @@ public abstract class RoundStrategy {
             return;
         }
         current.getBuilders().add(1);
-        dispatchEvent(new PopulateBuilders(oponent, 1));
+        dispatchEvent(new AddBuilders(oponent, 1));
         addActionCount++;
     }
 
@@ -102,7 +101,7 @@ public abstract class RoundStrategy {
             return;
         }
         current.getWizards().add(1);
-        dispatchEvent(new PopulateWizards(current, 1));
+        dispatchEvent(new AddWizards(current, 1));
         addActionCount++;
     }
 
@@ -111,7 +110,7 @@ public abstract class RoundStrategy {
             return;
         }
         current.getWarriors().add(2);
-        dispatchEvent(new PopulateWarriors(current, 2));
+        dispatchEvent(new AddWarriors(current, 2));
         addActionCount++;
     }
 

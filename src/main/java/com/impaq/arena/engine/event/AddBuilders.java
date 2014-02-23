@@ -6,9 +6,9 @@ import com.impaq.arena.player.Player;
  *
  * @author Jaroslaw Herod <jaroslaw.herod@impaqgroup.com>
  */
-public class PopulateBuilders extends BaseActionEvent{
+public class AddBuilders extends BaseActionEvent{
 
-    public PopulateBuilders(Player oponent, int value) {
+    public AddBuilders(Player oponent, int value) {
         super(oponent, value);
     }
 
