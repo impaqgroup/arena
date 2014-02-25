@@ -152,5 +152,6 @@ public class ScreenManager {
         frame.getContentPane().setLayout(null);
         frame.setVisible(true);
         frame.validate();
+        frame.createBufferStrategy( 3 );
     }
 }
