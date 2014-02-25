@@ -1,7 +1,13 @@
 package com.impaq.arena;
 
-public interface Strategy {
+import java.util.ArrayList;
 
-    RoundStrategy next();
+public abstract class Strategy extends ArrayList<RoundStrategy> {
+
+    private int actualIndex = -1;
+
+    public RoundStrategy next() {
+        return get(actualIndex = ((actualIndex+1)% size()));
+    }
 
 }

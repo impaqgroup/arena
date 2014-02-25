@@ -4,7 +4,7 @@ package com.impaq.arena;
  *
  * @author Jaroslaw Herod <jaroslaw.herod@impaqgroup.com>
  */
-public class TeamRedStrategy extends RoundRobinStrategy {
+public class TeamRedStrategy extends Strategy {
 
     {
         add(new RoundStrategy() {
