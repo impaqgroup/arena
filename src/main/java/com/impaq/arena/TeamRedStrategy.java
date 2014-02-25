@@ -11,7 +11,7 @@ public class TeamRedStrategy extends RoundRobinStrategy {
 
             @Override
             public void body() {
-                if (spyBuilders()> 15) {
+                if (spyBuilders()> 10) {
                     addWizzards();
                     addWizzards();
                     killBuilders();

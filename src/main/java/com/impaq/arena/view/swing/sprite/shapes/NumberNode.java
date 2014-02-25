@@ -36,7 +36,7 @@ public class NumberNode extends BaseNode {
     }
 
     public void setValue(int value) {
-        updateNumbers(value);
+        updateNumbers(Math.max(value, 0));
         this.value = value;
     }
 

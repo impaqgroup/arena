@@ -3,8 +3,6 @@ package com.impaq.arena.view.swing.common;
 import com.google.common.base.Optional;
 import com.google.common.base.Ticker;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.DisplayMode;
 import java.awt.EventQueue;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;

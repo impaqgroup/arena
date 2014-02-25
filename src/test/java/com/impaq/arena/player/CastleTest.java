@@ -32,9 +32,9 @@ public class CastleTest {
 	}
 
 	@Test
-	public void maximum_of_castle_height_is_100() {
+	public void should_be_max_if_heght_more_then_100() {
 		castle.expand(110);
-		Assert.assertEquals(100, castle.getHeight());
+		Assert.assertTrue(castle.isMax());
 	}
 
 	@Test
@@ -44,9 +44,9 @@ public class CastleTest {
 	}
 
 	@Test
-	public void minimum_of_castle_height_is_0() {
+	public void should_be_min_if_height_less_then_0() {
 		castle.destroy(110);
-		Assert.assertEquals(0, castle.getHeight());
+		Assert.assertTrue(castle.isMin());
 	}
 
 	@Test

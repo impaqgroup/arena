@@ -16,14 +16,10 @@ public class Castle {
 
     public void expand(int height) {
         this.height += height;
-        if ( isMax() )
-        	this.height = maxHeight;
     }
 
     public void destroy(int height) {
         this.height -= height;
-        if ( isMin() )
-        	this.height = 0;
     }
 
     public boolean isMax() {
