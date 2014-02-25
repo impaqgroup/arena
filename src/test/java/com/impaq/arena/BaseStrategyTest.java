@@ -37,50 +37,50 @@ public abstract class BaseStrategyTest {
     	}
     }
     
-    protected Class KillWizards(){
+    protected Class killWizards(){
     	return KillWizards.class;
     }
     
-    protected Class KillWarriors(){
+    protected Class killWarriors(){
     	return KillWarriors.class;
     }
     
-    protected Class KillBuilders(){
+    protected Class killBuilders(){
     	return KillBuilders.class;
     }
     
-    protected Class DestroyCastle(){
+    protected Class destroyCastle(){
     	return DestroyCastle.class;
     }
     
-    protected Class BuildCastle(){
+    protected Class buildCastle(){
     	return BuildCastle.class;
     }
     
-    protected Class AddBuilders(){
+    protected Class addBuilders(){
     	return AddBuilders.class;
     }
-    protected Class AddWizards(){
+    protected Class addWizards(){
     	return AddWizards.class;
     }
     
-    protected Class AddWarriors(){
+    protected Class addWarriors(){
     	return AddWarriors.class;
     }
     
-    protected Class SpyCastle(){
+    protected Class spyCastle(){
     	return SpyCastle.class;
     }
     
-    protected Class SpyWarriors(){
+    protected Class spyWarriors(){
     	return SpyWarriors.class;
     }
     
-    protected Class SpyWizards(){
+    protected Class spyWizards(){
     	return SpyWizards.class;
     }
     
-    protected Class SpyBuilders(){
+    protected Class spyBuilders(){
     	return SpyBuilders.class;
     }
     

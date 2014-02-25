@@ -18,7 +18,7 @@ public class TeamRedStrategyTest extends BaseStrategyTest {
 			gameBoard.executeRound();
 		
 		//than
-			assertExpectedActions(SpyBuilders(), AddWizards(), AddWizards(), KillBuilders() );
+			assertExpectedActions(spyBuilders(), addWizards(), addWizards(), killBuilders() );
 	}
 
 	@Test
@@ -30,7 +30,7 @@ public class TeamRedStrategyTest extends BaseStrategyTest {
 			gameBoard.executeRound();
 		
 		//than
-			assertExpectedActions(SpyBuilders(), AddWarriors(), AddWarriors(), DestroyCastle() );
+			assertExpectedActions(spyBuilders(), addWarriors(), addWarriors(), destroyCastle() );
 	}
 	
 }

@@ -18,7 +18,7 @@ public class TeamBlueStrategyTest extends BaseStrategyTest {
 			gameBoard.executeRound(2);
 		
 		//than
-			assertExpectedActions(AddBuilders(), AddBuilders(), SpyBuilders(), KillBuilders() );
+			assertExpectedActions(addBuilders(), addBuilders(), spyBuilders(), killBuilders() );
 	}
 
 }
