@@ -1,10 +1,9 @@
 package com.impaq.arena;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.eventbus.EventBus;
 import com.impaq.arena.event.Event;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestEventBus extends EventBus{
 

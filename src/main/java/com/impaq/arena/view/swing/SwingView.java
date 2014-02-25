@@ -26,7 +26,7 @@ public class SwingView {
     private final PlayerInfo leftPlayerInfo = new PlayerInfo(PlayerInfo.Side.LEFT, new Point());
     private final PlayerInfo rightPlayerInfo = new PlayerInfo(PlayerInfo.Side.RIGHT, new Point(500, 0));
     private Player lastPlayer;
-    private NumberNode roundNumber = new NumberNode(new Point(490, 150), 1);
+    private NumberNode roundNumber = new NumberNode(new Point(470, 150), 1);
 
     public void dispose() {
         stage.dispose();
@@ -161,10 +161,12 @@ public class SwingView {
     }
 
     void updateRoundNumber(int number) {
-        if (number > 100) {
+        if (number > 10) {
+            roundNumber.getPosition().move(475, 150);
+        } else if (number > 100) {
             roundNumber.getPosition().move(480, 150);
         } else if (number > 1000) {
-            roundNumber.getPosition().move(460, 150);
+            roundNumber.getPosition().move(485, 150);
         }
         roundNumber.setValue(number);
     }
