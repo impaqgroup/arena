@@ -1,10 +1,9 @@
 package com.impaq.arena;
 
 import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.SubscriberExceptionContext;
-import com.google.common.eventbus.SubscriberExceptionHandler;
-import com.impaq.arena.engine.event.GameStarted;
-import com.impaq.arena.engine.event.Winner;
+import com.impaq.arena.event.GameStarted;
+import com.impaq.arena.event.RoundStart;
+import com.impaq.arena.event.Winner;
 import com.impaq.arena.player.Builders;
 import com.impaq.arena.player.Castle;
 import com.impaq.arena.player.Player;
@@ -60,7 +59,9 @@ public class GameBoard {
 
     public void startGame() {
         initialize();
+        int round = 0;
         while (!isGameOver()) {
+            eventBus.post(new RoundStart(round));
             executeRound();
         }
         showWinner();

@@ -1,21 +1,21 @@
 package com.impaq.arena.view;
 
-import com.impaq.arena.engine.event.GameStarted;
 import com.impaq.arena.GameBoardView;
-import com.impaq.arena.engine.event.AddBuilders;
-import com.impaq.arena.engine.event.AddWarriors;
-import com.impaq.arena.engine.event.AddWizards;
-import com.impaq.arena.engine.event.BuildCastle;
-import com.impaq.arena.engine.event.DestroyCastle;
-import com.impaq.arena.engine.event.Event;
-import com.impaq.arena.engine.event.KillBuilders;
-import com.impaq.arena.engine.event.KillWarriors;
-import com.impaq.arena.engine.event.KillWizards;
-import com.impaq.arena.engine.event.SpyBuilders;
-import com.impaq.arena.engine.event.SpyCastle;
-import com.impaq.arena.engine.event.SpyWarriors;
-import com.impaq.arena.engine.event.SpyWizards;
-import com.impaq.arena.engine.event.Winner;
+import com.impaq.arena.event.AddBuilders;
+import com.impaq.arena.event.AddWarriors;
+import com.impaq.arena.event.AddWizards;
+import com.impaq.arena.event.BuildCastle;
+import com.impaq.arena.event.DestroyCastle;
+import com.impaq.arena.event.Event;
+import com.impaq.arena.event.GameStarted;
+import com.impaq.arena.event.KillBuilders;
+import com.impaq.arena.event.KillWarriors;
+import com.impaq.arena.event.KillWizards;
+import com.impaq.arena.event.SpyBuilders;
+import com.impaq.arena.event.SpyCastle;
+import com.impaq.arena.event.SpyWarriors;
+import com.impaq.arena.event.SpyWizards;
+import com.impaq.arena.event.Winner;
 import com.impaq.arena.player.Player;
 import java.io.PrintStream;
 
@@ -82,7 +82,7 @@ public class ConsoleView implements GameBoardView {
     }
 
     private String playerName(Winner winner) {
-        return winner.getWinner() == first ? "First player" : "Second player";
+        return winner.getWinner() == first ? "Blue player" : "Red player";
     }
 
     @Override
@@ -96,7 +96,7 @@ public class ConsoleView implements GameBoardView {
     }
 
     private String playerName(Event event) {
-        return isExecutedByFirst(event) ? "First player" : "Second player";
+        return isExecutedByFirst(event) ? "Blue player" : "Red player";
     }
 
     @Override

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.impaq.arena.engine.event;
+package com.impaq.arena.event;
 
 import com.impaq.arena.player.Player;
 

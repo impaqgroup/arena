@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.eventbus.EventBus;
-import com.impaq.arena.engine.event.Event;
+import com.impaq.arena.event.Event;
 
 public class TestEventBus extends EventBus{
 

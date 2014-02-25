@@ -1,5 +1,6 @@
 package com.impaq.arena.player;
 
+import com.impaq.arena.Strategy;
 import static org.mockito.Mockito.when;
 
 import java.util.Random;
@@ -8,7 +9,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.impaq.arena.RoundRobinStrategy;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -25,11 +25,14 @@ public class PlayerTest {
 
     private Warriors warriors = mock(Warriors.class);
 
+    private Strategy strategy = new Strategy();
+
     Random numberGenerator = new Random();
 
     @Before
     public void player_class_exists() {
-        player = new Player(new RoundRobinStrategy(), castle, builders, wizards, warriors);
+
+        player = new Player(strategy, castle, builders, wizards, warriors);
     }
 
     @Test
@@ -48,23 +51,22 @@ public class PlayerTest {
 
     @Test
     public void player_have_builders() {
-        Assert.assertNotNull(player.getBuilders());
+        Assert.assertSame(player.getBuilders(), builders);
     }
 
     @Test
     public void player_have_wizards() {
-        Assert.assertNotNull(player.getWizards());
+        Assert.assertSame(player.getWizards(), wizards);
     }
 
     @Test
     public void player_have_warriors() {
-        Assert.assertNotNull(player.getWarriors());
+        Assert.assertSame(player.getWarriors(), warriors);
     }
 
     @Test
     public void player_have_round_manager() {
-        Assert.assertNotNull(player.getStrategy());
+        Assert.assertSame(player.getStrategy(), strategy);
     }
-
 
 }

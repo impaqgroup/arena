@@ -5,16 +5,23 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.impaq.arena.RoundStrategy;
-import com.impaq.arena.rounds.impl.EmptyRoundStrategy;
-import com.impaq.arena.RoundRobinStrategy;
+import com.impaq.arena.Strategy;
 
 public class RoundManagerTest {
-	
-	RoundRobinStrategy roundManager;
+
+    class EmptyRoundStrategy extends RoundStrategy {
+
+        @Override
+        protected void body() {
+        }
+
+    }
+
+    Strategy roundManager;
 
     @Before
     public void initialize() {
-    	roundManager = new RoundRobinStrategy();
+        roundManager = new Strategy();
     }
 
     @Test
@@ -32,8 +39,6 @@ public class RoundManagerTest {
         Assert.assertSame(round1, roundManager.next());
         Assert.assertSame(round2, roundManager.next());
     }
-    
-    
 
     @Test
     public void get_next_return_first_round_when_actual_round_is_last() {

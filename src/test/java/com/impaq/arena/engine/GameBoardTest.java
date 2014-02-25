@@ -1,24 +1,24 @@
 package com.impaq.arena.engine;
 
+import com.impaq.arena.EmptyRoundStrategy;
 import com.impaq.arena.RoundStrategy;
 import com.impaq.arena.GameBoard;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.impaq.arena.rounds.impl.EmptyRoundStrategy;
-import com.impaq.arena.RoundRobinStrategy;
+import com.impaq.arena.Strategy;
 
-public class EngineTest {
+public class GameBoardTest {
 
     private GameBoard board;
-    private RoundRobinStrategy firstPlayerRoundManager;
-    private RoundRobinStrategy secondPlayerRoundManager;
+    private Strategy firstPlayerRoundManager;
+    private Strategy secondPlayerRoundManager;
 
     @Before
     public void engine_class_exists() {
-        firstPlayerRoundManager = new RoundRobinStrategy();
-        secondPlayerRoundManager = new RoundRobinStrategy();
+        firstPlayerRoundManager = new Strategy();
+        secondPlayerRoundManager = new Strategy();
         board = new GameBoard(firstPlayerRoundManager, secondPlayerRoundManager);
     }
 

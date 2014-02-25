@@ -1,4 +1,4 @@
-package com.impaq.arena.engine.event;
+package com.impaq.arena.event;
 
 import com.impaq.arena.player.Player;
 
@@ -6,9 +6,9 @@ import com.impaq.arena.player.Player;
  *
  * @author Jaroslaw Herod <jaroslaw.herod@impaqgroup.com>
  */
-public class AddWizards extends BaseActionEvent{
+public class KillWizards extends BaseActionEvent {
 
-    public AddWizards(Player oponent, int value) {
+    public KillWizards(Player oponent, int value) {
         super(oponent, value);
     }
 

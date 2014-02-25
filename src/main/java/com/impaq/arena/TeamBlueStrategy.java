@@ -10,34 +10,75 @@ public class TeamBlueStrategy extends Strategy {
         add(new RoundStrategy() {
             @Override
             public void body() {
-                if (spyCastle() > 60) {
-                    addWarriors();
-                    addWarriors();
-                    destroyCastle();
-                } else {
-                    if (warriors() > 30) {
-                        destroyCastle();
+                if (spyWizzards() > 8) {
+                    if (wizzards() < 4) {
                         addWizzards();
                         addWizzards();
                     } else {
                         addBuilders();
                         addBuilders();
-                        buildCastle();
                     }
+                    killWizzards();
+                } else if (spyCastle() > 30) {
+
+                    addWarriors();
+                    addWarriors();
+                    destroyCastle();
+                } else {
+                    addBuilders();
+                    addBuilders();
+                    buildCastle();
                 }
             }
         });
 
         add(new RoundStrategy() {
+            @Override
             public void body() {
-                addBuilders();
-                addBuilders();
-                if (spyBuilders() > wizzards() * 2) {
-                    killBuilders();
+                if (spyWarriors() > 8) {
+                    if (wizzards() < 4) {
+                        addWizzards();
+                        addWizzards();
+                    } else {
+                        addBuilders();
+                        addBuilders();
+                    }
+                    killWarriors();
+                } else if (spyCastle() > 30) {
+                    addWarriors();
+                    addWarriors();
+                    destroyCastle();
                 } else {
+                    addBuilders();
+                    addBuilders();
                     buildCastle();
                 }
             }
         });
+
+        add(new RoundStrategy() {
+            @Override
+            public void body() {
+                if (spyBuilders() > 8) {
+                    if (wizzards() < 4) {
+                        addWizzards();
+                        addWizzards();
+                    } else {
+                        addBuilders();
+                        addBuilders();
+                    }
+                    killBuilders();
+                } else if (spyCastle() > 30) {
+                    addWarriors();
+                    addWarriors();
+                    destroyCastle();
+                } else {
+                    addBuilders();
+                    addBuilders();
+                    buildCastle();
+                }
+            }
+        });
+
     }
 }

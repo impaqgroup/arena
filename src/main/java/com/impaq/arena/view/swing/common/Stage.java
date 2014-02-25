@@ -41,7 +41,7 @@ public class Stage {
     private final Component background = new Component(new CopyOnWriteArrayList());
     private final Collection<TimeListener> timeListeners = new CopyOnWriteArrayList<>();
     private final int width = 1000;
-    private final int height = 800;
+    private final int height = 700;
 
     private Stage() {
         initialize();
@@ -87,7 +87,7 @@ public class Stage {
             final BufferedImage scaled = Scalr.resize(screen, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_HEIGHT, manager.getScreenDimension().width, manager.getScreenDimension().height);
             graphic.setColor(Color.WHITE);
             graphic.fillRect(0, 0, manager.getScreenDimension().width, manager.getScreenDimension().height);
-            graphic.drawImage(scaled, 0, 0, null);
+            graphic.drawImage(scaled, (manager.getScreenDimension().width - scaled.getWidth()) / 2, (manager.getScreenDimension().height - scaled.getHeight()) / 2, null);
             graphic.dispose();
             manager.update();
         }

@@ -1,18 +1,18 @@
 package com.impaq.arena;
 
 import com.google.common.eventbus.EventBus;
-import com.impaq.arena.engine.event.BuildCastle;
-import com.impaq.arena.engine.event.DestroyCastle;
-import com.impaq.arena.engine.event.KillBuilders;
-import com.impaq.arena.engine.event.KillWarriors;
-import com.impaq.arena.engine.event.AddBuilders;
-import com.impaq.arena.engine.event.AddWarriors;
-import com.impaq.arena.engine.event.AddWizards;
-import com.impaq.arena.engine.event.KillWizards;
-import com.impaq.arena.engine.event.SpyBuilders;
-import com.impaq.arena.engine.event.SpyCastle;
-import com.impaq.arena.engine.event.SpyWarriors;
-import com.impaq.arena.engine.event.SpyWizards;
+import com.impaq.arena.event.BuildCastle;
+import com.impaq.arena.event.DestroyCastle;
+import com.impaq.arena.event.KillBuilders;
+import com.impaq.arena.event.KillWarriors;
+import com.impaq.arena.event.AddBuilders;
+import com.impaq.arena.event.AddWarriors;
+import com.impaq.arena.event.AddWizards;
+import com.impaq.arena.event.KillWizards;
+import com.impaq.arena.event.SpyBuilders;
+import com.impaq.arena.event.SpyCastle;
+import com.impaq.arena.event.SpyWarriors;
+import com.impaq.arena.event.SpyWizards;
 import com.impaq.arena.player.Player;
 
 public abstract class RoundStrategy {
@@ -26,7 +26,7 @@ public abstract class RoundStrategy {
 
     protected abstract void body();
 
-    void execute(EventBus eventBus, Player current, Player oponent) {
+    final void execute(EventBus eventBus, Player current, Player oponent) {
         this.current = current;
         this.oponent = oponent;
         this.eventBus = eventBus;
@@ -40,7 +40,7 @@ public abstract class RoundStrategy {
         eventBus.post(object);
     }
 
-    protected void killWizzards() {
+    protected final void killWizzards() {
         if (!isActionAvailable()) {
             return;
         }
@@ -50,7 +50,7 @@ public abstract class RoundStrategy {
         actionCount++;
     }
 
-    protected void killWarriors() {
+    protected final void killWarriors() {
         if (!isActionAvailable()) {
             return;
         }
@@ -59,7 +59,7 @@ public abstract class RoundStrategy {
         actionCount++;
     }
 
-    protected void killBuilders() {
+    protected final void killBuilders() {
         if (!isActionAvailable()) {
             return;
         }
@@ -69,7 +69,7 @@ public abstract class RoundStrategy {
         actionCount++;
     }
 
-    protected void destroyCastle() {
+    protected final void destroyCastle() {
         if (!isActionAvailable()) {
             return;
         }
@@ -78,7 +78,7 @@ public abstract class RoundStrategy {
         actionCount++;
     }
 
-    protected void buildCastle() {
+    protected final void buildCastle() {
         if (!isActionAvailable()) {
             return;
         }
@@ -87,7 +87,7 @@ public abstract class RoundStrategy {
         actionCount++;
     }
 
-    protected void addBuilders() {
+    protected final void addBuilders() {
         if (!isAddAvailable()) {
             return;
         }
@@ -96,7 +96,7 @@ public abstract class RoundStrategy {
         addActionCount++;
     }
 
-    protected void addWizzards() {
+    protected final void addWizzards() {
         if (!isAddAvailable()) {
             return;
         }
@@ -105,7 +105,7 @@ public abstract class RoundStrategy {
         addActionCount++;
     }
 
-    protected void addWarriors() {
+    protected final void addWarriors() {
         if (!isAddAvailable()) {
             return;
         }
@@ -130,7 +130,7 @@ public abstract class RoundStrategy {
         return current.getBuilders().getProductivity();
     }
 
-    protected long spyCastle() {
+    protected final long spyCastle() {
         if (!isSpyActionAvailable()) {
             return -1;
         }
@@ -139,7 +139,7 @@ public abstract class RoundStrategy {
         return oponent.getCastle().spy();
     }
 
-    protected long spyWarriors() {
+    protected final long spyWarriors() {
         if (!isSpyActionAvailable()) {
             return -1;
         }
@@ -148,7 +148,7 @@ public abstract class RoundStrategy {
         return oponent.getWarriors().spy();
     }
 
-    protected long spyWizzards() {
+    protected final long spyWizzards() {
         if (!isSpyActionAvailable()) {
             return -1;
         }
@@ -158,7 +158,7 @@ public abstract class RoundStrategy {
         return oponent.getWizards().spy();
     }
 
-    protected long spyBuilders() {
+    protected final long spyBuilders() {
 
         if (!isSpyActionAvailable()) {
             return -1;
@@ -172,19 +172,19 @@ public abstract class RoundStrategy {
         return spyActionCount < 2;
     }
 
-    protected long castle() {
+    protected final long castle() {
         return current.getCastle().getHeight();
     }
 
-    protected long warriors() {
+    protected final long warriors() {
         return current.getWarriors().getCount();
     }
 
-    protected long wizzards() {
+    protected final long wizzards() {
         return current.getWizards().getCount();
     }
 
-    protected long builders() {
+    protected final long builders() {
         return current.getBuilders().getCount();
     }
 

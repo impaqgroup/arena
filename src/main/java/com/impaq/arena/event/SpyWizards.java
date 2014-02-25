@@ -1,4 +1,4 @@
-package com.impaq.arena.engine.event;
+package com.impaq.arena.event;
 
 import com.impaq.arena.player.Player;
 
@@ -6,11 +6,10 @@ import com.impaq.arena.player.Player;
  *
  * @author Jaroslaw Herod <jaroslaw.herod@impaqgroup.com>
  */
-public class SpyCastle extends BaseEvent {
+public class SpyWizards extends BaseEvent {
 
-    public SpyCastle(Player oponent) {
+    public SpyWizards(Player oponent) {
         super(oponent);
     }
-
 
 }
