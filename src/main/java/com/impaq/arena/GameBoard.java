@@ -61,7 +61,7 @@ public class GameBoard {
         initialize();
         int round = 0;
         while (!isGameOver()) {
-            eventBus.post(new RoundStart(round));
+            eventBus.post(new RoundStart(++round));
             executeRound();
         }
         showWinner();
