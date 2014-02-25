@@ -10,6 +10,7 @@ import com.impaq.arena.event.GameStarted;
 import com.impaq.arena.event.KillBuilders;
 import com.impaq.arena.event.KillWarriors;
 import com.impaq.arena.event.KillWizards;
+import com.impaq.arena.event.RoundStart;
 import com.impaq.arena.event.SpyBuilders;
 import com.impaq.arena.event.SpyCastle;
 import com.impaq.arena.event.SpyWarriors;
@@ -99,6 +100,11 @@ public class SwingViewPresenter implements GameBoardView {
     @Override
     public void onAddWarriors(AddWarriors event) {
         view.addWarriors(event.getPlayer());
+    }
+
+    @Override
+    public void onRoundStart(RoundStart event) {
+        view.updateRoundNumber(event.getNumber());
     }
 
 }

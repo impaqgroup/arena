@@ -1,15 +1,16 @@
 package com.impaq.arena.view;
 
-import com.impaq.arena.event.GameStarted;
 import com.impaq.arena.GameBoardView;
 import com.impaq.arena.event.AddBuilders;
 import com.impaq.arena.event.AddWarriors;
 import com.impaq.arena.event.AddWizards;
 import com.impaq.arena.event.BuildCastle;
 import com.impaq.arena.event.DestroyCastle;
+import com.impaq.arena.event.GameStarted;
 import com.impaq.arena.event.KillBuilders;
 import com.impaq.arena.event.KillWarriors;
 import com.impaq.arena.event.KillWizards;
+import com.impaq.arena.event.RoundStart;
 import com.impaq.arena.event.SpyBuilders;
 import com.impaq.arena.event.SpyCastle;
 import com.impaq.arena.event.SpyWarriors;
@@ -20,7 +21,7 @@ import com.impaq.arena.event.Winner;
  *
  * @author Jaroslaw Herod <jaroslaw.herod@impaqgroup.com>
  */
-class NullView implements GameBoardView {
+public class NullView implements GameBoardView {
 
     public NullView() {
     }
@@ -79,6 +80,10 @@ class NullView implements GameBoardView {
 
     @Override
     public void onAddWarriors(AddWarriors event) {
+    }
+
+    @Override
+    public void onRoundStart(RoundStart event) {
     }
 
 }

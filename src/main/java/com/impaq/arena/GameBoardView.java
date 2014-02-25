@@ -10,6 +10,7 @@ import com.impaq.arena.event.GameStarted;
 import com.impaq.arena.event.KillBuilders;
 import com.impaq.arena.event.KillWarriors;
 import com.impaq.arena.event.KillWizards;
+import com.impaq.arena.event.RoundStart;
 import com.impaq.arena.event.SpyBuilders;
 import com.impaq.arena.event.SpyCastle;
 import com.impaq.arena.event.SpyWarriors;
@@ -50,15 +51,17 @@ public interface GameBoardView {
 
     @Subscribe
     void onKillWarriors(KillWarriors event);
-    
+
     @Subscribe
     void onAddBuilders(AddBuilders event);
-    
+
     @Subscribe
     void onAddWizards(AddWizards event);
-    
+
     @Subscribe
     void onAddWarriors(AddWarriors event);
-    
-    
+
+    @Subscribe
+    void onRoundStart(RoundStart event);
+
 }
