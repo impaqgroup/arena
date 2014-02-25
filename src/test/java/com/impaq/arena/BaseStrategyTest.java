@@ -35,7 +35,6 @@ public abstract class BaseStrategyTest {
     
     protected void assertExpectedActions(Class... eventsClasses){
     	List<Event> eventList = gameBoard.getEventBus().getEventList();
-    	boolean ooo;
     	for ( int inc = 0; inc < eventsClasses.length; inc++ ){
     		if ( eventsClasses[inc].isInterface() )
     			Assert.assertTrue(eventsClasses[inc].isAssignableFrom(eventList.get(inc).getClass()));
