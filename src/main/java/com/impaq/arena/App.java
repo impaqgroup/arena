@@ -11,8 +11,8 @@ public class App {
 
     public static void main(String[] args) {
         final GameBoard gameBoard = new GameBoard(new TeamBlueStrategy(), new TeamRedStrategy());
-        gameBoard.registerListener(new ViewProvider().get());
-        gameBoard.registerListener(new ConsoleView());
+        gameBoard.registerView(new ViewProvider().get());
+        gameBoard.registerView(new ConsoleView());
         gameBoard.startGame();
     }
 }

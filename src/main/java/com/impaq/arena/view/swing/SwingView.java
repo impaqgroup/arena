@@ -36,12 +36,6 @@ public class SwingView {
         animate(new IntroSprite(new Point(0, 100)), 8000);
         final BackgroundSprite background = new BackgroundSprite(new Point(0, 100));
         animate(background, 2000);
-        background.last();
-        stage.getBackground().add(background);
-        stage.getBackground().add(castels);
-        stage.getBackground().add(leftPlayerInfo);
-        stage.getBackground().add(rightPlayerInfo);
-        stage.getBackground().add(roundNumber);
     }
 
     private void animate(final Sprite sprite, final int time) {
@@ -69,6 +63,13 @@ public class SwingView {
         castels.initialize(left.getCastle().getHeight(), right.getCastle().getHeight());
         leftPlayerInfo.update(left);
         rightPlayerInfo.update(right);
+        final BackgroundSprite background = new BackgroundSprite(new Point(0, 100));
+        background.last();
+        stage.getBackground().add(background);
+        stage.getBackground().add(castels);
+        stage.getBackground().add(leftPlayerInfo);
+        stage.getBackground().add(rightPlayerInfo);
+        stage.getBackground().add(roundNumber);
     }
 
     void spyWarriors(Player player) {

@@ -14,7 +14,25 @@ import com.impaq.arena.event.SpyCastle;
 import com.impaq.arena.event.SpyWarriors;
 import com.impaq.arena.event.SpyWizards;
 import com.impaq.arena.player.Player;
-
+/**
+ * Rules:<br>
+ * Offensive (1 per round):
+ * <ul>
+ * <li>warrior destroy 1 level.</li>
+ * <li>wizard kills 2 people.</li>
+ * <li>builder builds 3 castle level.</li>
+ * </ul>
+ * <br>
+ * Populate (2 per round)
+ * in single add action you can add:
+ * <ul>
+ * <li>1 builder.</li>
+ * <li>1 wizard.</li>
+ * <li>2 warriors.</li>
+ * </ul>
+ * <br>
+ * Spy (2 per round)
+ */
 public abstract class RoundStrategy {
 
     private Player current;

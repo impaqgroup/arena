@@ -10,9 +10,9 @@ public class TeamBlueStrategyTest extends BaseStrategyTest {
     }
 
     @Test
-    public void inSecondRoundShoudSpyWarriorsAndIfGreaterThenTenShouldAddWizardsTwiceAndKillWarriors() {
+    public void shouldSpyWarriorsAddWizardsTwiceAndKillWarriorsWhenExecutingSecondRoundAndOponentWarriorsGreaterThen10() {
         //given
-        gameBoard.setOponentWarriors(11).setWizzards(2);
+        gameBoard.setOponentWarriors(11);
 
         //when
         gameBoard.executeRound(2);
