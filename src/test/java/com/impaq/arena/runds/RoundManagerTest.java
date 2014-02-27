@@ -5,16 +5,23 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.impaq.arena.RoundStrategy;
-import com.impaq.arena.rounds.impl.EmptyRoundStrategy;
-import com.impaq.arena.rounds.impl.DefaultStrategy;
+import com.impaq.arena.Strategy;
 
 public class RoundManagerTest {
 
-    DefaultStrategy roundManager;
+    class EmptyRoundStrategy extends RoundStrategy {
+
+        @Override
+        protected void body() {
+        }
+
+    }
+
+    Strategy roundManager;
 
     @Before
     public void initialize() {
-        roundManager = new DefaultStrategy();
+        roundManager = new Strategy();
     }
 
     @Test

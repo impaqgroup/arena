@@ -43,7 +43,7 @@ public class Player {
         return warriors;
     }
 
-    public Strategy getRoundManager() {
+    public Strategy getStrategy() {
         return strategy;
     }
 }

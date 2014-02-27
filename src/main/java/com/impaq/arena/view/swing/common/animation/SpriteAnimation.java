@@ -4,7 +4,6 @@ import com.impaq.arena.view.swing.common.BaseAnimation;
 import com.impaq.arena.view.swing.common.Interpolator;
 import com.impaq.arena.view.swing.common.LinearInterpolator;
 import com.impaq.arena.view.swing.common.Sprite;
-import com.impaq.arena.view.swing.common.Stage;
 
 /**
  *
@@ -16,12 +15,12 @@ public class SpriteAnimation extends BaseAnimation {
 
     private final Interpolator interpolator;
 
-    public SpriteAnimation(Stage stage, Sprite sprite, long duration) {
-        this(stage, sprite, duration, new LinearInterpolator());
+    public SpriteAnimation(Sprite sprite, long duration) {
+        this(sprite, duration, new LinearInterpolator());
     }
 
-    public SpriteAnimation(Stage stage, Sprite sprite, long duration, Interpolator interpolator) {
-        super(stage, duration);
+    public SpriteAnimation(Sprite sprite, long duration, Interpolator interpolator) {
+        super(duration);
         this.sprite = sprite;
         this.interpolator = interpolator;
     }

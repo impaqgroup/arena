@@ -16,10 +16,10 @@
  */
 package com.impaq.arena.view;
 
-import com.impaq.arena.engine.event.GameStarted;
-import com.impaq.arena.engine.event.SpyWarriors;
-import com.impaq.arena.engine.event.SpyWizards;
-import com.impaq.arena.engine.event.Winner;
+import com.impaq.arena.event.GameStarted;
+import com.impaq.arena.event.SpyWarriors;
+import com.impaq.arena.event.SpyWizards;
+import com.impaq.arena.event.Winner;
 import com.impaq.arena.player.Player;
 import java.io.PrintStream;
 import java.io.PrintWriter;

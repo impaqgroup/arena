@@ -1,10 +1,9 @@
 package com.impaq.arena.view.swing.common;
 
-import com.google.common.base.Throwables;
-import static com.google.common.base.Throwables.propagate;
-import java.awt.BufferCapabilities;
+import com.google.common.base.Optional;
+import static com.google.common.base.Optional.fromNullable;
+import java.awt.Dimension;
 import java.awt.DisplayMode;
-import java.awt.EventQueue;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
@@ -13,7 +12,6 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.lang.reflect.InvocationTargetException;
 import javax.swing.JFrame;
 
 /**
@@ -78,47 +76,20 @@ public class ScreenManager {
         return true;
     }
 
-    public void setFullScreen(DisplayMode displayMode) {
-        frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setUndecorated(true);
-        frame.setIgnoreRepaint(true);
-        frame.setResizable(false);
-
-        if (displayMode != null && device.isDisplayChangeSupported()) {
-            try {
-                device.setDisplayMode(displayMode);
-            } catch (IllegalArgumentException ex) {
-            }
-            frame.setSize(displayMode.getWidth(), displayMode.getHeight());
-        }
-        try {
-            EventQueue.invokeAndWait(new Runnable() {
-                @Override
-                public void run() {
-                    frame.setVisible(true);
-                    frame.createBufferStrategy(3);
-
-                    if (device.isFullScreenSupported()) {
-                        device.setFullScreenWindow(frame);
-                    }
-                    frame.toFront();
-
-                }
-            });
-        } catch (InterruptedException | InvocationTargetException ex) {
-            throw propagate(ex);
-        }
+    public Dimension getScreenDimension() {
+        return frame.getSize();
     }
 
-    public Graphics2D getGraphics() {
+    public Optional<Graphics2D> getGraphics() {
         Window window = getFullScreenWindow();
         if (window != null) {
             BufferStrategy strategy = window.getBufferStrategy();
-            return (Graphics2D) strategy.getDrawGraphics();
-        } else {
-            return null;
+            if (strategy != null) {
+                return fromNullable((Graphics2D) strategy.getDrawGraphics());
+            }
         }
+        return Optional.absent();
+
     }
 
     public void update() {
@@ -160,6 +131,7 @@ public class ScreenManager {
             window.dispose();
         }
         device.setFullScreenWindow(null);
+        frame.dispose();
     }
 
     public BufferedImage createCompatibleImage(int w, int h, int transparancy) {
@@ -169,5 +141,17 @@ public class ScreenManager {
             return gc.createCompatibleImage(w, h, transparancy);
         }
         return null;
+    }
+
+    void initalizeFullScreen() {
+        frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setUndecorated(true);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setBounds(0, 0, screenSize.width, screenSize.height);
+        frame.getContentPane().setLayout(null);
+        frame.setVisible(true);
+        frame.validate();
+        frame.createBufferStrategy( 3 );
     }
 }

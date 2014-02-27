@@ -1,37 +1,56 @@
 package com.impaq.arena;
 
-import com.impaq.arena.engine.event.BuildCastle;
-import com.impaq.arena.engine.event.DestroyCastle;
-import com.impaq.arena.engine.event.PopulateBuilders;
-import com.impaq.arena.engine.event.KillBuilders;
-import com.impaq.arena.engine.event.KillWarriors;
-import com.impaq.arena.engine.event.PopulateWizards;
-import com.impaq.arena.engine.event.KillWizards;
-import com.impaq.arena.engine.event.PopulateWarriors;
-import com.impaq.arena.engine.event.SpyWarriors;
-import com.impaq.arena.engine.event.SpyBuilders;
-import com.impaq.arena.engine.event.SpyWizards;
-import com.impaq.arena.engine.event.SpyCastle;
 import com.google.common.eventbus.EventBus;
+import com.impaq.arena.event.BuildCastle;
+import com.impaq.arena.event.DestroyCastle;
+import com.impaq.arena.event.KillBuilders;
+import com.impaq.arena.event.KillWarriors;
+import com.impaq.arena.event.AddBuilders;
+import com.impaq.arena.event.AddWarriors;
+import com.impaq.arena.event.AddWizards;
+import com.impaq.arena.event.KillWizards;
+import com.impaq.arena.event.SpyBuilders;
+import com.impaq.arena.event.SpyCastle;
+import com.impaq.arena.event.SpyWarriors;
+import com.impaq.arena.event.SpyWizards;
 import com.impaq.arena.player.Player;
-
+/**
+ * Rules:<br>
+ * Offensive (1 per round):
+ * <ul>
+ * <li>warrior destroy 1 level.</li>
+ * <li>wizard kills 2 people.</li>
+ * <li>builder builds 3 castle level.</li>
+ * </ul>
+ * <br>
+ * Populate (2 per round)
+ * in single add action you can add:
+ * <ul>
+ * <li>1 builder.</li>
+ * <li>1 wizard.</li>
+ * <li>2 warriors.</li>
+ * </ul>
+ * <br>
+ * Spy (2 per round)
+ */
 public abstract class RoundStrategy {
 
-    private static int POPULATE_NUMBER = 5;
     private Player current;
     private Player oponent;
     private int actionCount = 0;
     private int spyActionCount = 0;
     private EventBus eventBus;
+    private int addActionCount = 0;
 
     protected abstract void body();
 
-    void execute(EventBus eventBus, Player current, Player oponent) {
+    final void execute(EventBus eventBus, Player current, Player oponent) {
         this.current = current;
         this.oponent = oponent;
         this.eventBus = eventBus;
         actionCount = 0;
         spyActionCount = 0;
+        addActionCount = 0;
         body();
     }
 
@@ -39,81 +58,82 @@ public abstract class RoundStrategy {
         eventBus.post(object);
     }
 
-    protected void zabijMagow() {
+    protected final void killWizzards() {
         if (!isActionAvailable()) {
             return;
         }
 
-        dispatchEvent(new KillWizards(oponent, getWizardsStrength()));
+        dispatchEvent(new KillWizards(current, getWizardsStrength()));
         oponent.getWizards().kill(getWizardsStrength());
         actionCount++;
     }
 
-    protected void zabijWojownikow() {
+    protected final void killWarriors() {
         if (!isActionAvailable()) {
             return;
         }
-        dispatchEvent(new KillWarriors(oponent, getWizardsStrength()));
         oponent.getWarriors().kill(getWizardsStrength());
+        dispatchEvent(new KillWarriors(current, getWizardsStrength()));
         actionCount++;
     }
 
-    protected void zabijBudowniczych() {
+    protected final void killBuilders() {
         if (!isActionAvailable()) {
             return;
         }
-        dispatchEvent(new KillBuilders(oponent, getWizardsStrength()));
+
         oponent.getBuilders().kill(getWizardsStrength());
+        dispatchEvent(new KillBuilders(current, getWizardsStrength()));
         actionCount++;
     }
 
-    protected void zniszczZamekWroga() {
+    protected final void destroyCastle() {
         if (!isActionAvailable()) {
             return;
         }
-        dispatchEvent(new DestroyCastle(oponent, getWarriorsStrength()));
         oponent.getCastle().destroy(getWarriorsStrength());
+        dispatchEvent(new DestroyCastle(current, getWarriorsStrength()));
         actionCount++;
     }
 
-    protected void budujZamek() {
+    protected final void buildCastle() {
         if (!isActionAvailable()) {
             return;
         }
-        dispatchEvent(new BuildCastle(oponent, getBuildersProductivity()));
         current.getCastle().expand(getBuildersProductivity());
+        dispatchEvent(new BuildCastle(current, getBuildersProductivity()));
         actionCount++;
     }
 
-    protected void dodajBudowniczych() {
-        if (!isActionAvailable()) {
+    protected final void addBuilders() {
+        if (!isAddAvailable()) {
             return;
         }
-        dispatchEvent(new PopulateBuilders(oponent, POPULATE_NUMBER));
-        current.getBuilders().add(POPULATE_NUMBER);
-        actionCount++;
+        current.getBuilders().add(1);
+        dispatchEvent(new AddBuilders(current, 1));
+        addActionCount++;
     }
 
-    protected void dodajMagow() {
-        if (!isActionAvailable()) {
+    protected final void addWizzards() {
+        if (!isAddAvailable()) {
             return;
         }
-        dispatchEvent(new PopulateWizards(oponent, POPULATE_NUMBER));
-        current.getWizards().add(POPULATE_NUMBER);
-        actionCount++;
+        current.getWizards().add(1);
+        dispatchEvent(new AddWizards(current, 1));
+        addActionCount++;
     }
 
-    protected void dodajWojownikow() {
-        if (!isActionAvailable()) {
+    protected final void addWarriors() {
+        if (!isAddAvailable()) {
             return;
         }
-        dispatchEvent(new PopulateWarriors(oponent, POPULATE_NUMBER));
-        current.getWarriors().add(POPULATE_NUMBER);
-        actionCount++;
+        current.getWarriors().add(2);
+        dispatchEvent(new AddWarriors(current, 2));
+        addActionCount++;
     }
 
     private boolean isActionAvailable() {
-        return actionCount < 3;
+        return actionCount < 1;
     }
 
     private int getWizardsStrength() {
@@ -128,40 +148,40 @@ public abstract class RoundStrategy {
         return current.getBuilders().getProductivity();
     }
 
-    protected long wysokoscZamkuWroga() {
+    protected final long spyCastle() {
         if (!isSpyActionAvailable()) {
             return -1;
         }
-        dispatchEvent(new SpyCastle(oponent));
+        dispatchEvent(new SpyCastle(current));
         spyActionCount++;
         return oponent.getCastle().spy();
     }
 
-    protected long iloscWojownikowWroga() {
+    protected final long spyWarriors() {
         if (!isSpyActionAvailable()) {
             return -1;
         }
-        dispatchEvent(new SpyWarriors(oponent));
+        dispatchEvent(new SpyWarriors(current));
         spyActionCount++;
         return oponent.getWarriors().spy();
     }
 
-    protected long iloscMagowWroga() {
+    protected final long spyWizzards() {
         if (!isSpyActionAvailable()) {
             return -1;
         }
-        dispatchEvent(new SpyWizards(oponent));
+        dispatchEvent(new SpyWizards(current));
 
         spyActionCount++;
         return oponent.getWizards().spy();
     }
 
-    protected long iloscBudowniczychWroga() {
+    protected final long spyBuilders() {
 
         if (!isSpyActionAvailable()) {
             return -1;
         }
-        dispatchEvent(new SpyBuilders(oponent));
+        dispatchEvent(new SpyBuilders(current));
         spyActionCount++;
         return oponent.getBuilders().spy();
     }
@@ -170,19 +190,23 @@ public abstract class RoundStrategy {
         return spyActionCount < 2;
     }
 
-    protected long wysokoscZamku() {
+    protected final long castle() {
         return current.getCastle().getHeight();
     }
 
-    protected long iloscPosiadanychWojowniko() {
+    protected final long warriors() {
         return current.getWarriors().getCount();
     }
 
-    protected long iloscPosiadanychMagow() {
+    protected final long wizzards() {
         return current.getWizards().getCount();
     }
 
-    protected long iloscPosiadanychBudowniczyc() {
+    protected final long builders() {
         return current.getBuilders().getCount();
+    }
+
+    private boolean isAddAvailable() {
+        return addActionCount < 2;
     }
 }

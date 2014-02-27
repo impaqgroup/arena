@@ -1,8 +1,7 @@
 package com.impaq.arena.view.swing.common.animation;
 
 import com.impaq.arena.view.swing.common.BaseAnimation;
-import com.impaq.arena.view.swing.common.Stage;
-import com.impaq.arena.view.swing.common.Transparency;
+import com.impaq.arena.view.swing.common.Component;
 
 /**
  *
@@ -10,10 +9,10 @@ import com.impaq.arena.view.swing.common.Transparency;
  */
 public class FadeOut extends BaseAnimation {
 
-    private final Transparency transparency;
+    private final Component transparency;
 
-    public FadeOut(Stage stage, Transparency transparency, long duration) {
-        super(stage, duration);
+    public FadeOut(Component transparency, long duration) {
+        super(duration);
         this.transparency = transparency;
     }
 
