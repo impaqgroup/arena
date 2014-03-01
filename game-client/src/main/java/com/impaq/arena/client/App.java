@@ -1,8 +1,6 @@
 package com.impaq.arena.client;
 
 import com.impaq.arena.GameBoard;
-import com.impaq.arena.TeamBlueStrategy;
-import com.impaq.arena.TeamRedStrategy;
 import com.impaq.arena.client.view.ConsoleView;
 import com.impaq.arena.client.view.ViewProvider;
 

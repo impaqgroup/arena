@@ -1,4 +1,4 @@
-package com.impaq.arena;
+package com.impaq.arena.client;
 
 import com.impaq.arena.api.Game;
 import com.impaq.arena.api.PlayerStrategy;
