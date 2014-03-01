@@ -1,7 +1,8 @@
 package com.impaq.arena.server.login.player
 
-import com.impaq.arena.server.login.player.strategy.PlayerStrategy
-import org.hibernate.validator.constraints.*
+import org.hibernate.validator.constraints.Email
+import org.hibernate.validator.constraints.NotEmpty
+import org.hibernate.validator.constraints.Range
 import org.joda.time.DateTime
 
 import javax.persistence.Entity
@@ -24,11 +25,9 @@ class Player {
     String surname;
 
     @Range(min = 1L, max = 12L)
-    int term;
+    Integer term;
 
     DateTime created;
 
     DateTime lastUpdated;
-
-    PlayerStrategy strategy;
 }
