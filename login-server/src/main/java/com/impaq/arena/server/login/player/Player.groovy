@@ -1,5 +1,6 @@
-package com.impaq.arena.server.login.user
+package com.impaq.arena.server.login.player
 
+import com.impaq.arena.server.login.player.strategy.PlayerStrategy
 import org.hibernate.validator.constraints.*
 import org.joda.time.DateTime
 
@@ -7,7 +8,7 @@ import javax.persistence.Entity
 import javax.persistence.Id
 
 @Entity
-class User {
+class Player {
 
     @Id
     @Email
@@ -29,4 +30,5 @@ class User {
 
     DateTime lastUpdated;
 
+    PlayerStrategy strategy;
 }

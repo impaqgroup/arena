@@ -3,7 +3,7 @@ package com.impaq.arena.server.login.user
 import com.impaq.arena.server.login.IntegrationTestCase
 import org.springframework.beans.factory.annotation.Autowired
 
-class UserResourceTest extends IntegrationTestCase {
+class PlayerResourceTest extends IntegrationTestCase {
 
     @Autowired
     UserResource resource;

@@ -1,4 +1,4 @@
-package com.impaq.arena.server.login.game.strategy
+package com.impaq.arena.server.login.player.strategy
 
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -6,16 +6,16 @@ import org.springframework.web.bind.annotation.RestController
 import static org.springframework.web.bind.annotation.RequestMethod.*
 
 @RestController
-@RequestMapping("/game/strategy")
-class GameStrategyResource {
+@RequestMapping("/player/strategy")
+class PlayerStrategyResource {
 
     @RequestMapping(method = GET)
-    GameStrategy downloadStrategy() {
+    PlayerStrategy downloadStrategy() {
 
     }
 
     @RequestMapping(method = PUT)
-    void uploadStrategy(GameStrategy strategy) {
+    void uploadStrategy(PlayerStrategy strategy) {
 
     }
 }
