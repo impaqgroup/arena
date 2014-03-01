@@ -101,7 +101,7 @@ public class ConsoleView implements GameBoardView {
     }
 
     @Override
-    public void onSpyCastel(SpyCastle event) {
+    public void onSpyCastle(SpyCastle event) {
         println(playerName(event) + " check enemy castle height.");
     }
 

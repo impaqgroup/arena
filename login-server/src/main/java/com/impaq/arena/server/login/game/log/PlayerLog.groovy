@@ -13,13 +13,13 @@ class PlayerLog extends AbstractPersistable<Long> {
 
     @ElementCollection(fetch = EAGER)
     @CollectionTable(name = "PlayerActions")
-    List<String> actions;
+    List<String> actions = [];
 
     int castleHeight;
 
     int buildersCount;
 
-    int magesCount;
+    int imagesCount;
 
     int warriorsCount;
 

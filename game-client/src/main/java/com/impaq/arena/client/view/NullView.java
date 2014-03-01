@@ -43,7 +43,7 @@ public class NullView implements GameBoardView {
     }
 
     @Override
-    public void onSpyCastel(SpyCastle event) {
+    public void onSpyCastle(SpyCastle event) {
     }
 
     @Override

@@ -32,7 +32,7 @@ public interface GameBoardView {
     void onSpyWarriors(SpyWarriors event);
 
     @Subscribe
-    void onSpyCastel(SpyCastle event);
+    void onSpyCastle(SpyCastle event);
 
     @Subscribe
     void onSpyBuilders(SpyBuilders event);

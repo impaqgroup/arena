@@ -51,7 +51,7 @@ public class SwingViewPresenter implements GameBoardView {
     }
 
     @Override
-    public void onSpyCastel(SpyCastle event) {
+    public void onSpyCastle(SpyCastle event) {
         view.spyCastel(event.getPlayer());
     }
 

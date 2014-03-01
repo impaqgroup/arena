@@ -12,14 +12,14 @@ import static javax.persistence.FetchType.EAGER
 @Entity
 class RoundLog extends AbstractPersistable<Long> {
 
-    long roundNumber;
+    int roundNumber;
 
     @ManyToOne(cascade = ALL, fetch = EAGER)
     @JoinColumn(name = "playerOneLog")
-    PlayerLog playerOneLog;
+    PlayerLog playerOneLog = new PlayerLog();
 
     @ManyToOne(cascade = ALL, fetch = EAGER)
     @JoinColumn(name = "playerTwoLog")
-    PlayerLog playerTwoLog;
+    PlayerLog playerTwoLog = new PlayerLog();
 
 }

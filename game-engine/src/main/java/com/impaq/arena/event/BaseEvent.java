@@ -10,8 +10,8 @@ abstract class BaseEvent implements Event{
 
     private final Player player;
 
-    public BaseEvent(Player oponent) {
-        this.player = oponent;
+    public BaseEvent(Player current) {
+        this.player = current;
     }
 
     public Player getPlayer() {
