@@ -5,15 +5,21 @@ import com.impaq.arena.server.login.user.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
+import javax.validation.Validator
+
+import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpMethod.POST
 
@@ -28,6 +34,20 @@ class LoginServer {
 
     @Configuration
     static class WebConfig extends WebMvcConfigurerAdapter {
+
+        @Bean
+        LocalValidatorFactoryBean validatorFactory() {
+            return new LocalValidatorFactoryBean()
+        }
+
+        @Bean
+        MethodValidationPostProcessor validationPostProcessor() {
+            MethodValidationPostProcessor processor = new MethodValidationPostProcessor()
+            processor.setValidatorFactory(validatorFactory())
+            processor.setProxyTargetClass(true)
+            processor.setOrder(HIGHEST_PRECEDENCE)
+            return processor
+        }
 
         @Override
         void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
