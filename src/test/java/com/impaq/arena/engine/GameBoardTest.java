@@ -1,37 +1,26 @@
 package com.impaq.arena.engine;
 
-import com.impaq.arena.EmptyRoundStrategy;
-import com.impaq.arena.RoundStrategy;
-import com.impaq.arena.GameBoard;
+import static com.impaq.arena.api.TestStrategies.idleStrategy;
+
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
-import com.impaq.arena.Strategy;
+import com.impaq.arena.GameBoard;
+import com.impaq.arena.api.Game;
+import com.impaq.arena.api.PlayerStrategy;
 
 public class GameBoardTest {
 
     private GameBoard board;
-    private Strategy firstPlayerRoundManager;
-    private Strategy secondPlayerRoundManager;
-
-    @Before
-    public void engine_class_exists() {
-        firstPlayerRoundManager = new Strategy();
-        secondPlayerRoundManager = new Strategy();
-        board = new GameBoard(firstPlayerRoundManager, secondPlayerRoundManager);
-    }
-
 
     @Test
     public void first_player_win_when_build_castle() {
-        firstPlayerRoundManager.add(new RoundStrategy() {
-
-            public void body() {
-                buildCastle();
+        board = new GameBoard(new PlayerStrategy() {
+            @Override
+            public void playRound(Game game) {
+                game.buildMyCastle();
             }
-        });
-        secondPlayerRoundManager.add(new EmptyRoundStrategy());
+        }, idleStrategy);
         board.startGame();
 
         Assert.assertTrue(board.getFirstPlayer().isWinner());
@@ -42,13 +31,12 @@ public class GameBoardTest {
 
     @Test
     public void second_player_is_looser_when_player_one_destroy_castle() {
-        firstPlayerRoundManager.add(new RoundStrategy() {
-
-            public void body() {
-                destroyCastle();
+        board = new GameBoard(new PlayerStrategy() {
+            @Override
+            public void playRound(Game game) {
+                game.attackEnemyCastle();
             }
-        });
-        secondPlayerRoundManager.add(new EmptyRoundStrategy());
+        }, idleStrategy);
         board.startGame();
 
         Assert.assertFalse(board.getFirstPlayer().isWinner());
@@ -58,31 +46,13 @@ public class GameBoardTest {
     }
 
     @Test
-    public void first_player_lose_when_his_castle_is_destroy() {
-        secondPlayerRoundManager.add(new RoundStrategy() {
-
-            public void body() {
-                destroyCastle();
-            }
-        });
-        firstPlayerRoundManager.add(new EmptyRoundStrategy());
-        board.startGame();
-
-        Assert.assertFalse(board.getFirstPlayer().isWinner());
-        Assert.assertTrue(board.getFirstPlayer().isLoser());
-        Assert.assertFalse(board.getSecondPlayer().isLoser());
-        Assert.assertFalse(board.getSecondPlayer().isWinner());
-    }
-
-    @Test
     public void second_player_win_when_build_castle() {
-        secondPlayerRoundManager.add(new RoundStrategy() {
-
-            public void body() {
-                buildCastle();
+        board = new GameBoard(new PlayerStrategy() {
+            @Override
+            public void playRound(Game game) {
+                game.buildMyCastle();
             }
-        });
-        firstPlayerRoundManager.add(new EmptyRoundStrategy());
+        }, idleStrategy);
         board.startGame();
 
         Assert.assertFalse(board.getFirstPlayer().isWinner());

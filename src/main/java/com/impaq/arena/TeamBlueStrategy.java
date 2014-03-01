@@ -1,84 +1,85 @@
 package com.impaq.arena;
 
-/**
- *
- * @author Jaroslaw Herod <jaroslaw.herod@impaqgroup.com>
- */
-public class TeamBlueStrategy extends Strategy {
+import com.impaq.arena.api.Game;
+import com.impaq.arena.api.PlayerStrategy;
 
-    public TeamBlueStrategy() {
-        add(new RoundStrategy() {
-            @Override
-            public void body() {
-                if (spyWizzards() > 8) {
-                    if (wizzards() < 4) {
-                        addWizzards();
-                        addWizzards();
-                    } else {
-                        addBuilders();
-                        addBuilders();
-                    }
-                    killWizzards();
-                } else if (spyCastle() > 30) {
+public class TeamBlueStrategy implements PlayerStrategy {
 
-                    addWarriors();
-                    addWarriors();
-                    destroyCastle();
-                } else {
-                    addBuilders();
-                    addBuilders();
-                    buildCastle();
-                }
+    private int round = 0;
+
+    @Override
+    public void playRound(Game game) {
+        switch (round % 3) {
+            case 0:
+                play1(game); break;
+            case 1:
+                play2(game); break;
+            case 2:
+                play3(game); break;
+        }
+        round++;
+    }
+
+    private void play1(Game game) {
+        if (game.spyEnemyWizzardsCount() > 8) {
+            if (game.myWizzardsCount() < 4) {
+                game.recruitWizzards();
+                game.recruitWizzards();
+            } else {
+                game.recruitBuilders();
+                game.recruitBuilders();
             }
-        });
+            game.attackEnemyWizzards();
+        } else if (game.spyEnemyCastleHeight() > 30) {
+            game.recruitWarriors();
+            game.recruitWarriors();
+            game.attackEnemyCastle();
+        } else {
+            game.recruitBuilders();
+            game.recruitBuilders();
+            game.buildMyCastle();
+        }
+    }
 
-        add(new RoundStrategy() {
-            @Override
-            public void body() {
-                if (spyWarriors() > 8) {
-                    if (wizzards() < 4) {
-                        addWizzards();
-                        addWizzards();
-                    } else {
-                        addBuilders();
-                        addBuilders();
-                    }
-                    killWarriors();
-                } else if (spyCastle() > 30) {
-                    addWarriors();
-                    addWarriors();
-                    destroyCastle();
-                } else {
-                    addBuilders();
-                    addBuilders();
-                    buildCastle();
-                }
+    private void play2(Game game) {
+        if (game.spyEnemyWarriorsCount() > 8) {
+            if (game.myWizzardsCount() < 4) {
+                game.recruitWizzards();
+                game.recruitWizzards();
+            } else {
+                game.recruitBuilders();
+                game.recruitBuilders();
             }
-        });
+            game.attackEnemyWarriors();
+        } else if (game.spyEnemyCastleHeight() > 30) {
+            game.recruitWarriors();
+            game.recruitWarriors();
+            game.attackEnemyCastle();
+        } else {
+            game.recruitBuilders();
+            game.recruitBuilders();
+            game.buildMyCastle();
+        }
+    }
 
-        add(new RoundStrategy() {
-            @Override
-            public void body() {
-                if (spyBuilders() > 8) {
-                    if (wizzards() < 4) {
-                        addWizzards();
-                        addWizzards();
-                    } else {
-                        addBuilders();
-                        addBuilders();
-                    }
-                    killBuilders();
-                } else if (spyCastle() > 30) {
-                    addWarriors();
-                    addWarriors();
-                    destroyCastle();
-                } else {
-                    addBuilders();
-                    addBuilders();
-                    buildCastle();
-                }
+    private void play3(Game game) {
+        if (game.spyEnemyBuildersCount() > 8) {
+            if (game.myWizzardsCount() < 4) {
+                game.recruitWizzards();
+                game.recruitWizzards();
+            } else {
+                game.recruitBuilders();
+                game.recruitBuilders();
             }
-        });
-
+            game.attackEnemyBuilders();
+        } else if (game.spyEnemyCastleHeight() > 30) {
+            game.recruitWarriors();
+            game.recruitWarriors();
+            game.attackEnemyCastle();
+        } else {
+            game.recruitBuilders();
+            game.recruitBuilders();
+            game.buildMyCastle();
+        }
     }
 }

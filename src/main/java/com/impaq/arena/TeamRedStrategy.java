@@ -1,26 +1,20 @@
 package com.impaq.arena;
 
-/**
- *
- * @author Jaroslaw Herod <jaroslaw.herod@impaqgroup.com>
- */
-public class TeamRedStrategy extends Strategy {
+import com.impaq.arena.api.Game;
+import com.impaq.arena.api.PlayerStrategy;
 
-    {
-        add(new RoundStrategy() {
+public class TeamRedStrategy implements PlayerStrategy {
 
-            @Override
-            public void body() {
-                if (spyBuilders()> 10) {
-                    addWizzards();
-                    addWizzards();
-                    killBuilders();
-                } else {
-                    addWarriors();
-                    addWarriors();
-                    destroyCastle();
-                }
-            }
-        });
+    @Override
+    public void playRound(Game game) {
+        if (game.spyEnemyBuildersCount()> 10) {
+            game.recruitWizzards();
+            game.recruitWizzards();
+            game.attackEnemyBuilders();
+        } else {
+            game.recruitWarriors();
+            game.recruitWarriors();
+            game.attackEnemyCastle();
+        }
     }
 }

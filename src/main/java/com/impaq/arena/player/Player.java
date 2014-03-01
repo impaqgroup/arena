@@ -1,7 +1,6 @@
 package com.impaq.arena.player;
 
-import com.impaq.arena.PropertySource;
-import com.impaq.arena.Strategy;
+import com.impaq.arena.api.PlayerStrategy;
 
 public class Player {
 
@@ -9,10 +8,10 @@ public class Player {
     private final Builders builders;
     private final Wizards wizards;
     private final Warriors warriors;
-    private final Strategy strategy;
+    private final PlayerStrategy strategy;
 
-    public Player(Strategy roundManager, Castle castle, Builders builders, Wizards wizards, Warriors warriors) {
-        this.strategy = roundManager;
+    public Player(PlayerStrategy strategy, Castle castle, Builders builders, Wizards wizards, Warriors warriors) {
+        this.strategy = strategy;
         this.castle = castle;
         this.builders = builders;
         this.wizards = wizards;
@@ -43,7 +42,7 @@ public class Player {
         return warriors;
     }
 
-    public Strategy getStrategy() {
+    public PlayerStrategy getStrategy() {
         return strategy;
     }
 }

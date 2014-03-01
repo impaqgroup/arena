@@ -8,17 +8,7 @@ import com.impaq.arena.player.Castle;
 
 public class CastleTest {
 
-	Castle castle;
-
-	@Before
-	public void initializeCastleTest() {
-		castle = new Castle(100,25);
-	}
-
-	@Test
-	public void castle_have_height() {
-		Assert.assertNotNull(castle.getHeight());
-	}
+	Castle castle = new Castle(100,25);
 
 	@Test
 	public void castle_start_with_25_height() {

@@ -1,6 +1,7 @@
 package com.impaq.arena;
 
 import com.google.common.eventbus.EventBus;
+import com.impaq.arena.api.PlayerStrategy;
 import com.impaq.arena.event.GameStarted;
 import com.impaq.arena.event.RoundExecutionFailed;
 import com.impaq.arena.event.RoundStart;
@@ -8,24 +9,27 @@ import com.impaq.arena.event.Winner;
 import com.impaq.arena.player.Builders;
 import com.impaq.arena.player.Castle;
 import com.impaq.arena.player.Player;
-import com.impaq.arena.player.PropertyNames;
 import com.impaq.arena.player.Warriors;
 import com.impaq.arena.player.Wizards;
 
 public class GameBoard {
 
 	private final Player firstPlayer;
+    private final RoundExecutor firstPlayerExecutor;
 	private final Player secondPlayer;
+    private final RoundExecutor secondPlayerExecutor;
 	private final EventBus eventBus = new EventBus();
 	private final PropertySource properties = new PropertySource();
 
-	public GameBoard(Strategy firstPlayerStrategy, Strategy secondPlayerStrategy) {
+	public GameBoard(PlayerStrategy firstPlayerStrategy, PlayerStrategy secondPlayerStrategy) {
 		properties.load();
-		firstPlayer = createPlayer(firstPlayerStrategy);
-		secondPlayer = createPlayer(secondPlayerStrategy);
+        firstPlayer = createPlayer(firstPlayerStrategy);
+        secondPlayer = createPlayer(secondPlayerStrategy);
+        firstPlayerExecutor = new RoundExecutor(firstPlayer, secondPlayer, eventBus);
+        secondPlayerExecutor = new RoundExecutor(secondPlayer, firstPlayer, eventBus);
 	}
 
-	private Player createPlayer(Strategy strategy) {
+	private Player createPlayer(PlayerStrategy strategy) {
 		return new Player(strategy, createCastle(), createBuilders(),
 				createWizards(), createWarriors());
 	}
@@ -69,12 +73,12 @@ public class GameBoard {
 
 	public void executeRound() {
 		try {
-			firstPlayer.getStrategy().next().execute(eventBus, firstPlayer, secondPlayer);
+			firstPlayerExecutor.playRound();
 		} catch (Exception ex) {
 			eventBus.post(new RoundExecutionFailed(firstPlayer, ex));
 		}
 		try {
-			secondPlayer.getStrategy().next().execute(eventBus, secondPlayer, firstPlayer);
+			secondPlayerExecutor.playRound();
 		} catch (Exception ex) {
 			eventBus.post(new RoundExecutionFailed(secondPlayer, ex));
 		}

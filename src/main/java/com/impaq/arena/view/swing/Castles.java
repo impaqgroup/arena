@@ -3,7 +3,7 @@ package com.impaq.arena.view.swing;
 import com.google.common.collect.ImmutableList;
 import static com.google.common.collect.ImmutableList.of;
 import com.impaq.arena.PropertySource;
-import com.impaq.arena.player.PropertyNames;
+import com.impaq.arena.PropertyNames;
 import com.impaq.arena.view.swing.common.AnimationFinish;
 import com.impaq.arena.view.swing.common.AnimationListener;
 import com.impaq.arena.view.swing.common.Component;

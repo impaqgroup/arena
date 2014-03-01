@@ -1,4 +1,4 @@
-package com.impaq.arena.player;
+package com.impaq.arena;
 
 public class PropertyNames {
 
