@@ -15,12 +15,9 @@ public class GameBoardTest {
 
     @Test
     public void first_player_win_when_build_castle() {
-        board = new GameBoard(new PlayerStrategy() {
-            @Override
-            public void playRound(Game game) {
-                game.buildMyCastle();
-            }
-        }, idleStrategy);
+        board = new GameBoard(
+                { Game game -> game.buildMyCastle() } as PlayerStrategy,
+                idleStrategy);
         board.startGame();
 
         Assert.assertTrue(board.getFirstPlayer().isWinner());
@@ -31,12 +28,9 @@ public class GameBoardTest {
 
     @Test
     public void second_player_is_looser_when_player_one_destroy_castle() {
-        board = new GameBoard(new PlayerStrategy() {
-            @Override
-            public void playRound(Game game) {
-                game.attackEnemyCastle();
-            }
-        }, idleStrategy);
+        board = new GameBoard(
+                { Game game -> game.attackEnemyCastle() } as PlayerStrategy,
+                idleStrategy);
         board.startGame();
 
         Assert.assertFalse(board.getFirstPlayer().isWinner());
@@ -47,12 +41,9 @@ public class GameBoardTest {
 
     @Test
     public void second_player_win_when_build_castle() {
-        board = new GameBoard(new PlayerStrategy() {
-            @Override
-            public void playRound(Game game) {
-                game.buildMyCastle();
-            }
-        }, idleStrategy);
+        board = new GameBoard(
+                { Game game -> game.buildMyCastle() } as PlayerStrategy,
+                idleStrategy);
         board.startGame();
 
         Assert.assertFalse(board.getFirstPlayer().isWinner());
