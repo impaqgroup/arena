@@ -42,8 +42,8 @@ public class GameBoardTest {
     @Test
     public void second_player_win_when_build_castle() {
         board = new GameBoard(
-                { Game game -> game.buildMyCastle() } as PlayerStrategy,
-                idleStrategy);
+                idleStrategy,
+                { Game game -> game.buildMyCastle() } as PlayerStrategy);
         board.startGame();
 
         Assert.assertFalse(board.getFirstPlayer().isWinner());
