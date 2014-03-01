@@ -52,6 +52,24 @@
 
     <dependencyManagement>
         <dependencies>
+            <!--Project-->
+            <dependency>
+                <groupId>com.impaq</groupId>
+                <artifactId>game-engine</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.impaq</groupId>
+                <artifactId>game-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.impaq</groupId>
+                <artifactId>player-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--3rd party-->
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
