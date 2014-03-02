@@ -26,7 +26,9 @@ class PlayerResource {
 
     @RequestMapping(method = GET)
     Player view(@CurrentUser User user) {
-        return service.findById(user.email)
+        Player player = service.findById(user.email)
+        player.password = "********"
+        return player
     }
 
     @RequestMapping(method = POST)

@@ -12,6 +12,7 @@ import org.joda.time.DateTime
 import javax.persistence.Entity
 import javax.persistence.Id
 import javax.validation.constraints.NotNull
+import javax.validation.constraints.Size
 
 @Entity
 @TypeDefs([
@@ -26,6 +27,7 @@ class Player {
     String email;
 
     @NotEmpty
+    @Size(min = 8)
     String password;
 
     @NotEmpty

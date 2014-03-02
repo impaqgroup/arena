@@ -5,16 +5,23 @@ import org.joda.time.DateTime
 
 import javax.persistence.Entity
 import javax.persistence.Id
+import javax.persistence.Lob
+import javax.validation.constraints.NotNull
 
 @Entity
 class PlayerStrategy {
 
     @Id
-    String playerId;
+    @NotNull
+    String playerId
 
     @NotEmpty
-    String implementation;
+    String className
 
-    DateTime lastUpdated;
+    @Lob
+    @NotEmpty
+    String implementation
+
+    DateTime lastUpdated
 
 }
