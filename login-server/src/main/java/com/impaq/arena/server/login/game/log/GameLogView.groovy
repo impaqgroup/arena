@@ -6,19 +6,24 @@ import com.impaq.arena.player.Player
 
 class GameLogView implements GameBoardView {
 
-    final GameLog gameLog
+    Player playerOne
+    Player playerTwo
 
+    final GameLog gameLog
     RoundLog roundLog
-    Player player
-    PlayerLog playerLog;
+    PlayerLog playerLog
 
     GameLogView(gameLog = new GameLog()) {
         this.gameLog = gameLog
+        this.roundLog = new RoundLog(roundNumber: 0, playerOneLog: new PlayerLog())
+        this.playerLog = new PlayerLog()
     }
 
     @Override
     void onGameStart(GameStarted event) {
-        gameLog.logGameStart(event.getPlayerOne().getId(), event.getPlayerTwo().getId())
+        playerOne = event.playerOne
+        playerTwo = event.playerTwo
+        gameLog.logGameStart(playerOne.getId(), playerTwo.getId())
     }
 
     @Override
@@ -83,9 +88,7 @@ class GameLogView implements GameBoardView {
 
     @Override
     void onRoundStart(RoundStart event) {
-        if (roundLog != null) {
-            finalizeRoundLog()
-        }
+        finalizeRoundLog()
         roundLog = new RoundLog(roundNumber: event.number)
         playerLog = null
     }
@@ -93,10 +96,8 @@ class GameLogView implements GameBoardView {
     @Override
     void onPlayerTurnStart(PlayerTurnStart event) {
         if (playerLog != null) {
-            finalizePlayerLog()
             roundLog.playerOneLog = playerLog
         }
-        player = event.player
         playerLog = new PlayerLog()
     }
 
@@ -107,16 +108,17 @@ class GameLogView implements GameBoardView {
     }
 
     private void finalizeRoundLog() {
-        finalizePlayerLog()
         roundLog.playerTwoLog = playerLog
+        finalizePlayerLog(roundLog.playerOneLog, playerOne)
+        finalizePlayerLog(roundLog.playerTwoLog, playerTwo)
         gameLog.logNextRound(roundLog)
     }
 
-    void finalizePlayerLog() {
-        playerLog.castleHeight = player.castle.height
-        playerLog.buildersCount = player.builders.count
-        playerLog.wizardsCount = player.wizards.count
-        playerLog.warriorsCount = player.warriors.count
+    static void finalizePlayerLog(PlayerLog log, Player player) {
+        log.castleHeight = player.castle.height
+        log.buildersCount = player.builders.count
+        log.wizardsCount = player.wizards.count
+        log.warriorsCount = player.warriors.count
     }
 
 }

@@ -25,8 +25,29 @@ class GameLogViewTest extends Specification {
             gameLog.playerTwo == playerTwoId
     }
 
+    def "Should start stats on first round start"() {
+        when:
+            view.onGameStart(new GameStarted(playerOne, playerTwo))
+            view.onRoundStart(new RoundStart(1))
+        then:
+            gameLog.roundLogs.size() == 1
+            // FIXME remove duplication
+            gameLog.roundLogs[0].playerOneLog.actions == []
+            gameLog.roundLogs[0].playerOneLog.castleHeight == 30
+            gameLog.roundLogs[0].playerOneLog.buildersCount == 2
+            gameLog.roundLogs[0].playerOneLog.wizardsCount == 3
+            gameLog.roundLogs[0].playerOneLog.warriorsCount == 6
+
+            gameLog.roundLogs[0].playerTwoLog.actions == []
+            gameLog.roundLogs[0].playerTwoLog.castleHeight == 30
+            gameLog.roundLogs[0].playerTwoLog.buildersCount == 2
+            gameLog.roundLogs[0].playerTwoLog.wizardsCount == 3
+            gameLog.roundLogs[0].playerTwoLog.warriorsCount == 6
+    }
+
     def "Should log spy actions"() {
         when:
+            view.onGameStart(new GameStarted(playerOne, playerTwo))
             view.onRoundStart(new RoundStart(1))
             view.onPlayerTurnStart(new PlayerTurnStart(playerOne))
             view.onSpyCastle(new SpyCastle(playerOne))
@@ -36,13 +57,14 @@ class GameLogViewTest extends Specification {
             view.onSpyWizards(new SpyWizards(playerOne))
             view.onRoundStart(new RoundStart(2))
         then:
-            gameLog.roundLogs.size() == 1
-            gameLog.roundLogs[0].playerOneLog.actions == ["SPY_ENEMY_CASTLE", "SPY_ENEMY_WARRIORS"]
-            gameLog.roundLogs[0].playerTwoLog.actions == ["SPY_ENEMY_BUILDERS", "SPY_ENEMY_WIZARDS"]
+            gameLog.roundLogs.size() == 2
+            gameLog.roundLogs[1].playerOneLog.actions == ["SPY_ENEMY_CASTLE", "SPY_ENEMY_WARRIORS"]
+            gameLog.roundLogs[1].playerTwoLog.actions == ["SPY_ENEMY_BUILDERS", "SPY_ENEMY_WIZARDS"]
     }
 
     def "Should log player one as a winner"() {
         when:
+            view.onGameStart(new GameStarted(playerOne, playerTwo))
             view.onRoundStart(new RoundStart(1))
             view.onPlayerTurnStart(new PlayerTurnStart(playerOne))
             view.onPlayerTurnStart(new PlayerTurnStart(playerTwo))
@@ -53,6 +75,7 @@ class GameLogViewTest extends Specification {
 
     def "Should log player two as a winner"() {
         when:
+            view.onGameStart(new GameStarted(playerOne, playerTwo))
             view.onRoundStart(new RoundStart(1))
             view.onPlayerTurnStart(new PlayerTurnStart(playerOne))
             view.onPlayerTurnStart(new PlayerTurnStart(playerTwo))
@@ -63,6 +86,7 @@ class GameLogViewTest extends Specification {
 
     def "Should log draw"() {
         when:
+            view.onGameStart(new GameStarted(playerOne, playerTwo))
             view.onRoundStart(new RoundStart(1))
             view.onPlayerTurnStart(new PlayerTurnStart(playerOne))
             view.onPlayerTurnStart(new PlayerTurnStart(playerTwo))
