@@ -65,17 +65,17 @@ public class TestGameBoard extends GameBoard {
 //		when (spyWarriors.spy()).thenReturn(count);
 //	}
 //
-//	public TestGameBoard setOponentWizzards( int count ) {
-//		setWizzards(spyOponent, count);
+//	public TestGameBoard setOponentWizards( int count ) {
+//		setWizards(spyOponent, count);
 //		return this;
 //	}
 //
-//	public TestGameBoard setWizzards( int count ) {
-//		setWizzards(spyPlayer, count);
+//	public TestGameBoard setWizards( int count ) {
+//		setWizards(spyPlayer, count);
 //		return this;
 //	}
 //
-//	private void setWizzards( Player player, int count ) {
+//	private void setWizards( Player player, int count ) {
 //		Wizards spyWizards = Mockito.spy(player.getWizards());
 //		when (player.getWizards()).thenReturn(spyWizards) ;
 //		when (spyWizards.spy()).thenReturn(count);

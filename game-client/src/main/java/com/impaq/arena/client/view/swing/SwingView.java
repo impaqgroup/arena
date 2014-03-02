@@ -96,7 +96,7 @@ public class SwingView {
         execute(getOponentInfo(player).spyBuilders(), activePlayerIndicator(player));
     }
 
-    void spyWizzard(Player player) {
+    void spyWizard(Player player) {
         execute(getOponentInfo(player).spyWizards(), activePlayerIndicator(player));
     }
 
@@ -122,7 +122,7 @@ public class SwingView {
         animation.awaitFinish();
     }
 
-    void killWizzards(Player player) {
+    void killWizards(Player player) {
         execute(getOponentInfo(player).killWizards(), activePlayerIndicator(player));
         updatePlayers();
     }

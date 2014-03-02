@@ -4,37 +4,40 @@ import com.impaq.arena.GameBoardView;
 import com.impaq.arena.client.view.swing.SwingViewPresenter;
 
 /**
- *
+ * 
  * @author jaro
  */
 public enum ViewType {
 
-    EMPTY {
+	EMPTY {
 
-                @Override
-                public GameBoardView create() {
-                    return new NullView();
-                }
+		@Override
+		public GameBoardView create() {
+			return new NullView();
+		}
 
-            }, CONSOLE {
+	},
+	CONSOLE {
 
-                @Override
-                public GameBoardView create() {
-                    return new ConsoleView();
-                }
+		@Override
+		public GameBoardView create() {
+			return new ConsoleView();
+		}
 
-            }, SWING {
+	},
+	SWING {
 
-                @Override
-                public GameBoardView create() {
-                    return new SwingViewPresenter();
-                }
+		@Override
+		public GameBoardView create() {
+			return new SwingViewPresenter();
+		}
 
-            };
+	};
 
-    public static ViewType from(String value) {
-        return (value == null || value.isEmpty()) ? CONSOLE : valueOf(value.toUpperCase());
-    }
+	public static ViewType from(String value) {
+		return (value == null || value.isEmpty()) ? CONSOLE : valueOf(value
+				.toUpperCase());
+	}
 
-    public abstract GameBoardView create();
+	public abstract GameBoardView create();
 }

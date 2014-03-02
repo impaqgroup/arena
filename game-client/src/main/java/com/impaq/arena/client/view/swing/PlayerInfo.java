@@ -177,7 +177,7 @@ public class PlayerInfo extends Component {
         super(position);
         builder = new Figure(new Point(0, 30), format("icons/builder%s.JPG", side.getColor().getName()), ADD_ACTION, KILL_ACTION, SPY_ACTION);
 
-        wizard = new Figure(new Point(100, 30), format("icons/wizzard%s.JPG", side.getColor().getName()), ADD_ACTION, KILL_ACTION, SPY_ACTION);
+        wizard = new Figure(new Point(100, 30), format("icons/wizard%s.JPG", side.getColor().getName()), ADD_ACTION, KILL_ACTION, SPY_ACTION);
 
         warrior = new Figure(new Point(200, 30), format("icons/warrior%s.JPG", side.getColor().getName()), ADD_ACTION, KILL_ACTION, SPY_ACTION);
 
@@ -194,7 +194,7 @@ public class PlayerInfo extends Component {
         builder.setValue(value);
     }
 
-    private void setWizzardsNumber(int value) {
+    private void setWizardsNumber(int value) {
         wizard.setValue(value);
     }
 
@@ -209,7 +209,7 @@ public class PlayerInfo extends Component {
     public void update(Player player) {
         setBuildersNumber(player.getBuilders().getCount());
         setWarriorsNumer(player.getWarriors().getCount());
-        setWizzardsNumber(player.getWizards().getCount());
+        setWizardsNumber(player.getWizards().getCount());
         setCastleNumer(player.getCastle().getHeight());
     }
 

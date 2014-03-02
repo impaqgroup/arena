@@ -53,7 +53,7 @@ public class ConsoleView implements GameBoardView {
      out.printf("First player: " + "\n");
      out.printf("Builders: " + firstPlayer.getBuilders().getCount()+ "\n");
      out.printf("Warriors: " + firstPlayer.getWarriors().getCount()+ "\n");
-     out.printf("Wizzards: " + firstPlayer.getWizards().getCount()+ "\n");
+     out.printf("Wizards: " + firstPlayer.getWizards().getCount()+ "\n");
      out.printf("Castle: " + firstPlayer.getCastle().getHeight()
      + "\n");
      out.printf("\n");
@@ -62,7 +62,7 @@ public class ConsoleView implements GameBoardView {
      + "\n");
      out.printf("Warriors: " + secondPlayer.getWarriors().getCount()
      + "\n");
-     out.printf("Wizzards: " + secondPlayer.getWizards().getCount()
+     out.printf("Wizards: " + secondPlayer.getWizards().getCount()
      + "\n");
      out.printf("Castle: " + secondPlayer.getCastle().getHeight()
      + "\n");

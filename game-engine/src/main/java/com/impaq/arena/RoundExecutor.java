@@ -88,13 +88,12 @@ public class RoundExecutor implements Game {
     }
 
     @Override
-    public final void attackEnemyWizzards() {
+    public final void attackEnemyWizards() {
         if (!canAttack()) {
             return;
         }
-
-        dispatchEvent(new AttackWizards(current, myWizardsStrength()));
         oponent.getWizards().kill(myWizardsStrength());
+        dispatchEvent(new AttackWizards(current, myWizardsStrength()));
         attackCount++;
     }
 
@@ -150,7 +149,7 @@ public class RoundExecutor implements Game {
     }
 
     @Override
-    public final void recruitWizzards() {
+    public final void recruitWizards() {
         if (!canRecruit()) {
             return;
         }
@@ -190,7 +189,7 @@ public class RoundExecutor implements Game {
     }
 
     @Override
-    public final long spyEnemyWizzardsCount() {
+    public final long spyEnemyWizardsCount() {
         if (!canSpy()) {
             return -1;
         }
@@ -221,7 +220,7 @@ public class RoundExecutor implements Game {
     }
 
     @Override
-    public final long myWizzardsCount() {
+    public final long myWizardsCount() {
         return current.getWizards().getCount();
     }
 

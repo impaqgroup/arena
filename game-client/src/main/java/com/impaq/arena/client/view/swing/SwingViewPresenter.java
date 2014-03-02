@@ -43,7 +43,7 @@ public class SwingViewPresenter implements GameBoardView {
 
     @Override
     public void onSpyWizards(SpyWizards event) {
-        view.spyWizzard(event.getPlayer());
+        view.spyWizard(event.getPlayer());
     }
 
     @Override
@@ -80,7 +80,7 @@ public class SwingViewPresenter implements GameBoardView {
 
     @Override
     public void onAttackWizards(AttackWizards event) {
-        view.killWizzards(event.getPlayer());
+        view.killWizards(event.getPlayer());
     }
 
     @Override

@@ -11,7 +11,7 @@ public interface Game {
 
     int myWarriorsStrength();
 
-    long myWizzardsCount();
+    long myWizardsCount();
 
     int myWizardsStrength();
 
@@ -29,7 +29,7 @@ public interface Game {
 
     void attackEnemyCastle();
 
-    void attackEnemyWizzards();
+    void attackEnemyWizards();
 
     void attackEnemyWarriors();
 
@@ -39,7 +39,7 @@ public interface Game {
 
     void recruitBuilders();
 
-    void recruitWizzards();
+    void recruitWizards();
 
     void recruitWarriors();
 
@@ -49,7 +49,7 @@ public interface Game {
 
     long spyEnemyWarriorsCount();
 
-    long spyEnemyWizzardsCount();
+    long spyEnemyWizardsCount();
 
     long spyEnemyBuildersCount();
 }
