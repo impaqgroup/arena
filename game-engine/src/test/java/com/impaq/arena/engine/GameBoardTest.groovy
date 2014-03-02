@@ -4,8 +4,10 @@ import static com.impaq.arena.api.TestStrategies.idleStrategy;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import com.impaq.arena.GameBoard;
+import com.impaq.arena.GameBoardView
 import com.impaq.arena.api.Game;
 import com.impaq.arena.api.PlayerStrategy;
 
@@ -51,4 +53,25 @@ public class GameBoardTest {
         Assert.assertFalse(board.getSecondPlayer().isLoser());
         Assert.assertTrue(board.getSecondPlayer().isWinner());
     }
+    
+    @Test
+    public void shoudStopGameWhenMaxRoundNumberExceeded(){
+        
+        //given
+        GameBoardView view = Mockito.mock(GameBoardView.class);
+        board = new GameBoard("one", idleStrategy, "two", idleStrategy);
+        //when
+        board.registerView(view);
+        board.startGame();
+        //then
+        
+        Mockito.verify(view,Mockito.times(50)).onRoundStart(Mockito.any());
+        Assert.assertFalse(board.getFirstPlayer().isWinner());
+        Assert.assertFalse(board.getFirstPlayer().isLoser());
+        Assert.assertFalse(board.getSecondPlayer().isLoser());
+        Assert.assertFalse(board.getSecondPlayer().isWinner());
+        
+    }
+    
+    
 }

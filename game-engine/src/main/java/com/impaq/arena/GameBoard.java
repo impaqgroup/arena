@@ -16,19 +16,21 @@ import com.impaq.arena.player.Wizards;
 public class GameBoard {
 
 	private final Player firstPlayer;
-    private final RoundExecutor firstPlayerExecutor;
+        private final RoundExecutor firstPlayerExecutor;
 	private final Player secondPlayer;
-    private final RoundExecutor secondPlayerExecutor;
+        private final RoundExecutor secondPlayerExecutor;
 	private final EventBus eventBus = new EventBus();
 	private final PropertySource properties = new PropertySource();
+        private final int maxRoundNumber;
 
 	public GameBoard(String firstPlayerId, PlayerStrategy firstPlayerStrategy,
             String secondPlayerId, PlayerStrategy secondPlayerStrategy) {
 		properties.load();
-        firstPlayer = createPlayer(firstPlayerId, firstPlayerStrategy);
-        secondPlayer = createPlayer(secondPlayerId, secondPlayerStrategy);
-        firstPlayerExecutor = new RoundExecutor(firstPlayer, secondPlayer, eventBus);
-        secondPlayerExecutor = new RoundExecutor(secondPlayer, firstPlayer, eventBus);
+                firstPlayer = createPlayer(firstPlayerId, firstPlayerStrategy);
+                secondPlayer = createPlayer(secondPlayerId, secondPlayerStrategy);
+                firstPlayerExecutor = new RoundExecutor(firstPlayer, secondPlayer, eventBus);
+                secondPlayerExecutor = new RoundExecutor(secondPlayer, firstPlayer, eventBus);
+                maxRoundNumber = properties.getInt(PropertyNames.MAX_ROUND_NUMBER);
 	}
 
 	private Player createPlayer(String id, PlayerStrategy strategy) {
@@ -62,7 +64,7 @@ public class GameBoard {
 	public void startGame() {
 		initialize();
 		int round = 0;
-		while (!isGameOver()) {
+		while (!isGameOver(round)) {
 			eventBus.post(new RoundStart(++round));
 			executeRound();
 		}
@@ -108,9 +110,9 @@ public class GameBoard {
 		return secondPlayer;
 	}
 
-	public boolean isGameOver() {
+	public boolean isGameOver(int roundNumber) {
 		return firstPlayer.isLoser() || firstPlayer.isWinner()
-				|| secondPlayer.isLoser() || secondPlayer.isWinner();
+				|| secondPlayer.isLoser() || secondPlayer.isWinner() || roundNumber >= maxRoundNumber;
 	}
 
 	public void registerView(GameBoardView listener) {
@@ -120,5 +122,6 @@ public class GameBoard {
 	public void unregisterView(GameBoardView listener) {
 		eventBus.unregister(listener);
 	}
+
 
 }
