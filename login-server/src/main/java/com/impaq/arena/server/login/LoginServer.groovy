@@ -24,6 +24,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
@@ -105,7 +106,7 @@ class LoginServer {
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
             auth
                 .userDetailsService(userService)
-                .passwordEncoder(passwordEncoder())
+                    .passwordEncoder(passwordEncoder())
         }
 
         @Override
@@ -117,20 +118,22 @@ class LoginServer {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
-                .authorizeRequests()
-                .anyRequest().authenticated()
-            http
                 .httpBasic()
-                .realmName("IMPAQ Arena")
+                    .realmName("IMPAQ Arena")
+                    .authenticationEntryPoint(new Http403ForbiddenEntryPoint())
+            .and()
+                .authorizeRequests()
+                    .anyRequest().hasAnyRole("USER", "ADMIN")
         }
 
         @Override
         void configure(WebSecurity web) throws Exception {
             web
                 .ignoring()
-                .antMatchers(GET, "/resources/**")
                 .antMatchers(GET, "/")
                 .antMatchers(POST, "/player")
+                .antMatchers(GET, "/resources/**")
+
         }
     }
 }
