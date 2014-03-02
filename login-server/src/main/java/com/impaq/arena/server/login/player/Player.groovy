@@ -11,6 +11,7 @@ import org.joda.time.DateTime
 
 import javax.persistence.Entity
 import javax.persistence.Id
+import javax.validation.constraints.NotNull
 
 @Entity
 @TypeDefs([
@@ -20,6 +21,7 @@ import javax.persistence.Id
 class Player {
 
     @Id
+    @NotNull
     @Email
     String email;
 
@@ -32,6 +34,7 @@ class Player {
     @NotEmpty
     String surname;
 
+    @NotNull
     @Range(min = 1L, max = 12L)
     Integer term;
 

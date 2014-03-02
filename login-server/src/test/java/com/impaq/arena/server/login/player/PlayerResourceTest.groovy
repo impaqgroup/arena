@@ -1,32 +1,28 @@
 package com.impaq.arena.server.login.player
 
-import com.impaq.arena.server.login.IntegrationTestCase
 import groovy.json.JsonBuilder
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.web.context.WebApplicationContext
+import spock.lang.Specification
 
 import static org.springframework.http.MediaType.APPLICATION_JSON
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup
 
-class PlayerResourceTest extends IntegrationTestCase {
+class PlayerResourceTest extends Specification {
 
-    @Autowired
-    WebApplicationContext wac;
+    PlayerService service = Mock()
 
-    MockMvc mockMvc;
+    PlayerResource resource = new PlayerResource(service)
 
-    def setup() {
-        mockMvc = webAppContextSetup(this.wac).build();
-    }
+    MockMvc mockMvc = standaloneSetup(resource).build();
+
+    String content = new JsonBuilder([
+        email: "test@test.pl", password: "test", name: "testName", surname: "testSurname"
+    ]).toString()
 
     def "Should require email" () {
-        given:
-            def content = new JsonBuilder(new Player(email: "test")).toPrettyString()
-            println(content)
         when:
             def response = mockMvc
                 .perform(post("/player")
@@ -34,7 +30,13 @@ class PlayerResourceTest extends IntegrationTestCase {
                     .content(content)
                 ).andDo(print());
         then:
-            response.andExpect(status().isUnprocessableEntity())
+            response.andExpect(status().isCreated())
+            1 * service.create({ Player p ->
+                p.email == "test@test.pl" &&
+                p.password == "test" &&
+                p.name == "testName" &&
+                p.surname == "testSurname"
+            })
     }
 
 }
