@@ -25,7 +25,7 @@ public class PlayerTest {
 
     private PlayerStrategy strategy = mock(PlayerStrategy.class);
 
-    private Player player = new Player(strategy, castle, builders, wizards, warriors);
+    private Player player = new Player("", strategy, castle, builders, wizards, warriors);
 
     @Test
     public void player_win_when_castle_is_maximum() {

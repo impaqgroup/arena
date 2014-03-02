@@ -1,26 +1,5 @@
 package com.impaq.arena.client;
 
-import java.util.List;
-
-import org.junit.Assert;
-import org.junit.Before;
-
-import com.impaq.arena.event.AddAction;
-import com.impaq.arena.event.AddBuilders;
-import com.impaq.arena.event.AddWarriors;
-import com.impaq.arena.event.AddWizards;
-import com.impaq.arena.event.BuildCastle;
-import com.impaq.arena.event.DestroyCastle;
-import com.impaq.arena.event.Event;
-import com.impaq.arena.event.KillBuilders;
-import com.impaq.arena.event.KillWarriors;
-import com.impaq.arena.event.KillWizards;
-import com.impaq.arena.event.OffensiveAction;
-import com.impaq.arena.event.SpyAction;
-import com.impaq.arena.event.SpyBuilders;
-import com.impaq.arena.event.SpyCastle;
-import com.impaq.arena.event.SpyWarriors;
-import com.impaq.arena.event.SpyWizards;
 /**
  * Rules:<br>
  * Offensive (1 per round):
@@ -62,19 +41,19 @@ public abstract class BaseStrategyTest {
 //    }
 //
 //    protected Class killWizards(){
-//    	return KillWizards.class;
+//    	return AttackWizards.class;
 //    }
 //
 //    protected Class killWarriors(){
-//    	return KillWarriors.class;
+//    	return AttackWarriors.class;
 //    }
 //
 //    protected Class killBuilders(){
-//    	return KillBuilders.class;
+//    	return AttackBuilders.class;
 //    }
 //
 //    protected Class destroyCastle(){
-//    	return DestroyCastle.class;
+//    	return AttackCastle.class;
 //    }
 //
 //    protected Class buildCastle(){
@@ -82,14 +61,14 @@ public abstract class BaseStrategyTest {
 //    }
 //
 //    protected Class addBuilders(){
-//    	return AddBuilders.class;
+//    	return RecruitBuilders.class;
 //    }
 //    protected Class addWizards(){
-//    	return AddWizards.class;
+//    	return RecruitWizards.class;
 //    }
 //
 //    protected Class addWarriors(){
-//    	return AddWarriors.class;
+//    	return RecruitWarriors.class;
 //    }
 //
 //    protected Class spyCastle(){

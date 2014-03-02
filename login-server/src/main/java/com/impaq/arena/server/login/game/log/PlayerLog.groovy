@@ -19,7 +19,7 @@ class PlayerLog extends AbstractPersistable<Long> {
 
     int buildersCount;
 
-    int imagesCount;
+    int wizardsCount;
 
     int warriorsCount;
 

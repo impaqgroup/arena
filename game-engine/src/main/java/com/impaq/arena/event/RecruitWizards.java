@@ -6,9 +6,9 @@ import com.impaq.arena.player.Player;
  *
  * @author Jaroslaw Herod <jaroslaw.herod@impaqgroup.com>
  */
-public class DestroyCastle extends BaseActionEvent implements OffensiveAction {
+public class RecruitWizards extends BaseActionEvent implements AddAction{
 
-    public DestroyCastle(Player oponent, int value) {
+    public RecruitWizards(Player oponent, int value) {
         super(oponent, value);
     }
 

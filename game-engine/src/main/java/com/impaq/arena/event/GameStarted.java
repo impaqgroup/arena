@@ -8,20 +8,20 @@ import com.impaq.arena.player.Player;
  */
 public class GameStarted {
 
-    private final Player left;
-    private final Player right;
+    private final Player playerOne;
+    private final Player playerTwo;
 
-    public GameStarted(Player left, Player right) {
-        this.left = left;
-        this.right = right;
+    public GameStarted(Player playerOne, Player playerTwo) {
+        this.playerOne = playerOne;
+        this.playerTwo = playerTwo;
     }
 
-    public Player getLeft() {
-        return left;
+    public Player getPlayerOne() {
+        return playerOne;
     }
 
-    public Player getRight() {
-        return right;
+    public Player getPlayerTwo() {
+        return playerTwo;
     }
 
 }

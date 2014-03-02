@@ -16,9 +16,9 @@
  */
 package com.impaq.arena.client.view;
 
+import com.impaq.arena.event.GameEnd;
 import com.impaq.arena.event.GameStarted;
 import com.impaq.arena.event.SpyWizards;
-import com.impaq.arena.event.Winner;
 import com.impaq.arena.player.Player;
 import java.io.PrintStream;
 
@@ -66,10 +66,10 @@ public class ConsoleViewTest {
     @Test
     public void shouldDisplayTheWinnerWhenFirstPlayerIsWinner() {
         //Given
-        Winner winner = new Winner(first);
+        GameEnd gameEnd = new GameEnd(first);
         givenGameStarted();
         //When
-        view.onWinner(winner);
+        view.onGameEnd(gameEnd);
 
         //Then
         assertLinePrinted("And The Winner is First player !!!!!");
@@ -78,10 +78,10 @@ public class ConsoleViewTest {
     @Test
     public void shouldDisplayTheWinnerWhenSecondPlayerIsWinner() {
         //Given
-        Winner winner = new Winner(second);
+        GameEnd gameEnd = new GameEnd(second);
         givenGameStarted();
         //When
-        view.onWinner(winner);
+        view.onGameEnd(gameEnd);
 
         //Then
         assertLinePrinted("And The Winner is Second player !!!!!");

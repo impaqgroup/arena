@@ -2,13 +2,13 @@ package com.impaq.arena;
 
 import com.google.common.eventbus.EventBus;
 import com.impaq.arena.event.BuildCastle;
-import com.impaq.arena.event.DestroyCastle;
-import com.impaq.arena.event.KillBuilders;
-import com.impaq.arena.event.KillWarriors;
-import com.impaq.arena.event.AddBuilders;
-import com.impaq.arena.event.AddWarriors;
-import com.impaq.arena.event.AddWizards;
-import com.impaq.arena.event.KillWizards;
+import com.impaq.arena.event.AttackCastle;
+import com.impaq.arena.event.AttackBuilders;
+import com.impaq.arena.event.AttackWarriors;
+import com.impaq.arena.event.RecruitBuilders;
+import com.impaq.arena.event.RecruitWarriors;
+import com.impaq.arena.event.RecruitWizards;
+import com.impaq.arena.event.AttackWizards;
 import com.impaq.arena.event.SpyBuilders;
 import com.impaq.arena.event.SpyCastle;
 import com.impaq.arena.event.SpyWarriors;
@@ -93,7 +93,7 @@ public class RoundExecutor implements Game {
             return;
         }
 
-        dispatchEvent(new KillWizards(current, myWizardsStrength()));
+        dispatchEvent(new AttackWizards(current, myWizardsStrength()));
         oponent.getWizards().kill(myWizardsStrength());
         attackCount++;
     }
@@ -104,7 +104,7 @@ public class RoundExecutor implements Game {
             return;
         }
         oponent.getWarriors().kill(myWizardsStrength());
-        dispatchEvent(new KillWarriors(current, myWizardsStrength()));
+        dispatchEvent(new AttackWarriors(current, myWizardsStrength()));
         attackCount++;
     }
 
@@ -115,7 +115,7 @@ public class RoundExecutor implements Game {
         }
 
         oponent.getBuilders().kill(myWizardsStrength());
-        dispatchEvent(new KillBuilders(current, myWizardsStrength()));
+        dispatchEvent(new AttackBuilders(current, myWizardsStrength()));
         attackCount++;
     }
 
@@ -125,7 +125,7 @@ public class RoundExecutor implements Game {
             return;
         }
         oponent.getCastle().destroy(myWarriorsStrength());
-        dispatchEvent(new DestroyCastle(current, myWarriorsStrength()));
+        dispatchEvent(new AttackCastle(current, myWarriorsStrength()));
         attackCount++;
     }
 
@@ -145,7 +145,7 @@ public class RoundExecutor implements Game {
             return;
         }
         current.getBuilders().add(1);
-        dispatchEvent(new AddBuilders(current, 1));
+        dispatchEvent(new RecruitBuilders(current, 1));
         recruitCount++;
     }
 
@@ -155,7 +155,7 @@ public class RoundExecutor implements Game {
             return;
         }
         current.getWizards().add(1);
-        dispatchEvent(new AddWizards(current, 1));
+        dispatchEvent(new RecruitWizards(current, 1));
         recruitCount++;
     }
 
@@ -165,7 +165,7 @@ public class RoundExecutor implements Game {
             return;
         }
         current.getWarriors().add(2);
-        dispatchEvent(new AddWarriors(current, 2));
+        dispatchEvent(new RecruitWarriors(current, 2));
         recruitCount++;
     }
 

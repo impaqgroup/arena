@@ -1,22 +1,23 @@
 package com.impaq.arena.client.view;
 
 import com.impaq.arena.GameBoardView;
-import com.impaq.arena.event.AddBuilders;
-import com.impaq.arena.event.AddWarriors;
-import com.impaq.arena.event.AddWizards;
+import com.impaq.arena.event.AttackBuilders;
+import com.impaq.arena.event.AttackCastle;
+import com.impaq.arena.event.AttackWarriors;
+import com.impaq.arena.event.RecruitBuilders;
+import com.impaq.arena.event.RecruitWarriors;
+import com.impaq.arena.event.RecruitWizards;
 import com.impaq.arena.event.BuildCastle;
-import com.impaq.arena.event.DestroyCastle;
 import com.impaq.arena.event.Event;
+import com.impaq.arena.event.GameEnd;
 import com.impaq.arena.event.GameStarted;
-import com.impaq.arena.event.KillBuilders;
-import com.impaq.arena.event.KillWarriors;
-import com.impaq.arena.event.KillWizards;
+import com.impaq.arena.event.AttackWizards;
+import com.impaq.arena.event.PlayerTurnStart;
 import com.impaq.arena.event.RoundStart;
 import com.impaq.arena.event.SpyBuilders;
 import com.impaq.arena.event.SpyCastle;
 import com.impaq.arena.event.SpyWarriors;
 import com.impaq.arena.event.SpyWizards;
-import com.impaq.arena.event.Winner;
 import com.impaq.arena.player.Player;
 import java.io.PrintStream;
 
@@ -37,8 +38,8 @@ public class ConsoleView implements GameBoardView {
 
     @Override
     public void onGameStart(GameStarted event) {
-        first = event.getLeft();
-        second = event.getRight();
+        first = event.getPlayerOne();
+        second = event.getPlayerTwo();
         println("Game started");
     }
 
@@ -78,12 +79,12 @@ public class ConsoleView implements GameBoardView {
 
      */
     @Override
-    public void onWinner(Winner winner) {
-        println("And The Winner is " + playerName(winner) + " !!!!!");
+    public void onGameEnd(GameEnd gameEnd) {
+        println("And The Winner is " + playerName(gameEnd) + " !!!!!");
     }
 
-    private String playerName(Winner winner) {
-        return winner.getWinner() == first ? "Blue player" : "Red player";
+    private String playerName(GameEnd gameEnd) {
+        return gameEnd.getWinner() == first ? "Blue player" : "Red player";
     }
 
     @Override
@@ -116,37 +117,37 @@ public class ConsoleView implements GameBoardView {
     }
 
     @Override
-    public void onDestroyCastel(DestroyCastle event) {
+    public void onAttackCastle(AttackCastle event) {
         println(playerName(event) + " destroyed " + event.getValue() + " levels of enemy castel.");
     }
 
     @Override
-    public void onKillBuilders(KillBuilders event) {
+    public void onAttackBuilders(AttackBuilders event) {
         println(playerName(event) + " kill " + event.getValue() + " builders.");
     }
 
     @Override
-    public void onKillWizards(KillWizards event) {
+    public void onAttackWizards(AttackWizards event) {
         println(playerName(event) + " kill " + event.getValue() + " wizards.");
     }
 
     @Override
-    public void onKillWarriors(KillWarriors event) {
+    public void onAttackWarriors(AttackWarriors event) {
         println(playerName(event) + " kill " + event.getValue() + " warriors.");
     }
 
     @Override
-    public void onAddBuilders(AddBuilders event) {
+    public void onRecruitBuilders(RecruitBuilders event) {
         println(playerName(event) + " added " + event.getValue() + " builders.");
     }
 
     @Override
-    public void onAddWizards(AddWizards event) {
+    public void onRecruitWizards(RecruitWizards event) {
         println(playerName(event) + " added " + event.getValue() + " wizards.");
     }
 
     @Override
-    public void onAddWarriors(AddWarriors event) {
+    public void onRecruitWarriors(RecruitWarriors event) {
         println(playerName(event) + " added " + event.getValue() + " warriors.");
     }
 
@@ -159,4 +160,8 @@ public class ConsoleView implements GameBoardView {
         out.println(line);
     }
 
+    @Override
+    public void onPlayerTurnStart(PlayerTurnStart event) {
+
+    }
 }

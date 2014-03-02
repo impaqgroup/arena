@@ -6,9 +6,9 @@ import com.impaq.arena.player.Player;
  *
  * @author Jaroslaw Herod <jaroslaw.herod@impaqgroup.com>
  */
-public class AddWizards extends BaseActionEvent implements AddAction{
+public class AttackWarriors extends BaseActionEvent implements OffensiveAction {
 
-    public AddWizards(Player oponent, int value) {
+    public AttackWarriors(Player oponent, int value) {
         super(oponent, value);
     }
 

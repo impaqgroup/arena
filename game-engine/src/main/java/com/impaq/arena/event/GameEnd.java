@@ -3,14 +3,13 @@ package com.impaq.arena.event;
 import com.impaq.arena.player.Player;
 
 /**
- *
  * @author jaro
  */
-public class Winner  {
+public class GameEnd {
 
     private final Player winner;
 
-    public Winner(Player winner) {
+    public GameEnd(Player winner) {
         this.winner = winner;
     }
 

@@ -6,9 +6,9 @@ import com.impaq.arena.player.Player;
  *
  * @author Jaroslaw Herod <jaroslaw.herod@impaqgroup.com>
  */
-public class KillWizards extends BaseActionEvent implements OffensiveAction {
+public class RecruitBuilders extends BaseActionEvent implements AddAction{
 
-    public KillWizards(Player oponent, int value) {
+    public RecruitBuilders(Player oponent, int value) {
         super(oponent, value);
     }
 

@@ -3,9 +3,10 @@ package com.impaq.arena;
 import com.google.common.eventbus.EventBus;
 import com.impaq.arena.api.PlayerStrategy;
 import com.impaq.arena.event.GameStarted;
+import com.impaq.arena.event.PlayerTurnStart;
 import com.impaq.arena.event.RoundExecutionFailed;
 import com.impaq.arena.event.RoundStart;
-import com.impaq.arena.event.Winner;
+import com.impaq.arena.event.GameEnd;
 import com.impaq.arena.player.Builders;
 import com.impaq.arena.player.Castle;
 import com.impaq.arena.player.Player;
@@ -21,16 +22,17 @@ public class GameBoard {
 	private final EventBus eventBus = new EventBus();
 	private final PropertySource properties = new PropertySource();
 
-	public GameBoard(PlayerStrategy firstPlayerStrategy, PlayerStrategy secondPlayerStrategy) {
+	public GameBoard(String firstPlayerId, PlayerStrategy firstPlayerStrategy,
+            String secondPlayerId, PlayerStrategy secondPlayerStrategy) {
 		properties.load();
-        firstPlayer = createPlayer(firstPlayerStrategy);
-        secondPlayer = createPlayer(secondPlayerStrategy);
+        firstPlayer = createPlayer(firstPlayerId, firstPlayerStrategy);
+        secondPlayer = createPlayer(secondPlayerId, secondPlayerStrategy);
         firstPlayerExecutor = new RoundExecutor(firstPlayer, secondPlayer, eventBus);
         secondPlayerExecutor = new RoundExecutor(secondPlayer, firstPlayer, eventBus);
 	}
 
-	private Player createPlayer(PlayerStrategy strategy) {
-		return new Player(strategy, createCastle(), createBuilders(),
+	private Player createPlayer(String id, PlayerStrategy strategy) {
+		return new Player(id, strategy, createCastle(), createBuilders(),
 				createWizards(), createWarriors());
 	}
 
@@ -64,7 +66,7 @@ public class GameBoard {
 			eventBus.post(new RoundStart(++round));
 			executeRound();
 		}
-		showWinner();
+		endGame();
 	}
 
 	public void initialize() {
@@ -72,11 +74,13 @@ public class GameBoard {
 	}
 
 	public void executeRound() {
+        eventBus.post(new PlayerTurnStart(firstPlayer));
 		try {
 			firstPlayerExecutor.playRound();
 		} catch (Exception ex) {
 			eventBus.post(new RoundExecutionFailed(firstPlayer, ex));
 		}
+        eventBus.post(new PlayerTurnStart(secondPlayer));
 		try {
 			secondPlayerExecutor.playRound();
 		} catch (Exception ex) {
@@ -85,16 +89,16 @@ public class GameBoard {
 		
 	}
 
-	private void showWinner() {
-
-		// FIXME add notification about draw
+	private void endGame() {
+		Player winner = null;
 		if (firstPlayer.isWinner() || secondPlayer.isLoser()) {
-			eventBus.post(new Winner(firstPlayer));
+            winner = firstPlayer;
 		}
 		if (secondPlayer.isWinner() || firstPlayer.isLoser()) {
-			eventBus.post(new Winner(secondPlayer));
+            winner = (winner == null) ? secondPlayer : null;
 		}
-	}
+        eventBus.post(new GameEnd(winner));
+    }
 
 	public Player getFirstPlayer() {
 		return firstPlayer;

@@ -15,7 +15,7 @@ public class TestGameBoard extends GameBoard {
     private final TestEventBus eventBus = new TestEventBus();
 
 	public TestGameBoard(PlayerStrategy firstPlayerStrategy ) {
-		super(firstPlayerStrategy, oponentRoundManager);
+		super("", firstPlayerStrategy, "", oponentRoundManager);
 		spyPlayer = Mockito.spy(getFirstPlayer());
 		spyOponent = Mockito.spy(getSecondPlayer());
 	}
