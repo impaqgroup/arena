@@ -20,7 +20,7 @@ class PlayerStrategy {
 
     @Lob
     @NotEmpty
-    String implementation
+    String javaCode
 
     DateTime lastUpdated
 
