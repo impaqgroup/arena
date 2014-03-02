@@ -12,6 +12,10 @@
 
     <artifactId>login-server</artifactId>
 
+    <properties>
+        <resources.directory>${project.build.directory}/web-resources</resources.directory>
+    </properties>
+
     <dependencies>
         <!--Project-->
         <dependency>
@@ -71,6 +75,16 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>${resources.directory}</directory>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -92,7 +106,8 @@
                                     <artifactId>player-api</artifactId>
                                     <version>${project.version}</version>
                                     <type>jar</type>
-                                    <outputDirectory>${project.build.directory}/resources</outputDirectory>
+                                    <outputDirectory>${resources.directory}/resources</outputDirectory>
+                                    <destFileName>player-api.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
