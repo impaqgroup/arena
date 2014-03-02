@@ -17,7 +17,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*
 @TypeChecked
 class PlayerResource {
 
-    private final PlayerService service
+    private PlayerService service
 
     @Autowired
     PlayerResource(PlayerService service) {

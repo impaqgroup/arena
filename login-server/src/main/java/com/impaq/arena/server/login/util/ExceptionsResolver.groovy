@@ -21,9 +21,9 @@ class ExceptionsResolver {
         response.sendError(UNPROCESSABLE_ENTITY.value(), "Validation error(s): $msg")
     }
 
-    @ExceptionHandler(RuntimeException)
-    void handle(RuntimeException ex, HttpServletResponse response) {
-        response.sendError(INTERNAL_SERVER_ERROR.value(), "BOOM !!!")
-    }
+//    @ExceptionHandler(RuntimeException)
+//    void handle(RuntimeException ex, HttpServletResponse response) {
+//        response.sendError(INTERNAL_SERVER_ERROR.value(), "BOOM !!!")
+//    }
 
 }
