@@ -6,10 +6,12 @@ import org.abstractmeta.toolbox.compilation.compiler.impl.JavaSourceCompilerImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.io.Resource
 import org.springframework.core.io.ResourceLoader
+import org.springframework.stereotype.Component
 
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
 
+@Component
 class PlayerStrategyLoader {
 
     private final ResourceLoader resourceLoader

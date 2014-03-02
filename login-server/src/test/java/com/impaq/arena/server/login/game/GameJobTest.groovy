@@ -3,23 +3,30 @@ package com.impaq.arena.server.login.game
 import com.impaq.arena.server.login.game.log.GameLog
 import com.impaq.arena.server.login.game.log.GameLogService
 import com.impaq.arena.server.login.player.strategy.PlayerStrategy
+import org.springframework.core.io.DefaultResourceLoader
+import org.springframework.core.io.ResourceLoader
 import spock.lang.Ignore
 import spock.lang.Specification
 
 class GameJobTest extends Specification {
-    private final String activeStrategyCode = getClass().getClassLoader().getResourceAsStream("ExampleStrategy.java").getText()
-    private final String idleStrategyCode = getClass().getClassLoader().getResourceAsStream("ExampleStrategy_idle.java").getText()
-    private final GameLogService gameLogService = Mock()
-    private PlayerStrategy playerOneStrategy = new PlayerStrategy(
-        className: "ExampleStrategy", playerId: "playerOne")
-    private PlayerStrategy playerTwoStrategy = new PlayerStrategy(
-        className: "ExampleStrategy", playerId: "playerTwo")
+
+    ResourceLoader resourceLoader = new DefaultResourceLoader()
+    PlayerStrategyLoader strategyLoader = new PlayerStrategyLoader(resourceLoader)
+    GameLogService gameLogService = Mock(GameLogService.class)
+
+    String activeStrategyCode = resourceLoader.getResource("ExampleStrategy.java").getInputStream().getText()
+    String idleStrategyCode = resourceLoader.getResource("ExampleStrategy_idle.java").getInputStream().getText()
+
+    PlayerStrategy playerOneStrategy = new PlayerStrategy(
+        playerId: "playerOne", className: "ExampleStrategy")
+    PlayerStrategy playerTwoStrategy = new PlayerStrategy(
+        playerId: "playerTwo", className: "ExampleStrategy")
 
     def "Should run game in which player one is a winner"() {
         given:
             playerOneStrategy.javaCode = activeStrategyCode
             playerTwoStrategy.javaCode = idleStrategyCode
-            GameJob gameJob = new GameJob(playerOneStrategy, playerTwoStrategy, gameLogService)
+            GameJob gameJob = new GameJob(playerOneStrategy, playerTwoStrategy, strategyLoader, gameLogService)
         when:
             gameJob.run()
         then:
@@ -30,7 +37,7 @@ class GameJobTest extends Specification {
         given:
             playerOneStrategy.javaCode = idleStrategyCode
             playerTwoStrategy.javaCode = activeStrategyCode
-            GameJob gameJob = new GameJob(playerOneStrategy, playerTwoStrategy, gameLogService)
+            GameJob gameJob = new GameJob(playerOneStrategy, playerTwoStrategy, strategyLoader, gameLogService)
         when:
             gameJob.run()
         then:
