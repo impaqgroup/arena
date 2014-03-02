@@ -19,15 +19,15 @@ public class ExampleStrategy implements PlayerStrategy {
     }
 
     private void play1(Game game) {
-        if (game.spyEnemyWizzardsCount() > 8) {
-            if (game.myWizzardsCount() < 4) {
-                game.recruitWizzards();
-                game.recruitWizzards();
+        if (game.spyEnemyWizardsCount() > 8) {
+            if (game.myWizardsCount() < 4) {
+                game.recruitWizards();
+                game.recruitWizards();
             } else {
                 game.recruitBuilders();
                 game.recruitBuilders();
             }
-            game.attackEnemyWizzards();
+            game.attackEnemyWizards();
         } else if (game.spyEnemyCastleHeight() > 30) {
             game.recruitWarriors();
             game.recruitWarriors();
@@ -41,9 +41,9 @@ public class ExampleStrategy implements PlayerStrategy {
 
     private void play2(Game game) {
         if (game.spyEnemyWarriorsCount() > 8) {
-            if (game.myWizzardsCount() < 4) {
-                game.recruitWizzards();
-                game.recruitWizzards();
+            if (game.myWizardsCount() < 4) {
+                game.recruitWizards();
+                game.recruitWizards();
             } else {
                 game.recruitBuilders();
                 game.recruitBuilders();
@@ -62,9 +62,9 @@ public class ExampleStrategy implements PlayerStrategy {
 
     private void play3(Game game) {
         if (game.spyEnemyBuildersCount() > 8) {
-            if (game.myWizzardsCount() < 4) {
-                game.recruitWizzards();
-                game.recruitWizzards();
+            if (game.myWizardsCount() < 4) {
+                game.recruitWizards();
+                game.recruitWizards();
             } else {
                 game.recruitBuilders();
                 game.recruitBuilders();
