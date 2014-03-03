@@ -7,15 +7,18 @@ import com.fasterxml.jackson.datatype.joda.JodaModule
 import com.impaq.arena.server.login.user.CurrentUserResolver
 import com.impaq.arena.server.login.user.UserService
 import org.apache.catalina.connector.Connector
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.security.SecurityPrequisite
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainerFactory
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer
+import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory
 import org.springframework.boot.context.embedded.tomcat.TomcatConnectorCustomizer
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -23,7 +26,6 @@ import org.springframework.boot.context.web.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Profile
 import org.springframework.core.io.ResourceLoader
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.http.converter.HttpMessageConverter
@@ -37,7 +39,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint
-import org.springframework.util.ResourceUtils
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
@@ -58,13 +59,15 @@ class LoginServer extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(LoginServer)
+        return application.sources(LoginServer.class);
     }
 
     @Configuration
     @ConditionalOnExpression('${security.requireSsl:false}')
     @ConfigurationProperties(name = "ssl", ignoreUnknownFields = false)
     static class SslConfog {
+
+        static final Logger log = LoggerFactory.getLogger(SslConfog.class)
 
         @Autowired
         ResourceLoader resourceLoader
@@ -79,14 +82,15 @@ class LoginServer extends SpringBootServletInitializer {
 
         @Bean
         EmbeddedServletContainerCustomizer containerCustomizer() {
+            log.info("Registering SSL customizer...")
             return { ConfigurableEmbeddedServletContainerFactory factory ->
                 if (factory instanceof TomcatEmbeddedServletContainerFactory) {
                     TomcatEmbeddedServletContainerFactory containerFactory = (TomcatEmbeddedServletContainerFactory) factory
                     containerFactory.addConnectorCustomizers({ Connector connector ->
+                        log.info("Configuring SSL connector...")
                         connector.setPort(port);
                         connector.setSecure(true);
                         connector.setScheme("https");
-                        connector.setAttribute("keyAlias", "tomcat");
                         connector.setAttribute("keystorePass", keystorePass);
                         try {
                             connector.setAttribute("keystoreFile", resourceLoader
@@ -128,13 +132,13 @@ class LoginServer extends SpringBootServletInitializer {
         @Bean
         public ObjectMapper objectMapper() {
             return new ObjectMapper()
-                    .registerModules(
-                new JodaModule())
-                    .disable(
-                        SerializationFeature.FAIL_ON_EMPTY_BEANS,
-                        SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-                    .disable(
-                        DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
+                .registerModules(
+                    new JodaModule())
+                .disable(
+                    SerializationFeature.FAIL_ON_EMPTY_BEANS,
+                    SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+                .disable(
+                    DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
             );
         }
 
@@ -184,6 +188,7 @@ class LoginServer extends SpringBootServletInitializer {
                     .authenticationEntryPoint(new Http403ForbiddenEntryPoint())
             .and()
                 .authorizeRequests()
+                    .antMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().hasAnyRole("USER", "ADMIN")
         }
 
