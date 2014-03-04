@@ -3,6 +3,7 @@ package com.impaq.arena.server.login.game
 import com.impaq.arena.server.login.game.log.GameLog
 import com.impaq.arena.server.login.game.log.GameLogService
 import com.impaq.arena.server.login.player.strategy.PlayerStrategy
+import com.impaq.arena.server.login.player.strategy.PlayerStrategyService
 import org.springframework.core.io.DefaultResourceLoader
 import org.springframework.core.io.ResourceLoader
 import spock.lang.Ignore
@@ -11,7 +12,8 @@ import spock.lang.Specification
 class GameJobTest extends Specification {
 
     ResourceLoader resourceLoader = new DefaultResourceLoader()
-    PlayerStrategyLoader strategyLoader = new PlayerStrategyLoader(resourceLoader)
+    PlayerStrategyService strategyService = Mock(PlayerStrategyService)
+    PlayerStrategyLoader strategyLoader = new PlayerStrategyLoader(resourceLoader, strategyService)
     GameLogService gameLogService = Mock(GameLogService.class)
 
     String activeStrategyCode = resourceLoader.getResource("ExampleStrategy.java").getInputStream().getText()

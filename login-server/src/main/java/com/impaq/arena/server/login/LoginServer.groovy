@@ -43,6 +43,7 @@ import org.springframework.security.web.authentication.Http403ForbiddenEntryPoin
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE
@@ -154,6 +155,12 @@ class LoginServer extends SpringBootServletInitializer {
         @Override
         void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
             argumentResolvers.add(new CurrentUserResolver())
+        }
+
+        @Override
+        void addResourceHandlers(ResourceHandlerRegistry registry) {
+            registry.addResourceHandler("/resources/**")
+                .addResourceLocations("classpath:/resources/");
         }
     }
 
