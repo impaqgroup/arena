@@ -5,6 +5,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable
 
 import javax.persistence.Entity
 import javax.persistence.JoinColumn
+import javax.persistence.Lob
 import javax.persistence.OneToMany
 
 import static javax.persistence.CascadeType.ALL
@@ -24,6 +25,9 @@ class GameLog extends AbstractPersistable<Long> {
     List<RoundLog> roundLogs = [];
 
     String winner;
+
+    @Lob
+    String gameError;
 
     void logGameStart(String playerOneId, String playerTwoId) {
         startDate = new DateTime()
