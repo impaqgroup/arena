@@ -1,7 +1,5 @@
 package com.impaq.arena.server.login.game.log
 
-import org.hibernate.annotations.Fetch
-import org.hibernate.annotations.FetchMode
 import org.joda.time.DateTime
 import org.springframework.data.jpa.domain.AbstractPersistable
 
@@ -11,7 +9,6 @@ import javax.persistence.OneToMany
 
 import static javax.persistence.CascadeType.ALL
 import static javax.persistence.FetchType.EAGER
-import static org.hibernate.annotations.FetchMode.SUBSELECT
 
 @Entity
 class GameLog extends AbstractPersistable<Long> {
@@ -23,7 +20,6 @@ class GameLog extends AbstractPersistable<Long> {
     String playerTwo;
 
     @OneToMany(cascade = ALL, fetch = EAGER)
-    @Fetch(SUBSELECT)
     @JoinColumn(name = "gameLogId")
     List<RoundLog> roundLogs = [];
 
