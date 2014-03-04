@@ -30,6 +30,7 @@ import org.springframework.core.io.ResourceLoader
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.http.converter.HttpMessageConverter
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -48,9 +49,10 @@ import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpMethod.POST
 
-@EnableAutoConfiguration
 @ComponentScan
+@EnableAutoConfiguration
 @EnableJpaRepositories
+@EnableAsync(proxyTargetClass = true)
 class LoginServer extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
@@ -183,13 +185,20 @@ class LoginServer extends SpringBootServletInitializer {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
-                .httpBasic()
-                    .realmName("IMPAQ Arena")
-                    .authenticationEntryPoint(new Http403ForbiddenEntryPoint())
-            .and()
                 .authorizeRequests()
                     .antMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().hasAnyRole("USER", "ADMIN")
+
+            http
+                .httpBasic()
+                    .realmName("IMPAQ Arena")
+                    .authenticationEntryPoint(new Http403ForbiddenEntryPoint())
+
+            http.anonymous().disable()
+            http.logout().disable()
+            http.sessionManagement().disable()
+            http.securityContext().disable()
+            http.csrf().disable()
         }
 
         @Override

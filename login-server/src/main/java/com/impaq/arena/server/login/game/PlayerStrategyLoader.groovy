@@ -1,6 +1,7 @@
 package com.impaq.arena.server.login.game
 
 import com.impaq.arena.api.PlayerStrategy
+import com.impaq.arena.server.login.player.strategy.PlayerStrategyService
 import org.abstractmeta.toolbox.compilation.compiler.JavaSourceCompiler
 import org.abstractmeta.toolbox.compilation.compiler.impl.JavaSourceCompilerImpl
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,11 +21,23 @@ class PlayerStrategyLoader {
 
     private final ClassLoader playerApiClassLoader
 
+    private final PlayerStrategyService strategyService
+
     @Autowired
-    PlayerStrategyLoader(ResourceLoader resourceLoader) {
+    PlayerStrategyLoader(ResourceLoader resourceLoader, PlayerStrategyService strategyService) {
+        this.strategyService = strategyService
         this.resourceLoader = resourceLoader
         this.playerApi = resourceLoader.getResource("classpath:resources/player-api.jar")
         this.playerApiClassLoader = new URLClassLoader(playerApi.getURL())
+    }
+
+    PlayerStrategy loadPlayerStrategy(String userId) {
+        com.impaq.arena.server.login.player.strategy.PlayerStrategy playerStrategy = strategyService.findOne(userId)
+        return loadStrategy(playerStrategy.className, playerStrategy.javaCode)
+    }
+
+    PlayerStrategy loadOpponentStrategt(String mode = test) {
+        return new TestStrategy()
     }
 
     PlayerStrategy loadStrategy(String className, String code) {
@@ -62,6 +75,23 @@ class PlayerStrategyLoader {
         Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             Method targetMethod = targetClass.getDeclaredMethod(method.getName(), method.getParameterTypes())
             return targetMethod.invoke(target, args)
+        }
+    }
+
+    static class TestStrategy implements PlayerStrategy {
+
+        int round
+
+        @Override
+        void playRound(com.impaq.arena.api.Game game) {
+            if (round % 2 == 0) {
+                game.recruitBuilders()
+            } else {
+                game.recruitWarriors()
+            }
+            game.buildMyCastle()
+            game.attackEnemyCastle()
+            round++
         }
     }
 }
