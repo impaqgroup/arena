@@ -6,14 +6,12 @@ import groovy.util.logging.Log
 import org.abstractmeta.toolbox.compilation.compiler.JavaSourceCompiler
 import org.abstractmeta.toolbox.compilation.compiler.impl.JavaSourceCompilerImpl
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.env.Environment
 import org.springframework.core.io.Resource
 import org.springframework.core.io.ResourceLoader
 import org.springframework.stereotype.Component
 
-import java.lang.reflect.InvocationHandler
-import java.lang.reflect.Method
+import static com.impaq.arena.server.login.util.ClassLoaderSwitchingProxy.proxyClassLoader
 
 @Log
 @Component
@@ -37,6 +35,7 @@ class PlayerStrategyLoader {
         this.resourceLoader = resourceLoader
         this.playerApi = resourceLoader.getResource(playerApiPath)
         this.playerApiClassLoader = new URLClassLoader(playerApi.getURL())
+        log.info("Loaded: " + playerApiClassLoader.loadClass("com.impaq.arena.api.PlayerStrategy"))
     }
 
     PlayerStrategy loadPlayerStrategy(String userId) {
@@ -44,7 +43,8 @@ class PlayerStrategyLoader {
         return loadStrategy(playerStrategy.className, playerStrategy.javaCode)
     }
 
-    PlayerStrategy loadOpponentStrategy(String mode = test) {
+    PlayerStrategy loadOpponentStrategy(String mode = "test") {
+        // TODO add different strategies
         return new TestStrategy()
     }
 
@@ -52,39 +52,16 @@ class PlayerStrategyLoader {
         ClassLoader classLoader = compileStrategySource(className, code)
         Class<?> clazz = classLoader.loadClass(className)
         Object strategy = clazz.newInstance()
-        return proxy(strategy) // we need to proxy, because we used different ClassLoader to load the class
+        // we need to proxy, because we used different ClassLoader to load the class
+        return (PlayerStrategy) proxyClassLoader(getClass().getClassLoader(), strategy, PlayerStrategy)
     }
 
     ClassLoader compileStrategySource(String className, String code) {
         JavaSourceCompiler compiler = new JavaSourceCompilerImpl();
         JavaSourceCompiler.CompilationUnit unit = compiler.createCompilationUnit();
+        unit.addClassPathEntry(playerApi.getFile().getAbsolutePath())
         unit.addJavaSource(className, code)
         return compiler.compile(playerApiClassLoader, unit);
-    }
-
-    PlayerStrategy proxy(Object target) {
-        ClassLoader classLoader = getClass().getClassLoader()
-        Class<?>[] interfaces = [PlayerStrategy]
-        InvocationHandler handler = new PlayerStrategyInvocationHandler(target)
-        return (PlayerStrategy) java.lang.reflect.Proxy.newProxyInstance(classLoader, interfaces, handler)
-    }
-
-    static class PlayerStrategyInvocationHandler implements InvocationHandler {
-
-        private final Object target
-        private final Class<?> targetClass
-
-        PlayerStrategyInvocationHandler(Object target) {
-            this.target = target
-            this.targetClass = target.getClass()
-        }
-
-        @Override
-        Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            log.info("Calling method ${method.getName()}...")
-            Method targetMethod = targetClass.getDeclaredMethod(method.getName(), method.getParameterTypes())
-            return targetMethod.invoke(target, args)
-        }
     }
 
     static class TestStrategy implements PlayerStrategy {
@@ -93,7 +70,6 @@ class PlayerStrategyLoader {
 
         @Override
         void playRound(com.impaq.arena.api.Game game) {
-            log.info("Playing test round $round...")
             if (round % 2 == 0) {
                 game.recruitBuilders()
             } else {

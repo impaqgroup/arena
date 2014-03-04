@@ -64,27 +64,27 @@ public class RoundExecutor implements Game {
 
     @Override
     public boolean canAct() {
-        return (buildCount + attackCount + spyCount + recruitCount) < 3;
+        return (buildCount + attackCount + spyCount + recruitCount) < 5;
     }
 
     @Override
     public boolean canBuild() {
-        return canAct() && (buildCount < 1);
+        return canAct() && (buildCount + attackCount < 1);
     }
 
     @Override
     public boolean canAttack() {
-        return canAct() && (attackCount < 1);
+        return canAct() && (buildCount + attackCount < 1);
     }
 
     @Override
     public boolean canSpy() {
-        return canAct() && (spyCount < 1);
+        return canAct() && (spyCount < 2);
     }
 
     @Override
     public boolean canRecruit() {
-        return canAct() && (recruitCount < 1);
+        return canAct() && (recruitCount < 2);
     }
 
     @Override

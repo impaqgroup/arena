@@ -31,6 +31,7 @@ class GameService {
         try {
             logGame(playerOne, playerTwo, mode)
         } catch (Throwable e) {
+            log.log(java.util.logging.Level.SEVERE, "!!!", e)
             logGameError(playerOne, playerTwo, e)
         }
     }

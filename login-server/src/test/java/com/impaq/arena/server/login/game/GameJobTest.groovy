@@ -6,7 +6,6 @@ import com.impaq.arena.server.login.player.strategy.PlayerStrategy
 import com.impaq.arena.server.login.player.strategy.PlayerStrategyService
 import org.springframework.core.io.DefaultResourceLoader
 import org.springframework.core.io.ResourceLoader
-import spock.lang.Ignore
 import spock.lang.Specification
 
 class GameJobTest extends Specification {

@@ -18,7 +18,7 @@ class GameLogService {
     }
 
     GameLog lastGameLog(String userId) {
-        List<GameLog> logs = repository.findByPlayer(userId, new PageRequest(1, 1))
+        List<GameLog> logs = repository.findByPlayer(userId, new PageRequest(0, 1))
         return logs.isEmpty() ? null : logs.get(0)
     }
 
