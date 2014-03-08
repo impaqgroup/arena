@@ -7,7 +7,7 @@
         <version>1.0.0.RC3</version>
     </parent>
 
-    <groupId>com.impaq</groupId>
+    <groupId>com.impaq.arena</groupId>
 	<artifactId>arena</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -25,10 +25,9 @@
 	</properties>
 
     <modules>
-        <module>player-api</module>
-        <module>game-engine</module>
-        <module>game-client</module>
-        <module>login-server</module>
+        <module>api</module>
+        <module>server</module>
+        <module>client</module>
         <!--<module>game-server</module>-->
     </modules>
 
@@ -55,37 +54,24 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.spockframework</groupId>
-            <artifactId>spock-spring</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib-nodep</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <dependencyManagement>
         <dependencies>
             <!--Project-->
             <dependency>
-                <groupId>com.impaq</groupId>
+                <groupId>com.impaq.arena</groupId>
+                <artifactId>player-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.impaq.arena</groupId>
                 <artifactId>game-engine</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.impaq</groupId>
-                <artifactId>game-client</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.impaq</groupId>
-                <artifactId>player-api</artifactId>
+                <groupId>com.impaq.arena</groupId>
+                <artifactId>server-game-engine</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -208,15 +194,11 @@
                     <version>2.4</version>
                     <executions>
                         <execution>
-                            <id>default-jar</id>
-                        </execution>
-                        <execution>
                             <id>test-jar</id>
                             <goals>
                                 <goal>test-jar</goal>
                             </goals>
                             <configuration>
-                                <skip>${skip.test.jar}</skip>
                                 <skipIfEmpty>true</skipIfEmpty>
                             </configuration>
                         </execution>
