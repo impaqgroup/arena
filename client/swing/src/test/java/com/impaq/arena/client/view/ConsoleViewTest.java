@@ -16,9 +16,9 @@
  */
 package com.impaq.arena.client.view;
 
-import com.impaq.arena.event.GameEnd;
-import com.impaq.arena.event.GameStarted;
-import com.impaq.arena.event.SpyWizards;
+import com.impaq.arena.server.event.GameEnd;
+import com.impaq.arena.server.event.GameStarted;
+import com.impaq.arena.server.event.SpyWizards;
 import com.impaq.arena.player.Player;
 import java.io.PrintStream;
 

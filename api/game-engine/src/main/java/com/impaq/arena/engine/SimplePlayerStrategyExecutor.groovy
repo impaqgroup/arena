@@ -60,103 +60,79 @@ public class SimplePlayerStrategyExecutor implements PlayerStrategyExecutor, Gam
     }
 
     @Override
-    public final void attackEnemyWizards() {
+    public boolean attackEnemyWizards() {
         if (canAttack()) {
-            doAttackEnemyWizards()
+            opponent.getWizards().kill(myWizardsStrength());
+            attackCount++;
         }
-    }
-
-    protected void doAttackEnemyWizards() {
-        opponent.getWizards().kill(myWizardsStrength());
-        attackCount++;
+        return false
     }
 
     @Override
-    public final void attackEnemyWarriors() {
+    public boolean attackEnemyWarriors() {
         if (canAttack()) {
-            doAttackEnemyWarriors()
+            opponent.getWarriors().kill(myWizardsStrength());
+            attackCount++;
         }
-    }
-
-    protected void doAttackEnemyWarriors() {
-        opponent.getWarriors().kill(myWizardsStrength());
-        attackCount++;
+        return false
     }
 
     @Override
-    public final void attackEnemyBuilders() {
+    public boolean attackEnemyBuilders() {
         if (canAttack()) {
-            doAttackEnemyBuilders()
+            opponent.getBuilders().kill(myWizardsStrength());
+            attackCount++;
         }
-    }
-
-    protected void doAttackEnemyBuilders() {
-        opponent.getBuilders().kill(myWizardsStrength());
-        attackCount++;
+        return false
     }
 
     @Override
-    public final void attackEnemyCastle() {
+    public boolean attackEnemyCastle() {
         if (canAttack()) {
-            doAttackEnemyCastle()
+            opponent.getCastle().destroy(myWarriorsStrength());
+            attackCount++;
         }
-    }
-
-    protected void doAttackEnemyCastle() {
-        opponent.getCastle().destroy(myWarriorsStrength());
-        attackCount++;
+        return false
     }
 
     @Override
-    public final void buildMyCastle() {
+    public boolean buildMyCastle() {
         if (canAct()) {
-            doBuildMyCastle()
+            player.getCastle().expand(myBuildersProductivity());
+            buildCount++;
         }
-    }
-
-    protected void doBuildMyCastle() {
-        player.getCastle().expand(myBuildersProductivity());
-        buildCount++;
+        return false
     }
 
     @Override
-    public final void recruitBuilders() {
+    public boolean recruitBuilders() {
         if (canRecruit()) {
-            doRecruitBuilders()
+            player.getBuilders().add(1);
+            recruitCount++;
         }
-    }
-
-    protected void doRecruitBuilders() {
-        player.getBuilders().add(1);
-        recruitCount++;
+        return false
     }
 
     @Override
-    public final void recruitWizards() {
+    public boolean recruitWizards() {
         if (canRecruit()) {
-            doRecruitWizards()
+            player.getWizards().add(1);
+            recruitCount++;
         }
-    }
-
-    protected void doRecruitWizards() {
-        player.getWizards().add(1);
-        recruitCount++;
+        return false
     }
 
     @Override
-    public final void recruitWarriors() {
+    public boolean recruitWarriors() {
         if (canRecruit()) {
-            doRecruitWarriors()
+            player.getWarriors().add(2);
+            recruitCount++;
         }
-    }
-
-    protected void doRecruitWarriors() {
-        player.getWarriors().add(2);
-        recruitCount++;
+        return false
     }
 
     @Override
-    public final int spyEnemyCastleHeight() {
+    public int spyEnemyCastleHeight() {
         if (canSpy()) {
             return doSpyEnemyCastleHeight()
         }
@@ -169,7 +145,7 @@ public class SimplePlayerStrategyExecutor implements PlayerStrategyExecutor, Gam
     }
 
     @Override
-    public final int spyEnemyWarriorsCount() {
+    public int spyEnemyWarriorsCount() {
         if (canSpy()) {
             return doSpyEnemyWarriorsCount()
         }
@@ -182,7 +158,7 @@ public class SimplePlayerStrategyExecutor implements PlayerStrategyExecutor, Gam
     }
 
     @Override
-    public final int spyEnemyWizardsCount() {
+    public int spyEnemyWizardsCount() {
         if (canSpy()) {
             return doSpyEnemyWizardsCount()
         }
@@ -195,7 +171,7 @@ public class SimplePlayerStrategyExecutor implements PlayerStrategyExecutor, Gam
     }
 
     @Override
-    public final int spyEnemyBuildersCount() {
+    public int spyEnemyBuildersCount() {
         if (canSpy()) {
             return doSpyEnemyBuildersCount()
         }
@@ -208,22 +184,22 @@ public class SimplePlayerStrategyExecutor implements PlayerStrategyExecutor, Gam
     }
 
     @Override
-    public final long myCastleHeight() {
+    public long myCastleHeight() {
         return player.getCastle().getHeight();
     }
 
     @Override
-    public final long myWarriorsCount() {
+    public long myWarriorsCount() {
         return player.getWarriors().getCount();
     }
 
     @Override
-    public final long myWizardsCount() {
+    public long myWizardsCount() {
         return player.getWizards().getCount();
     }
 
     @Override
-    public final long myBuildersCount() {
+    public long myBuildersCount() {
         return player.getBuilders().getCount();
     }
 

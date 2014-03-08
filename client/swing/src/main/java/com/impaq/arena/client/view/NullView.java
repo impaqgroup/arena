@@ -1,22 +1,22 @@
 package com.impaq.arena.client.view;
 
-import com.impaq.arena.GameBoardView;
-import com.impaq.arena.event.RecruitBuilders;
-import com.impaq.arena.event.RecruitWarriors;
-import com.impaq.arena.event.RecruitWizards;
-import com.impaq.arena.event.BuildCastle;
-import com.impaq.arena.event.AttackCastle;
-import com.impaq.arena.event.GameEnd;
-import com.impaq.arena.event.GameStarted;
-import com.impaq.arena.event.AttackBuilders;
-import com.impaq.arena.event.AttackWarriors;
-import com.impaq.arena.event.AttackWizards;
-import com.impaq.arena.event.PlayerTurnStart;
-import com.impaq.arena.event.RoundStart;
-import com.impaq.arena.event.SpyBuilders;
-import com.impaq.arena.event.SpyCastle;
-import com.impaq.arena.event.SpyWarriors;
-import com.impaq.arena.event.SpyWizards;
+import com.impaq.arena.server.engine.GameBoardView;
+import com.impaq.arena.server.event.RecruitBuilders;
+import com.impaq.arena.server.event.RecruitWarriors;
+import com.impaq.arena.server.event.RecruitWizards;
+import com.impaq.arena.server.event.BuildCastle;
+import com.impaq.arena.server.event.AttackCastle;
+import com.impaq.arena.server.event.GameEnd;
+import com.impaq.arena.server.event.GameStarted;
+import com.impaq.arena.server.event.AttackBuilders;
+import com.impaq.arena.server.event.AttackWarriors;
+import com.impaq.arena.server.event.AttackWizards;
+import com.impaq.arena.server.event.PlayerTurnStart;
+import com.impaq.arena.server.event.RoundStart;
+import com.impaq.arena.server.event.SpyBuilders;
+import com.impaq.arena.server.event.SpyCastle;
+import com.impaq.arena.server.event.SpyWarriors;
+import com.impaq.arena.server.event.SpyWizards;
 
 /**
  *

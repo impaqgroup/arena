@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.joda.JodaModule
-import com.impaq.arena.EnvironmentBasedGameConfig
+import com.impaq.arena.server.engine.EnvironmentBasedGameConfig
 import com.impaq.arena.engine.GameConfig
 import com.impaq.arena.server.login.user.CurrentUserResolver
 import com.impaq.arena.server.login.user.UserService
@@ -14,13 +14,11 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.security.SecurityPrequisite
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainerFactory
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer
-import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory
 import org.springframework.boot.context.embedded.tomcat.TomcatConnectorCustomizer
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -122,6 +120,7 @@ class LoginServer extends SpringBootServletInitializer {
         @Autowired
         Environment environment
 
+        @Bean
         GameConfig gameConfig() {
             return new EnvironmentBasedGameConfig(environment)
         }
@@ -171,8 +170,8 @@ class LoginServer extends SpringBootServletInitializer {
 
         @Override
         void addResourceHandlers(ResourceHandlerRegistry registry) {
-            registry.addResourceHandler("/resources/**")
-                .addResourceLocations("classpath:/resources/");
+            registry.addResourceHandler("/repository/**")
+                .addResourceLocations("classpath:/repository/");
         }
     }
 

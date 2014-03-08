@@ -31,7 +31,7 @@ class ClassLoaderSwitchingProxy implements InvocationHandler {
             return doInvoke(method, proxyArgs, proxyArgTypes)
         } catch (Throwable e) {
             log.log(java.util.logging.Level.SEVERE, "Proxied call failed!", e)
-            return null
+            throw new RuntimeException("Proxied call failed!", e)
         }
     }
 
@@ -59,9 +59,11 @@ class ClassLoaderSwitchingProxy implements InvocationHandler {
 
     private Object doInvoke(Method method, Object[] proxyArgs, Class<?>[] proxyArgTypes) {
         Method targetMethod = targetClass.getDeclaredMethod(method.getName(), proxyArgTypes)
-        if (proxyArgs == null) {
+        if (proxyArgs == null || proxyArgs.length == 0) {
+            log.info("Will proxy ${targetMethod.getName()} on ${target}!")
             return targetMethod.invoke(target)
         } else {
+            log.info("Will proxy ${targetMethod.getName()} on ${target}!")
             return targetMethod.invoke(target, proxyArgs)
         }
     }

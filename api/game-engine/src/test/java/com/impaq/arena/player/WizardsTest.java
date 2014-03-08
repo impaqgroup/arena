@@ -38,19 +38,19 @@ public class WizardsTest {
 	
 	@Test
 	public void two_wizards_cant_kill_enemy(){
-		Assert.assertEquals(0, wizards.getStrength());
+		Assert.assertEquals(2, wizards.getStrength());
 	}
 
 	@Test
 	public void four_wizards_cant_kill_enemy(){
 		wizards.add(2);
-		Assert.assertEquals(0, wizards.getStrength());
+		Assert.assertEquals(4, wizards.getStrength());
 	}
 	
 	@Test
 	public void five_wizards_can_kill_one_enemy(){
 		wizards.add(3);
-		Assert.assertEquals(1, wizards.getStrength());
+		Assert.assertEquals(5, wizards.getStrength());
 	}
 	
 }

@@ -1,6 +1,6 @@
 package com.impaq.arena.client.view;
 
-import com.impaq.arena.GameBoardView;
+import com.impaq.arena.server.engine.GameBoardView;
 import com.impaq.arena.client.view.swing.SwingViewPresenter;
 import com.impaq.arena.engine.GameConfig;
 

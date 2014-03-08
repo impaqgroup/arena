@@ -5,9 +5,14 @@ import com.impaq.arena.player.Player
 
 class SimpleGameBoard {
 
+    private final GameConfig config;
     private final PlayerStrategyExecutor firstPlayerExecutor;
     private final PlayerStrategyExecutor secondPlayerExecutor;
-    private final GameConfig config;
+
+    SimpleGameBoard(String firstPlayerId, PlayerStrategy firstPlayerStrategy,
+                    String secondPlayerId, PlayerStrategy secondPlayerStrategy) {
+        this(new DefaultGameConfig(), firstPlayerId, firstPlayerStrategy, secondPlayerId, secondPlayerStrategy)
+    }
 
     SimpleGameBoard(GameConfig config, String firstPlayerId, PlayerStrategy firstPlayerStrategy,
             String secondPlayerId, PlayerStrategy secondPlayerStrategy) {

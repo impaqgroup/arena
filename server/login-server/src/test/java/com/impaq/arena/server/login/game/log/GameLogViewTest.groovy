@@ -1,9 +1,14 @@
 package com.impaq.arena.server.login.game.log
 
-import com.impaq.arena.event.*
 import com.impaq.arena.player.Player
-import com.impaq.arena.server.login.game.log.GameLog
-import com.impaq.arena.server.login.game.log.GameLogView
+import com.impaq.arena.server.event.GameEnd
+import com.impaq.arena.server.event.GameStarted
+import com.impaq.arena.server.event.PlayerTurnStart
+import com.impaq.arena.server.event.RoundStart
+import com.impaq.arena.server.event.SpyBuilders
+import com.impaq.arena.server.event.SpyCastle
+import com.impaq.arena.server.event.SpyWarriors
+import com.impaq.arena.server.event.SpyWizards
 import spock.lang.Specification
 
 class GameLogViewTest extends Specification {

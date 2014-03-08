@@ -2,7 +2,7 @@ package com.impaq.arena.client.view;
 
 import org.springframework.core.env.Environment;
 
-import com.impaq.arena.GameBoardView;
+import com.impaq.arena.server.engine.GameBoardView;
 import com.impaq.arena.engine.GameConfig;
 
 public class ViewProvider {

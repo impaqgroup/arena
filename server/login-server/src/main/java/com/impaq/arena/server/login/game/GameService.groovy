@@ -3,6 +3,7 @@ package com.impaq.arena.server.login.game
 import com.impaq.arena.engine.GameConfig
 import com.impaq.arena.engine.SimpleGameBoard
 import com.impaq.arena.api.PlayerStrategy
+import com.impaq.arena.server.engine.EventDrivenGameBoard
 import com.impaq.arena.server.login.game.log.GameLog
 import com.impaq.arena.server.login.game.log.GameLogService
 import com.impaq.arena.server.login.game.log.GameLogView
@@ -43,7 +44,7 @@ class GameService {
         PlayerStrategy strategyOne = strategyLoader.loadPlayerStrategy(playerOne)
         PlayerStrategy strategyTwo = strategyLoader.loadOpponentStrategy(mode)
 
-        SimpleGameBoard gameBoard = new SimpleGameBoard(
+        EventDrivenGameBoard gameBoard = new EventDrivenGameBoard(
             gameConfig,
             playerOne, strategyOne,
             playerTwo, strategyTwo

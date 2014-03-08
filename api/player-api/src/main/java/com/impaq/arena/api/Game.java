@@ -82,48 +82,48 @@ public interface Game {
      * This will make your builders build new levels of your castle.
      * @see #myBuildersProductivity()
      */
-    void buildMyCastle();
+    boolean buildMyCastle();
 
     /**
      * This will make your warriors destroy your opponents castle.
      * @see #myWarriorsStrength()
      */
-    void attackEnemyCastle();
+    boolean attackEnemyCastle();
 
     /**
      * This will make your wizards attack enemy wizards.
      * @see #myWizardsStrength()
      */
-    void attackEnemyWizards();
+    boolean attackEnemyWizards();
 
     /**
      * This will make your wizards attack enemy warriors.
      * @see #myWizardsStrength()
      */
-    void attackEnemyWarriors();
+    boolean attackEnemyWarriors();
 
     /**
      * This will make your wizards attack enemy builders.
      * @see #myWizardsStrength()
      */
-    void attackEnemyBuilders();
+    boolean attackEnemyBuilders();
 
     // You can recruit twice per round, so you can do no more than two calls to any of following methods.
 
     /**
      * This method will recruit one new builder.
      */
-    void recruitBuilders();
+    boolean recruitBuilders();
 
     /**
      * This method will recruit one new wizard.
      */
-    void recruitWizards();
+    boolean recruitWizards();
 
     /**
      * This method will recruit two new warriors.
      */
-    void recruitWarriors();
+    boolean recruitWarriors();
 
     // You can spy your opponent twice per round, so you can do no more than two calls to any of following methods.
 

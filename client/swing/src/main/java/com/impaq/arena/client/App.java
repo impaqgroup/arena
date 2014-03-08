@@ -5,8 +5,8 @@ import java.io.IOException;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.core.io.support.ResourcePropertySource;
 
-import com.impaq.arena.EnvironmentBasedGameConfig;
-import com.impaq.arena.EventDrivenGameBoard;
+import com.impaq.arena.server.engine.EnvironmentBasedGameConfig;
+import com.impaq.arena.server.engine.EventDrivenGameBoard;
 import com.impaq.arena.engine.GameConfig;
 import com.impaq.arena.client.view.ConsoleView;
 import com.impaq.arena.client.view.ViewProvider;

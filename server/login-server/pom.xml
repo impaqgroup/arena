@@ -14,6 +14,7 @@
 
     <properties>
         <resources.directory>${project.build.directory}/web-resources</resources.directory>
+        <repository.output.directory>${resources.directory}/repository</repository.output.directory>
     </properties>
 
     <dependencies>
@@ -23,8 +24,33 @@
             <artifactId>server-game-engine</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.impaq.arena</groupId>
+            <artifactId>player-api</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.impaq.arena</groupId>
+            <artifactId>arena-api</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>com.impaq.arena</groupId>
+            <artifactId>arena</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
+        </dependency>
 
         <!--3rd Party-->
+        <!--<dependency>-->
+            <!--<groupId>org.codehaus.groovy</groupId>-->
+            <!--<artifactId>groovy-eclipse-batch</artifactId>-->
+            <!--<version>2.1.8-01</version>-->
+        <!--</dependency>-->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -50,10 +76,6 @@
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.abstractmeta</groupId>
-            <artifactId>compilation-toolbox</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -95,6 +117,12 @@
                 <directory>${resources.directory}</directory>
             </resource>
         </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
 
         <plugins>
             <plugin>
@@ -108,23 +136,77 @@
                         <id>copy-player-api</id>
                         <phase>generate-resources</phase>
                         <goals>
-                            <goal>copy</goal>
+                            <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>com.impaq.arena</groupId>
-                                    <artifactId>player-api</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>${resources.directory}/resources</outputDirectory>
-                                    <destFileName>player-api.jar</destFileName>
-                                </artifactItem>
-                            </artifactItems>
+                            <useRepositoryLayout>true</useRepositoryLayout>
+                            <includeGroupIds>com.impaq.arena</includeGroupIds>
+                            <includeArtifactIds>player-api</includeArtifactIds>
+                            <copyPom>true</copyPom>
+                            <outputDirectory>${repository.output.directory}</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-game-engine</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <useRepositoryLayout>true</useRepositoryLayout>
+                            <includeGroupIds>com.impaq.arena</includeGroupIds>
+                            <includeArtifactIds>arena,arena-api,game-engine</includeArtifactIds>
+                            <copyPom>true</copyPom>
+                            <includeTypes>pom,jar</includeTypes>
+                            <outputDirectory>${repository.output.directory}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-md5-checksums</id>
+                        <!-- generate MD5 checksums for artifacts and poms in the repository -->
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <target>
+                                <checksum algorithm="md5">
+                                    <fileset dir="${repository.output.directory}">
+                                        <include name="**/*.pom" />
+                                        <include name="**/*.jar" />
+                                    </fileset>
+                                </checksum>
+                            </target>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-sha1-checksums</id>
+                        <!-- generate SHA1 checksums for artifacts and poms in the repository -->
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <target>
+                                <checksum algorithm="sha1">
+                                    <fileset dir="${repository.output.directory}">
+                                        <include name="**/*.pom" />
+                                        <include name="**/*.jar" />
+                                    </fileset>
+                                </checksum>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 

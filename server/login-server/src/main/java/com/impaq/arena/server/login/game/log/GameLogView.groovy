@@ -1,8 +1,23 @@
 package com.impaq.arena.server.login.game.log
 
-import com.impaq.arena.GameBoardView
-import com.impaq.arena.event.*
+import com.impaq.arena.server.engine.GameBoardView
 import com.impaq.arena.player.Player
+import com.impaq.arena.server.event.AttackBuilders
+import com.impaq.arena.server.event.AttackCastle
+import com.impaq.arena.server.event.AttackWarriors
+import com.impaq.arena.server.event.AttackWizards
+import com.impaq.arena.server.event.BuildCastle
+import com.impaq.arena.server.event.GameEnd
+import com.impaq.arena.server.event.GameStarted
+import com.impaq.arena.server.event.PlayerTurnStart
+import com.impaq.arena.server.event.RecruitBuilders
+import com.impaq.arena.server.event.RecruitWarriors
+import com.impaq.arena.server.event.RecruitWizards
+import com.impaq.arena.server.event.RoundStart
+import com.impaq.arena.server.event.SpyBuilders
+import com.impaq.arena.server.event.SpyCastle
+import com.impaq.arena.server.event.SpyWarriors
+import com.impaq.arena.server.event.SpyWizards
 
 class GameLogView implements GameBoardView {
 

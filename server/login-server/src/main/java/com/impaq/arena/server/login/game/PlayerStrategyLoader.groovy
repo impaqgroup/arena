@@ -1,41 +1,30 @@
 package com.impaq.arena.server.login.game
 
+import com.impaq.arena.api.Game
 import com.impaq.arena.api.PlayerStrategy
 import com.impaq.arena.server.login.player.strategy.PlayerStrategyService
 import groovy.util.logging.Log
-import org.abstractmeta.toolbox.compilation.compiler.JavaSourceCompiler
-import org.abstractmeta.toolbox.compilation.compiler.impl.JavaSourceCompilerImpl
+import org.codehaus.groovy.control.CompilationUnit
+import org.codehaus.groovy.control.CompilerConfiguration
+import org.codehaus.groovy.control.SourceUnit
+import org.codehaus.groovy.tools.GroovyClass
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.core.env.Environment
-import org.springframework.core.io.Resource
-import org.springframework.core.io.ResourceLoader
 import org.springframework.stereotype.Component
-
-import static com.impaq.arena.server.login.util.ClassLoaderSwitchingProxy.proxyClassLoader
 
 @Log
 @Component
 class PlayerStrategyLoader {
 
-    private static final String defaultPlayerApiPath = 'classpath:resources/player-api.jar'
-
-    private final ResourceLoader resourceLoader
-    private final Resource playerApi
-    private final ClassLoader playerApiClassLoader
     private final PlayerStrategyService strategyService
 
-    @Autowired
-    PlayerStrategyLoader(ResourceLoader resourceLoader, PlayerStrategyService strategyService, Environment environment) {
-        this(resourceLoader, strategyService, environment.getProperty("player.api.path", defaultPlayerApiPath))
-    }
+    private final CompilerConfiguration configuration = new CompilerConfiguration()
 
-    PlayerStrategyLoader(ResourceLoader resourceLoader, PlayerStrategyService strategyService, String playerApiPath = defaultPlayerApiPath) {
-        log.info("Using player API from: ${playerApiPath}")
+    @Autowired
+    PlayerStrategyLoader(PlayerStrategyService strategyService) {
         this.strategyService = strategyService
-        this.resourceLoader = resourceLoader
-        this.playerApi = resourceLoader.getResource(playerApiPath)
-        this.playerApiClassLoader = new URLClassLoader(playerApi.getURL())
-        log.info("Loaded: " + playerApiClassLoader.loadClass("com.impaq.arena.api.PlayerStrategy"))
+
+        this.configuration.setSourceEncoding("UTF-8")
+        this.configuration.setTargetBytecode(CompilerConfiguration.JDK7)
     }
 
     PlayerStrategy loadPlayerStrategy(String userId) {
@@ -49,19 +38,20 @@ class PlayerStrategyLoader {
     }
 
     PlayerStrategy loadStrategy(String className, String code) {
-        ClassLoader classLoader = compileStrategySource(className, code)
+        CompilationUnit unit = new CompilationUnit(configuration);
+        unit.addSource(new SourceUnit(className, code, configuration, unit.getClassLoader(), unit.getErrorCollector()));
+        unit.compile();
+
+        // FIXME use ClassLoader.getSystemClassLoader() instead !!! and add Game and PlayerStrategy only !!!
+        ClassLoader parentClassLoader = getClass().getClassLoader()
+        GroovyClassLoader classLoader = new GroovyClassLoader(parentClassLoader, configuration)
+        unit.getClasses().each { GroovyClass clazz ->
+            classLoader.defineClass(clazz.name, clazz.bytes)
+        }
+
         Class<?> clazz = classLoader.loadClass(className)
         Object strategy = clazz.newInstance()
-        // we need to proxy, because we used different ClassLoader to load the class
-        return (PlayerStrategy) proxyClassLoader(getClass().getClassLoader(), strategy, PlayerStrategy)
-    }
-
-    ClassLoader compileStrategySource(String className, String code) {
-        JavaSourceCompiler compiler = new JavaSourceCompilerImpl();
-        JavaSourceCompiler.CompilationUnit unit = compiler.createCompilationUnit();
-        unit.addClassPathEntry(playerApi.getFile().getAbsolutePath())
-        unit.addJavaSource(className, code)
-        return compiler.compile(playerApiClassLoader, unit);
+        return strategy as PlayerStrategy
     }
 
     static class TestStrategy implements PlayerStrategy {
@@ -69,7 +59,7 @@ class PlayerStrategyLoader {
         private int round
 
         @Override
-        void playRound(com.impaq.arena.api.Game game) {
+        void playRound(Game game) {
             if (round % 2 == 0) {
                 game.recruitBuilders()
             } else {
