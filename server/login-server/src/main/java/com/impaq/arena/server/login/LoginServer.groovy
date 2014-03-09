@@ -58,6 +58,8 @@ import static org.springframework.http.HttpMethod.POST
 @EnableAsync(proxyTargetClass = true)
 class LoginServer extends SpringBootServletInitializer {
 
+    public static final String repositoryPattern = "/repository/**"
+
     public static void main(String[] args) {
         SpringApplication.run(LoginServer.class, args)
     }
@@ -170,7 +172,7 @@ class LoginServer extends SpringBootServletInitializer {
 
         @Override
         void addResourceHandlers(ResourceHandlerRegistry registry) {
-            registry.addResourceHandler("/repository/**")
+            registry.addResourceHandler(repositoryPattern)
                 .addResourceLocations("classpath:/repository/");
         }
     }
@@ -225,7 +227,7 @@ class LoginServer extends SpringBootServletInitializer {
                 .ignoring()
                     .antMatchers(GET, "/")
                     .antMatchers(POST, "/player")
-                    .antMatchers(GET, "/resources/**")
+                    .antMatchers(GET, repositoryPattern)
 
         }
     }

@@ -28,8 +28,8 @@ class EventDrivenGameBoard extends SimpleGameBoard {
 
     @Override
     protected void startGame(Player firstPlayer, Player secondPlayer) {
-        eventBus.post(new GameStarted(firstPlayer, secondPlayer));
         super.startGame(firstPlayer, secondPlayer)
+        eventBus.post(new GameStarted(firstPlayer, secondPlayer));
     }
 
     @Override

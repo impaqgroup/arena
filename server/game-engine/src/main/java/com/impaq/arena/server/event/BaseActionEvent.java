@@ -10,8 +10,8 @@ abstract class BaseActionEvent  extends BaseEvent{
 
     private final int value;
 
-    public BaseActionEvent(Player oponent, int value) {
-        super(oponent);
+    public BaseActionEvent(Player player, int value) {
+        super(player);
         this.value = value;
     }
 

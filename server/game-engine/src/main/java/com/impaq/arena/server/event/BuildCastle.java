@@ -8,8 +8,8 @@ import com.impaq.arena.player.Player;
  */
 public class BuildCastle extends BaseActionEvent implements OffensiveAction{
 
-    public BuildCastle(Player oponent, int value) {
-        super(oponent, value);
+    public BuildCastle(Player player, int value) {
+        super(player, value);
     }
 
 

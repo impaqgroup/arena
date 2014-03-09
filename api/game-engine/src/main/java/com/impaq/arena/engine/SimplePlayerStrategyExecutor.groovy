@@ -63,7 +63,7 @@ public class SimplePlayerStrategyExecutor implements PlayerStrategyExecutor, Gam
     public boolean attackEnemyWizards() {
         if (canAttack()) {
             opponent.getWizards().kill(myWizardsStrength());
-            attackCount++;
+            return ++attackCount;
         }
         return false
     }
@@ -72,7 +72,7 @@ public class SimplePlayerStrategyExecutor implements PlayerStrategyExecutor, Gam
     public boolean attackEnemyWarriors() {
         if (canAttack()) {
             opponent.getWarriors().kill(myWizardsStrength());
-            attackCount++;
+            return ++attackCount;
         }
         return false
     }
@@ -81,7 +81,7 @@ public class SimplePlayerStrategyExecutor implements PlayerStrategyExecutor, Gam
     public boolean attackEnemyBuilders() {
         if (canAttack()) {
             opponent.getBuilders().kill(myWizardsStrength());
-            attackCount++;
+            return ++attackCount;
         }
         return false
     }
@@ -90,7 +90,7 @@ public class SimplePlayerStrategyExecutor implements PlayerStrategyExecutor, Gam
     public boolean attackEnemyCastle() {
         if (canAttack()) {
             opponent.getCastle().destroy(myWarriorsStrength());
-            attackCount++;
+            return ++attackCount;
         }
         return false
     }
@@ -99,7 +99,7 @@ public class SimplePlayerStrategyExecutor implements PlayerStrategyExecutor, Gam
     public boolean buildMyCastle() {
         if (canAct()) {
             player.getCastle().expand(myBuildersProductivity());
-            buildCount++;
+            return ++buildCount;
         }
         return false
     }
@@ -108,7 +108,7 @@ public class SimplePlayerStrategyExecutor implements PlayerStrategyExecutor, Gam
     public boolean recruitBuilders() {
         if (canRecruit()) {
             player.getBuilders().add(1);
-            recruitCount++;
+            return ++recruitCount;
         }
         return false
     }
@@ -117,7 +117,7 @@ public class SimplePlayerStrategyExecutor implements PlayerStrategyExecutor, Gam
     public boolean recruitWizards() {
         if (canRecruit()) {
             player.getWizards().add(1);
-            recruitCount++;
+            return ++recruitCount;
         }
         return false
     }
@@ -126,7 +126,7 @@ public class SimplePlayerStrategyExecutor implements PlayerStrategyExecutor, Gam
     public boolean recruitWarriors() {
         if (canRecruit()) {
             player.getWarriors().add(2);
-            recruitCount++;
+            return ++recruitCount;
         }
         return false
     }
@@ -134,53 +134,37 @@ public class SimplePlayerStrategyExecutor implements PlayerStrategyExecutor, Gam
     @Override
     public int spyEnemyCastleHeight() {
         if (canSpy()) {
-            return doSpyEnemyCastleHeight()
+            spyCount++;
+            return opponent.getCastle().spy();
         }
         return -1;
-    }
-
-    protected int doSpyEnemyCastleHeight() {
-        spyCount++;
-        return opponent.getCastle().spy();
     }
 
     @Override
     public int spyEnemyWarriorsCount() {
         if (canSpy()) {
-            return doSpyEnemyWarriorsCount()
+            spyCount++;
+            return opponent.getWarriors().spy();
         }
         return -1;
-    }
-
-    protected int doSpyEnemyWarriorsCount() {
-        spyCount++;
-        return opponent.getWarriors().spy();
     }
 
     @Override
     public int spyEnemyWizardsCount() {
         if (canSpy()) {
-            return doSpyEnemyWizardsCount()
+            spyCount++;
+            return opponent.getWizards().spy();
         }
         return -1;
-    }
-
-    protected int doSpyEnemyWizardsCount() {
-        spyCount++;
-        return opponent.getWizards().spy();
     }
 
     @Override
     public int spyEnemyBuildersCount() {
         if (canSpy()) {
-            return doSpyEnemyBuildersCount()
+            spyCount++;
+            return opponent.getBuilders().spy();
         }
         return -1;
-    }
-
-    protected int doSpyEnemyBuildersCount() {
-        spyCount++;
-        return opponent.getBuilders().spy();
     }
 
     @Override
