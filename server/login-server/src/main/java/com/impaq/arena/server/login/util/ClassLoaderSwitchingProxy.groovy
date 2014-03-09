@@ -1,11 +1,11 @@
 package com.impaq.arena.server.login.util
 
-import groovy.util.logging.Log
+import groovy.util.logging.Slf4j
 
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
 
-@Log
+@Slf4j
 class ClassLoaderSwitchingProxy implements InvocationHandler {
 
     static Object proxyClassLoader(ClassLoader classLoader, Object target, Class<?>...interfaces) {
@@ -30,7 +30,7 @@ class ClassLoaderSwitchingProxy implements InvocationHandler {
             Object[] proxyArgs = doProxyArgs(origArgs, proxyArgTypes)
             return doInvoke(method, proxyArgs, proxyArgTypes)
         } catch (Throwable e) {
-            log.log(java.util.logging.Level.SEVERE, "Proxied call failed!", e)
+            log.error("Proxied call failed!", e)
             throw new RuntimeException("Proxied call failed!", e)
         }
     }

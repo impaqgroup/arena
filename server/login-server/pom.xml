@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.impaq.arena</groupId>
         <artifactId>arena-server</artifactId>
-        <version>0.2.0-SNAPSHOT</version>
+        <version>0.2.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>login-server</artifactId>
@@ -20,35 +20,9 @@
         <dependency>
             <groupId>com.impaq.arena</groupId>
             <artifactId>server-game-engine</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.impaq.arena</groupId>
-            <artifactId>player-api</artifactId>
-            <version>${project.version}</version>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.impaq.arena</groupId>
-            <artifactId>arena-api</artifactId>
-            <version>${project.version}</version>
-            <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>com.impaq.arena</groupId>
-            <artifactId>arena</artifactId>
-            <version>${project.version}</version>
-            <type>pom</type>
         </dependency>
 
         <!--3rd Party-->
-        <!--<dependency>-->
-            <!--<groupId>org.codehaus.groovy</groupId>-->
-            <!--<artifactId>groovy-eclipse-batch</artifactId>-->
-            <!--<version>2.1.8-01</version>-->
-        <!--</dependency>-->
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -127,84 +101,30 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>copy-player-api</id>
+                        <id>unpack-repository</id>
                         <phase>generate-resources</phase>
                         <goals>
-                            <goal>copy-dependencies</goal>
+                            <goal>unpack</goal>
                         </goals>
                         <configuration>
-                            <useRepositoryLayout>true</useRepositoryLayout>
-                            <includeGroupIds>com.impaq.arena</includeGroupIds>
-                            <includeArtifactIds>player-api</includeArtifactIds>
-                            <copyPom>true</copyPom>
-                            <outputDirectory>${repository.output.directory}</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-game-engine</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <useRepositoryLayout>true</useRepositoryLayout>
-                            <includeGroupIds>com.impaq.arena</includeGroupIds>
-                            <includeArtifactIds>arena,arena-api,game-engine</includeArtifactIds>
-                            <copyPom>true</copyPom>
-                            <includeTypes>pom,jar</includeTypes>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.impaq.arena</groupId>
+                                    <artifactId>repository</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>tar.gz</type>
+                                </artifactItem>
+                            </artifactItems>
                             <outputDirectory>${repository.output.directory}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>generate-md5-checksums</id>
-                        <!-- generate MD5 checksums for artifacts and poms in the repository -->
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <phase>process-resources</phase>
-                        <configuration>
-                            <target>
-                                <checksum algorithm="md5">
-                                    <fileset dir="${repository.output.directory}">
-                                        <include name="**/*.pom" />
-                                        <include name="**/*.jar" />
-                                    </fileset>
-                                </checksum>
-                            </target>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>generate-sha1-checksums</id>
-                        <!-- generate SHA1 checksums for artifacts and poms in the repository -->
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <phase>process-resources</phase>
-                        <configuration>
-                            <target>
-                                <checksum algorithm="sha1">
-                                    <fileset dir="${repository.output.directory}">
-                                        <include name="**/*.pom" />
-                                        <include name="**/*.jar" />
-                                    </fileset>
-                                </checksum>
-                            </target>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
     </build>
 

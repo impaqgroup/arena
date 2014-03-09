@@ -9,7 +9,7 @@
 
     <groupId>com.impaq.arena</groupId>
 	<artifactId>arena</artifactId>
-	<version>0.2.0-SNAPSHOT</version>
+	<version>0.2.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>arena</name>
@@ -190,11 +190,17 @@
                     <version>2.2.1</version>
                     <executions>
                         <execution>
-                            <id>Sources</id>
+                            <id>sources</id>
                             <phase>package</phase>
                             <goals>
-                                <!-- produce source artifact for main project sources -->
-                                <goal>jar-no-fork</goal>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>test-sources</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>test-jar</goal>
                             </goals>
                         </execution>
                     </executions>

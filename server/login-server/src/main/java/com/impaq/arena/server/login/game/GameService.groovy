@@ -1,19 +1,18 @@
 package com.impaq.arena.server.login.game
 
-import com.impaq.arena.engine.GameConfig
-import com.impaq.arena.engine.SimpleGameBoard
 import com.impaq.arena.api.PlayerStrategy
+import com.impaq.arena.engine.GameConfig
 import com.impaq.arena.server.engine.EventDrivenGameBoard
 import com.impaq.arena.server.login.game.log.GameLog
 import com.impaq.arena.server.login.game.log.GameLogService
 import com.impaq.arena.server.login.game.log.GameLogView
-import groovy.util.logging.Log
+import groovy.util.logging.Slf4j
 import org.joda.time.DateTime
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 
-@Log
+@Slf4j
 @Service
 class GameService {
 
@@ -35,7 +34,7 @@ class GameService {
         try {
             logGame(playerOne, playerTwo, mode)
         } catch (Throwable e) {
-            log.log(java.util.logging.Level.SEVERE, "!!!", e)
+            log.error("Game crashed!", e)
             logGameError(playerOne, playerTwo, e)
         }
     }

@@ -3,7 +3,6 @@ package com.impaq.arena.server.login.game
 import com.impaq.arena.api.Game
 import com.impaq.arena.api.PlayerStrategy
 import com.impaq.arena.server.login.player.strategy.PlayerStrategyService
-import groovy.util.logging.Log
 import org.codehaus.groovy.control.CompilationUnit
 import org.codehaus.groovy.control.CompilerConfiguration
 import org.codehaus.groovy.control.SourceUnit
@@ -11,11 +10,8 @@ import org.codehaus.groovy.tools.GroovyClass
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
-import java.nio.file.Files
-
 import static java.nio.file.Files.createTempDirectory
 
-@Log
 @Component
 class PlayerStrategyLoader {
 
@@ -32,7 +28,7 @@ class PlayerStrategyLoader {
     }
 
     PlayerStrategy loadOpponentStrategy(String mode = "test") {
-        // TODO add different strategies
+        // FIXME: add different strategies
         return new TestStrategy()
     }
 
@@ -40,13 +36,14 @@ class PlayerStrategyLoader {
         CompilerConfiguration configuration = new CompilerConfiguration()
         configuration.setSourceEncoding("UTF-8")
         configuration.setTargetBytecode(CompilerConfiguration.JDK7)
+        // FIXME: delete tmp dir after classes are loaded into memory
         configuration.setTargetDirectory(createTempDirectory("target").toFile())
 
         CompilationUnit unit = new CompilationUnit(configuration);
         unit.addSource(new SourceUnit(className, code, configuration, unit.getClassLoader(), unit.getErrorCollector()));
         unit.compile();
 
-        // FIXME use ClassLoader.getSystemClassLoader() instead !!! and add Game and PlayerStrategy only !!!
+        // FIXME: use ClassLoader.getSystemClassLoader() instead !!! and add Game and PlayerStrategy only !!!
         ClassLoader parentClassLoader = getClass().getClassLoader()
         GroovyClassLoader classLoader = new GroovyClassLoader(parentClassLoader, configuration)
         unit.getClasses().each { GroovyClass clazz ->

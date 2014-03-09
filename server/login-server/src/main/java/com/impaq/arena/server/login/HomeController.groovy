@@ -1,5 +1,6 @@
 package com.impaq.arena.server.login
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -8,6 +9,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET
 @RestController
 @RequestMapping("/")
 class HomeController {
+
+    @Value('${app.version:UNKNOWN}')
+    String version
 
     @RequestMapping(method = GET)
     def home() {
@@ -22,6 +26,28 @@ class HomeController {
                             "resources require HTTP Basic authentication, unless otherwise noted. To create an account " +
                             "that allows usage od authenticated endpoints, see POST /player operation below.",
                         auth: "none"
+                    ]]
+                ],[
+                    path: "/repository",
+                    desc: "Contains Maven repository with artifacts to implement Your strategy for the game. All artifacts " +
+                        "include sources, so be sure to check them out for more documentation!",
+                    operations: [[
+                        method: "GET",
+                        desc: "Well, it's a Maven repo, so GET all you need, cause GET is all you get ;)",
+                        auth: "none"
+                    ]],
+                    artifacts: [[
+                        groupId: "com.impaq.arena",
+                        artifactId: "player-api",
+                        version: version,
+                        type: ["pom", "jar", "test-jar"],
+                        desc: "The player API to implement. Check out JavaDoc in sources for APi description."
+                    ],[
+                        groupId: "com.impaq.arena",
+                        artifactId: "game-engine",
+                        version: version,
+                        type: ["pom", "jar"],
+                        desc: "Basic game engine to help test your strategy."
                     ]]
                 ],[
                     path: "/player",
@@ -68,23 +94,6 @@ class HomeController {
                                 "of player strategy should be the only public class declared in this code. A possibility to " +
                                 "implements strategies in other, JVM compliant languages are considered in the future."
                         ]
-                    ]]
-                ],[
-                    path: "/resources/{fileName}",
-                    desc: "Contains resources required to implement the strategy fot the game.",
-                    pathVariables: [[
-                        name: "fileName",
-                        values: [[
-                            value: "player-api.jar",
-                            desc: "the player API that needs to be implemented"
-                        ],[
-                            value: "player-api-test.jar",
-                            desc: "the library to help test your strategy implementation"
-                        ]]
-                    ]],
-                    operations: [[
-                        method: "GET",
-                        desc: "Gets you the resource you need. Be sure to include the file name of the resource in the path."
                     ]]
                 ],[
                     path: "/game",
