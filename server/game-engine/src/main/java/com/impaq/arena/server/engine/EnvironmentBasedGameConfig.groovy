@@ -1,8 +1,10 @@
 package com.impaq.arena.server.engine
 
-import com.impaq.arena.engine.DefaultGameConfig;
+import com.impaq.arena.engine.DefaultGameConfig
+import groovy.transform.TypeChecked;
 import org.springframework.core.env.Environment;
 
+@TypeChecked
 class EnvironmentBasedGameConfig extends DefaultGameConfig {
 
     private final Environment environment;

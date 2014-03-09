@@ -1,13 +1,16 @@
 package com.impaq.arena.engine
 
+import com.impaq.arena.api.Game
 import com.impaq.arena.api.PlayerStrategy
 import com.impaq.arena.player.Player
+import groovy.transform.TypeChecked
 
+@TypeChecked
 class SimpleGameBoard {
 
-    private final GameConfig config;
-    private final PlayerStrategyExecutor firstPlayerExecutor;
-    private final PlayerStrategyExecutor secondPlayerExecutor;
+    protected final GameConfig config;
+    protected final Player firstPlayer;
+    protected final Player secondPlayer;
 
     SimpleGameBoard(String firstPlayerId, PlayerStrategy firstPlayerStrategy,
                     String secondPlayerId, PlayerStrategy secondPlayerStrategy) {
@@ -16,52 +19,51 @@ class SimpleGameBoard {
 
     SimpleGameBoard(GameConfig config, String firstPlayerId, PlayerStrategy firstPlayerStrategy,
             String secondPlayerId, PlayerStrategy secondPlayerStrategy) {
-        this.config = config;
-        Player firstPlayer = new Player(firstPlayerId, firstPlayerStrategy, this.config);
-        Player secondPlayer = new Player(secondPlayerId, secondPlayerStrategy, this.config);
-        this.firstPlayerExecutor = buildPlayerStrategyExecutor(firstPlayer, secondPlayer);
-        this.secondPlayerExecutor = buildPlayerStrategyExecutor(secondPlayer, firstPlayer);
+        this.config = config
+        this.firstPlayer = new Player(firstPlayerId, firstPlayerStrategy, this.config)
+        this.secondPlayer = new Player(secondPlayerId, secondPlayerStrategy, this.config)
     }
 
-    protected PlayerStrategyExecutor buildPlayerStrategyExecutor(Player player, Player opponent) {
-        return new SimplePlayerStrategyExecutor(player, opponent)
-    }
 
     final Player firstPlayer() {
-        return firstPlayerExecutor.getPlayer();
+        return firstPlayer
     }
 
     final Player secondPlayer() {
-        return secondPlayerExecutor.getPlayer();
+        return secondPlayer
     }
 
     final void playGame() {
-        startGame(firstPlayer(), secondPlayer());
+        startGame();
 		int round = 0;
-		while (!isGameOver(round, firstPlayer(), secondPlayer())) {
+		while (!isGameOver(round)) {
 			playRound(++round);
 		}
-		endGame(firstPlayer(), secondPlayer());
+		endGame();
 	}
 
-	protected void startGame(Player firstPlayer, Player secondPlayer) {
+	protected void startGame() {
 	}
 
     protected void playRound(int round) {
-        playRound(firstPlayerExecutor);
-        playRound(secondPlayerExecutor);
+        playRound(firstPlayer, secondPlayer);
+        playRound(secondPlayer, firstPlayer);
 	}
 
-    protected void playRound(PlayerStrategyExecutor playerExecutor) {
-        playerExecutor.playRound();
+    protected void playRound(Player player, Player opponent) {
+        player.getStrategy().playRound(nextRoundOf(player, opponent))
     }
 
-    protected final boolean isGameOver(int roundNumber, Player firstPlayer, Player secondPlayer) {
+    protected Game nextRoundOf(Player player, Player opponent) {
+        return new SimpleGameRound(player, opponent)
+    }
+
+    protected final boolean isGameOver(int roundNumber) {
         return firstPlayer.isLoser() || firstPlayer.isWinner() ||
             secondPlayer.isLoser() || secondPlayer.isWinner() ||
             roundNumber >= config.maxRoundNumber();
     }
 
-    protected void endGame(Player firstPlayer, Player secondPlayer) {
+    protected void endGame() {
     }
 }

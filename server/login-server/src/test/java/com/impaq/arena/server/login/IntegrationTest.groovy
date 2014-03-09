@@ -15,9 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup
 
-@WebAppConfiguration
-@ContextConfiguration(classes = LoginServer, loader = SpringApplicationContextLoader)
-class IntegrationTest extends Specification {
+class IntegrationTest extends IntegrationSpecification {
 
     @Autowired
     WebApplicationContext wac;

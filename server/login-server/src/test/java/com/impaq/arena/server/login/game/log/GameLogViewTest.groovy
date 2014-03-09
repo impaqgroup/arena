@@ -1,5 +1,6 @@
 package com.impaq.arena.server.login.game.log
 
+import com.google.common.eventbus.EventBus
 import com.impaq.arena.player.Player
 import com.impaq.arena.server.event.GameEnd
 import com.impaq.arena.server.event.GameStarted
@@ -98,5 +99,26 @@ class GameLogViewTest extends Specification {
             view.onGameEnd(new GameEnd(null))
         then:
             gameLog.winner == null
+    }
+
+    def "Should subscribe"() {
+        given:
+            EventBus eventBus = new EventBus()
+            eventBus.register(view)
+        when:
+            eventBus.post(new GameStarted(playerOne, playerTwo))
+            eventBus.post(new GameStarted(playerOne, playerTwo))
+            eventBus.post(new RoundStart(1))
+            eventBus.post(new PlayerTurnStart(playerOne))
+            eventBus.post(new SpyCastle(playerOne))
+            eventBus.post(new SpyWarriors(playerOne))
+            eventBus.post(new PlayerTurnStart(playerTwo))
+            eventBus.post(new SpyBuilders(playerOne))
+            eventBus.post(new SpyWizards(playerOne))
+            eventBus.post(new RoundStart(2))
+        then:
+            gameLog.roundLogs.size() == 2
+            gameLog.roundLogs[1].playerOneLog.actions == ["SPY_ENEMY_CASTLE", "SPY_ENEMY_WARRIORS"]
+            gameLog.roundLogs[1].playerTwoLog.actions == ["SPY_ENEMY_BUILDERS", "SPY_ENEMY_WIZARDS"]
     }
 }

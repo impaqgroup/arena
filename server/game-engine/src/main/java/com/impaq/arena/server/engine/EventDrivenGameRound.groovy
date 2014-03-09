@@ -1,9 +1,8 @@
 package com.impaq.arena.server.engine
 
 import com.google.common.eventbus.EventBus
-import com.impaq.arena.api.Game
-import com.impaq.arena.engine.PlayerStrategyExecutor
-import com.impaq.arena.engine.SimplePlayerStrategyExecutor
+import com.impaq.arena.engine.SimpleGameRound
+import com.impaq.arena.player.Player
 import com.impaq.arena.server.event.AttackBuilders
 import com.impaq.arena.server.event.AttackCastle
 import com.impaq.arena.server.event.AttackWarriors
@@ -16,98 +15,21 @@ import com.impaq.arena.server.event.SpyBuilders
 import com.impaq.arena.server.event.SpyCastle
 import com.impaq.arena.server.event.SpyWarriors
 import com.impaq.arena.server.event.SpyWizards
-import com.impaq.arena.player.Player
 import groovy.transform.TypeChecked
 
 @TypeChecked
-class EventDrivenPlayerStrategyExecutor implements PlayerStrategyExecutor, Game {
+class EventDrivenGameRound extends SimpleGameRound {
 
-    private final SimplePlayerStrategyExecutor delegate
     private final EventBus eventBus
 
-    EventDrivenPlayerStrategyExecutor(Player player, Player opponent, EventBus eventBus) {
-        this.delegate = new SimplePlayerStrategyExecutor(player, opponent)
+    EventDrivenGameRound(Player player, Player opponent, EventBus eventBus) {
+        super(player, opponent)
         this.eventBus = eventBus
     }
 
     @Override
-    Player getPlayer() {
-        return delegate.player
-    }
-
-    @Override
-    Player getOpponent() {
-        return delegate.opponent
-    }
-
-    @Override
-    void playRound() {
-        delegate.playRound()
-    }
-
-    @Override
-    long myCastleHeight() {
-        return delegate.myCastleHeight()
-    }
-
-    @Override
-    long myWarriorsCount() {
-        return delegate.myWarriorsCount()
-    }
-
-    @Override
-    int myWarriorsStrength() {
-        return delegate.myWarriorsStrength()
-    }
-
-    @Override
-    long myWizardsCount() {
-        return delegate.myWizardsCount()
-    }
-
-    @Override
-    int myWizardsStrength() {
-        return delegate.myWizardsStrength()
-    }
-
-    @Override
-    long myBuildersCount() {
-        return delegate.myBuildersCount()
-    }
-
-    @Override
-    int myBuildersProductivity() {
-        return delegate.myBuildersProductivity()
-    }
-
-    @Override
-    boolean canAct() {
-        return delegate.canAct()
-    }
-
-    @Override
-    boolean canBuild() {
-        return delegate.canBuild()
-    }
-
-    @Override
-    boolean canAttack() {
-        return delegate.canAttack()
-    }
-
-    @Override
-    boolean canRecruit() {
-        return delegate.canRecruit()
-    }
-
-    @Override
-    boolean canSpy() {
-        return delegate.canSpy()
-    }
-
-    @Override
     boolean buildMyCastle() {
-        if (delegate.buildMyCastle()) {
+        if (super.buildMyCastle()) {
             return dispatchEvent(new BuildCastle(player, myBuildersProductivity()))
         }
         return false
@@ -115,7 +37,7 @@ class EventDrivenPlayerStrategyExecutor implements PlayerStrategyExecutor, Game 
 
     @Override
     boolean attackEnemyCastle() {
-        if (delegate.attackEnemyCastle()) {
+        if (super.attackEnemyCastle()) {
             return dispatchEvent(new AttackCastle(player, myWarriorsStrength()))
         }
         return false
@@ -123,7 +45,7 @@ class EventDrivenPlayerStrategyExecutor implements PlayerStrategyExecutor, Game 
 
     @Override
     boolean attackEnemyWizards() {
-        if (delegate.attackEnemyWizards()) {
+        if (super.attackEnemyWizards()) {
             return dispatchEvent(new AttackWizards(player, myWizardsStrength()))
         }
         return false
@@ -131,7 +53,7 @@ class EventDrivenPlayerStrategyExecutor implements PlayerStrategyExecutor, Game 
 
     @Override
     boolean attackEnemyWarriors() {
-        if (delegate.attackEnemyWarriors()) {
+        if (super.attackEnemyWarriors()) {
             return dispatchEvent(new AttackWarriors(player, myWizardsStrength()))
         }
         return false
@@ -139,7 +61,7 @@ class EventDrivenPlayerStrategyExecutor implements PlayerStrategyExecutor, Game 
 
     @Override
     boolean attackEnemyBuilders() {
-        if (delegate.attackEnemyBuilders()) {
+        if (super.attackEnemyBuilders()) {
             return dispatchEvent(new AttackBuilders(player, myWizardsStrength()))
         }
         return false
@@ -147,7 +69,7 @@ class EventDrivenPlayerStrategyExecutor implements PlayerStrategyExecutor, Game 
 
     @Override
     boolean recruitBuilders() {
-        if (delegate.recruitBuilders()) {
+        if (super.recruitBuilders()) {
             return dispatchEvent(new RecruitBuilders(player, 1))
         }
         return false
@@ -155,7 +77,7 @@ class EventDrivenPlayerStrategyExecutor implements PlayerStrategyExecutor, Game 
 
     @Override
     boolean recruitWizards() {
-        if (delegate.recruitWizards()) {
+        if (super.recruitWizards()) {
             return dispatchEvent(new RecruitWizards(player, 1))
         }
         return false
@@ -163,7 +85,7 @@ class EventDrivenPlayerStrategyExecutor implements PlayerStrategyExecutor, Game 
 
     @Override
     boolean recruitWarriors() {
-        if (delegate.recruitWarriors()) {
+        if (super.recruitWarriors()) {
             return dispatchEvent(new RecruitWarriors(player, 2));
         }
         return false
@@ -171,7 +93,7 @@ class EventDrivenPlayerStrategyExecutor implements PlayerStrategyExecutor, Game 
 
     @Override
     int spyEnemyCastleHeight() {
-        int height = delegate.spyEnemyCastleHeight()
+        int height = super.spyEnemyCastleHeight()
         if (height >= 0) {
             dispatchEvent(new SpyCastle(player))
         }
@@ -180,7 +102,7 @@ class EventDrivenPlayerStrategyExecutor implements PlayerStrategyExecutor, Game 
 
     @Override
     int spyEnemyWarriorsCount() {
-        int count = delegate.spyEnemyWarriorsCount()
+        int count = super.spyEnemyWarriorsCount()
         if (count >= 0) {
             dispatchEvent(new SpyWarriors(player))
         }
@@ -189,7 +111,7 @@ class EventDrivenPlayerStrategyExecutor implements PlayerStrategyExecutor, Game 
 
     @Override
     int spyEnemyWizardsCount() {
-        int count = delegate.spyEnemyWizardsCount()
+        int count = super.spyEnemyWizardsCount()
         if (count >= 0) {
             dispatchEvent(new SpyWizards(player))
         }
@@ -198,7 +120,7 @@ class EventDrivenPlayerStrategyExecutor implements PlayerStrategyExecutor, Game 
 
     @Override
     int spyEnemyBuildersCount() {
-        int count = delegate.spyEnemyWarriorsCount()
+        int count = super.spyEnemyWarriorsCount()
         if (count >= 0) {
             dispatchEvent(new SpyBuilders(player))
         }
@@ -209,5 +131,4 @@ class EventDrivenPlayerStrategyExecutor implements PlayerStrategyExecutor, Game 
         eventBus.post(object);
         return true
     }
-
 }

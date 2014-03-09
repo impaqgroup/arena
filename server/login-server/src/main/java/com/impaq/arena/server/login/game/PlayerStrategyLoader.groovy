@@ -56,18 +56,21 @@ class PlayerStrategyLoader {
 
     static class TestStrategy implements PlayerStrategy {
 
-        private int round
-
         @Override
         void playRound(Game game) {
-            if (round % 2 == 0) {
-                game.recruitBuilders()
+            if (game.spyEnemyBuildersCount() > game.myWizardsStrength() / 2) {
+                game.recruitWizards();
+                game.recruitWizards();
+                game.attackEnemyBuilders();
+            } else if (game.spyEnemyWarriorsCount() > game.myWizardsStrength() / 2) {
+                game.recruitWizards();
+                game.recruitWizards();
+                game.attackEnemyWarriors();
             } else {
-                game.recruitWarriors()
+                game.recruitBuilders();
+                game.recruitBuilders();
+                game.buildMyCastle();
             }
-            game.buildMyCastle()
-            game.attackEnemyCastle()
-            round++
         }
     }
 }

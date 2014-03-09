@@ -1,17 +1,15 @@
 package com.impaq.arena.server.engine
 
 import com.google.common.eventbus.EventBus
+import com.impaq.arena.api.Game
 import com.impaq.arena.api.PlayerStrategy
 import com.impaq.arena.engine.GameConfig
-import com.impaq.arena.engine.PlayerStrategyExecutor
 import com.impaq.arena.engine.SimpleGameBoard
-import com.impaq.arena.server.event.GameEnd
-import com.impaq.arena.server.event.GameStarted
-import com.impaq.arena.server.event.PlayerTurnStart
-import com.impaq.arena.server.event.RoundExecutionFailed
-import com.impaq.arena.server.event.RoundStart
 import com.impaq.arena.player.Player
+import com.impaq.arena.server.event.*
+import groovy.transform.TypeChecked
 
+@TypeChecked
 class EventDrivenGameBoard extends SimpleGameBoard {
 
     private final EventBus eventBus = new EventBus();
@@ -22,13 +20,8 @@ class EventDrivenGameBoard extends SimpleGameBoard {
     }
 
     @Override
-    protected PlayerStrategyExecutor buildPlayerStrategyExecutor(Player player, Player opponent) {
-        return new EventDrivenPlayerStrategyExecutor(player, opponent, eventBus)
-    }
-
-    @Override
-    protected void startGame(Player firstPlayer, Player secondPlayer) {
-        super.startGame(firstPlayer, secondPlayer)
+    protected void startGame() {
+        super.startGame()
         eventBus.post(new GameStarted(firstPlayer, secondPlayer));
     }
 
@@ -39,18 +32,23 @@ class EventDrivenGameBoard extends SimpleGameBoard {
     }
 
     @Override
-    protected void playRound(PlayerStrategyExecutor playerExecutor) {
-        eventBus.post(new PlayerTurnStart(playerExecutor.getPlayer()));
+    protected void playRound(Player player, Player opponent) {
+        eventBus.post(new PlayerTurnStart(player));
         try {
-            super.playRound(playerExecutor)
+            super.playRound(player, opponent)
         } catch (Exception ex) {
-            eventBus.post(new RoundExecutionFailed(playerExecutor.getPlayer(), ex));
+            eventBus.post(new RoundExecutionFailed(player, ex));
         }
     }
 
     @Override
-    protected void endGame(Player firstPlayer, Player secondPlayer) {
-        super.endGame(firstPlayer, secondPlayer)
+    protected Game nextRoundOf(Player player, Player opponent) {
+        return new EventDrivenGameRound(player, opponent, eventBus)
+    }
+
+    @Override
+    protected void endGame() {
+        super.endGame()
         Player winner = null;
         if (firstPlayer.isWinner() || secondPlayer.isLoser()) {
             winner = firstPlayer;

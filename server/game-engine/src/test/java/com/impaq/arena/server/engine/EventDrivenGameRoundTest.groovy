@@ -6,7 +6,7 @@ import com.impaq.arena.player.Player
 import com.impaq.arena.server.event.BuildCastle
 import spock.lang.Specification
 
-class EventDrivenPlayerStrategyExecutorTest extends Specification {
+class EventDrivenGameRoundTest extends Specification {
 
     PlayerStrategy playerStrategy = Mock(PlayerStrategy)
     PlayerStrategy opponentStrategy = Mock(PlayerStrategy)
@@ -16,11 +16,11 @@ class EventDrivenPlayerStrategyExecutorTest extends Specification {
 
     EventBus eventBus = Mock(EventBus)
 
-    EventDrivenPlayerStrategyExecutor executor = new EventDrivenPlayerStrategyExecutor(player, opponent, eventBus)
+    EventDrivenGameRound round = new EventDrivenGameRound(player, opponent, eventBus)
 
     def "Should notify when player builds his castle"() {
         when:
-            executor.buildMyCastle()
+            round.buildMyCastle()
         then:
             1 * eventBus.post({it.player == player && it.value == 6} as BuildCastle)
     }

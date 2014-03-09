@@ -18,7 +18,7 @@ import com.impaq.arena.server.event.SpyCastle;
 import com.impaq.arena.server.event.SpyWarriors;
 import com.impaq.arena.server.event.SpyWizards;
 
-public interface GameBoardView {
+interface GameBoardView {
 
     @Subscribe
     void onGameStart(GameStarted event);
