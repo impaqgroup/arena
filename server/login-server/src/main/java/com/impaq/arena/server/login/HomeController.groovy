@@ -41,7 +41,7 @@ class HomeController {
                         artifactId: "player-api",
                         version: version,
                         type: ["pom", "jar", "test-jar"],
-                        desc: "The player API to implement. Check out JavaDoc in sources for APi description."
+                        desc: "The player API to implement. Check out JavaDoc in sources for API description."
                     ],[
                         groupId: "com.impaq.arena",
                         artifactId: "game-engine",
