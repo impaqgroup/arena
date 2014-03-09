@@ -11,20 +11,19 @@ import org.codehaus.groovy.tools.GroovyClass
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
+import java.nio.file.Files
+
+import static java.nio.file.Files.createTempDirectory
+
 @Log
 @Component
 class PlayerStrategyLoader {
 
     private final PlayerStrategyService strategyService
 
-    private final CompilerConfiguration configuration = new CompilerConfiguration()
-
     @Autowired
     PlayerStrategyLoader(PlayerStrategyService strategyService) {
         this.strategyService = strategyService
-
-        this.configuration.setSourceEncoding("UTF-8")
-        this.configuration.setTargetBytecode(CompilerConfiguration.JDK7)
     }
 
     PlayerStrategy loadPlayerStrategy(String userId) {
@@ -38,6 +37,11 @@ class PlayerStrategyLoader {
     }
 
     PlayerStrategy loadStrategy(String className, String code) {
+        CompilerConfiguration configuration = new CompilerConfiguration()
+        configuration.setSourceEncoding("UTF-8")
+        configuration.setTargetBytecode(CompilerConfiguration.JDK7)
+        configuration.setTargetDirectory(createTempDirectory("target").toFile())
+
         CompilationUnit unit = new CompilationUnit(configuration);
         unit.addSource(new SourceUnit(className, code, configuration, unit.getClassLoader(), unit.getErrorCollector()));
         unit.compile();
