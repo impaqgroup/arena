@@ -98,6 +98,23 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>prepare-metadata</id>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <target>
+                                <copy todir="${repository.output.directory}">
+                                    <fileset dir="${repository.output.directory}">
+                                        <include name="**/maven-metadata-local.xml" />
+                                    </fileset>
+                                    <globmapper from="*-local.xml" to="*.xml" />
+                                </copy>
+                            </target>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>generate-md5-checksums</id>
                         <!-- generate MD5 checksums for artifacts and poms in the repository -->
                         <goals>
@@ -110,6 +127,7 @@
                                     <fileset dir="${repository.output.directory}">
                                         <include name="**/*.pom" />
                                         <include name="**/*.jar" />
+                                        <include name="**/*.xml" />
                                     </fileset>
                                 </checksum>
                             </target>
@@ -128,25 +146,9 @@
                                     <fileset dir="${repository.output.directory}">
                                         <include name="**/*.pom" />
                                         <include name="**/*.jar" />
+                                        <include name="**/*.xml" />
                                     </fileset>
                                 </checksum>
-                            </target>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>prepare-metadata</id>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <phase>process-resources</phase>
-                        <configuration>
-                            <target>
-                                <copy todir="${repository.output.directory}">
-                                    <fileset dir="${repository.output.directory}">
-                                        <include name="**/maven-metadata-local.xml" />
-                                    </fileset>
-                                    <globmapper from="*-local.xml" to="*.xml" />
-                                </copy>
                             </target>
                         </configuration>
                     </execution>

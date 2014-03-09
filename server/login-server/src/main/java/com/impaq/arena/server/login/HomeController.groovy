@@ -31,6 +31,8 @@ class HomeController {
                     path: "/repository",
                     desc: "Contains Maven repository with artifacts to implement Your strategy for the game. All artifacts " +
                         "include sources, so be sure to check them out for more documentation!",
+                    notice: "If you get `peer not authenticated` error, than see here http://bit.ly/1k7dx2f - " +
+                        "we're working on it!",
                     operations: [[
                         method: "GET",
                         desc: "Well, it's a Maven repo, so GET all you need, cause GET is all you get ;)",
