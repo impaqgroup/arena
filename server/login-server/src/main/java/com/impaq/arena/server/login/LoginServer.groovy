@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.joda.JodaModule
-import com.impaq.arena.server.engine.EnvironmentBasedGameConfig
 import com.impaq.arena.engine.GameConfig
+import com.impaq.arena.server.engine.EnvironmentBasedGameConfig
 import com.impaq.arena.server.login.user.CurrentUserResolver
 import com.impaq.arena.server.login.user.UserService
 import org.apache.catalina.connector.Connector
@@ -17,7 +17,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.boot.autoconfigure.security.SecurityPrequisite
 import org.springframework.boot.builder.SpringApplicationBuilder
-import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainerFactory
+import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer
 import org.springframework.boot.context.embedded.tomcat.TomcatConnectorCustomizer
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory
@@ -71,7 +71,7 @@ class LoginServer extends SpringBootServletInitializer {
 
     @Configuration
     @ConditionalOnExpression('${security.requireSsl:false}')
-    @ConfigurationProperties(name = "ssl", ignoreUnknownFields = false)
+    @ConfigurationProperties(value = "ssl", ignoreUnknownFields = false)
     static class SslConfog {
 
         static final Logger log = LoggerFactory.getLogger(SslConfog.class)
@@ -90,8 +90,8 @@ class LoginServer extends SpringBootServletInitializer {
         @Bean
         EmbeddedServletContainerCustomizer containerCustomizer() {
             log.info("Registering SSL customizer...")
-            return { ConfigurableEmbeddedServletContainerFactory factory ->
-                if (factory instanceof TomcatEmbeddedServletContainerFactory) {
+            return { ConfigurableEmbeddedServletContainer container ->
+                if (container instanceof TomcatEmbeddedServletContainerFactory) {
                     TomcatEmbeddedServletContainerFactory containerFactory = (TomcatEmbeddedServletContainerFactory) factory
                     containerFactory.addConnectorCustomizers({ Connector connector ->
                         log.info("Configuring SSL connector...")
