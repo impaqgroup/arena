@@ -21,6 +21,12 @@
             <artifactId>server-game-engine</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.impaq.arena</groupId>
+            <artifactId>player-api</artifactId>
+            <type>test-jar</type>
+            <version>${project.version}</version>
+        </dependency>
 
         <!--3rd Party-->
         <dependency>
